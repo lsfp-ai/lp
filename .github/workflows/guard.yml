@@ -1,0 +1,28 @@
+name: guard
+
+# 公開LPの機械ガード（サーバ側＝飛ばせない関門）。
+# push / PR のたびに個人情報スキャンと内部リンク検査を回し、
+# 引っかかれば失敗させて公開（main反映）をブロックする。
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: 個人情報スキャン（顧客名・個人情報の混入を弾く）
+        run: |
+          chmod +x scripts/scan-personal-info.sh
+          bash scripts/scan-personal-info.sh .
+
+      - name: 内部リンク切れ検査
+        run: |
+          chmod +x scripts/check-links-static.sh
+          bash scripts/check-links-static.sh

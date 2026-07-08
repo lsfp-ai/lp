@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+#
+# pre-commit — commit時にローカルで個人情報スキャンを回す（手元の早期ガード）。
+# サーバ側の本丸は .github/workflows/guard.yml（飛ばせない関門）。
+# 有効化: scripts/install-hooks.sh を一度実行する。
+
+set -u
+repo_root=$(git rev-parse --show-toplevel)
+
+# ステージ済みファイルのうち公開コンテンツを対象にスキャン
+staged=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$staged" ] && exit 0
+
+# shellcheck disable=SC2086
+if ! bash "$repo_root/scripts/scan-personal-info.sh" $staged; then
+  echo ""
+  echo "⛔ commit を中止しました：個人情報の疑いを検出。"
+  echo "   一般公開リポジトリです。内容を確認し、問題なければ該当箇所を修正してから再commit。"
+  echo "   （どうしても通す必要があり内容が安全と確認済みなら git commit --no-verify）"
+  exit 1
+fi
+exit 0
