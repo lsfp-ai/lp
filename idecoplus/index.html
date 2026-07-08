@@ -3,25 +3,189 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>iDeCo+｜株式会社LSFP</title>
+  <title>iDeCo＋（イデコプラス）導入支援｜株式会社LSFP</title>
+  <meta name="description" content="中小企業の福利厚生に。iDeCo＋（中小事業主掛金納付制度）の導入検討から、従業員への説明・将来シミュレーションまで、株式会社LSFPが支援します。">
   <style>
-    :root { color-scheme: light dark; }
-    body {
-      margin: 0; font-family: -apple-system, "Hiragino Sans", "Yu Gothic", sans-serif;
-      line-height: 1.7; color: #1a1a1a; background: #f7f9f4;
-      display: grid; place-items: center; min-height: 100vh;
+    :root {
+      color-scheme: light dark;
+      --bg: #f7f9f4;
+      --surface: #ffffff;
+      --ink: #1f2a18;
+      --muted: #5a6b4a;
+      --line: #cddeb5;
+      --brand: #3f6b2b;
+      --brand-ink: #2c4d1e;
+      --accent: #e8f0dc;
+      --shadow: 0 1px 3px rgba(31,42,24,.08), 0 8px 24px rgba(31,42,24,.05);
     }
-    main { max-width: 640px; padding: 40px 24px; text-align: center; }
-    h1 { font-size: 1.5rem; }
-    .note { color: #5a6b4a; font-size: .9rem; }
-    a { color: #4a7a2a; }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #12160e; --surface: #1b2114; --ink: #eef3e6; --muted: #a9bb92;
+        --line: #35422a; --brand: #9cc072; --brand-ink: #c7dcab; --accent: #26301a;
+        --shadow: 0 1px 3px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.3);
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+      line-height: 1.8; -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--brand); }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+    .btn {
+      display: inline-block; background: var(--brand); color: #fff; text-decoration: none;
+      padding: 14px 28px; border-radius: 999px; font-weight: 700; box-shadow: var(--shadow);
+    }
+    .btn:hover { filter: brightness(1.06); }
+    .btn.ghost { background: transparent; color: var(--brand); border: 1.5px solid var(--line); box-shadow: none; }
+
+    /* header */
+    header { border-bottom: 1px solid var(--line); background: var(--surface); }
+    .bar { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
+    .logo { font-weight: 800; letter-spacing: .02em; }
+    .logo small { display: block; font-weight: 600; font-size: .68rem; color: var(--muted); letter-spacing: .12em; }
+
+    /* hero */
+    .hero { background: linear-gradient(180deg, var(--accent), var(--bg)); padding: 64px 0 56px; }
+    .eyebrow { color: var(--brand-ink); font-weight: 700; font-size: .82rem; letter-spacing: .14em; margin: 0 0 12px; }
+    .hero h1 { font-size: clamp(1.7rem, 4.4vw, 2.7rem); line-height: 1.35; margin: 0 0 16px; letter-spacing: .01em; }
+    .hero p.lead { font-size: 1.06rem; color: var(--muted); max-width: 44ch; margin: 0 0 28px; }
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    section { padding: 56px 0; }
+    section h2 { font-size: clamp(1.3rem, 3vw, 1.7rem); margin: 0 0 8px; }
+    section .sub { color: var(--muted); margin: 0 0 32px; }
+
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); }
+    .card .num { color: var(--brand); font-weight: 800; font-size: .9rem; }
+    .card h3 { margin: 6px 0 8px; font-size: 1.06rem; }
+    .card p { margin: 0; color: var(--muted); font-size: .95rem; }
+
+    .about { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .about ul { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+    .about li { padding-left: 28px; position: relative; }
+    .about li::before { content: "✓"; position: absolute; left: 0; color: var(--brand); font-weight: 800; }
+
+    .steps { counter-reset: step; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .step { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; }
+    .step::before { counter-increment: step; content: "STEP " counter(step); color: var(--brand); font-weight: 800; font-size: .78rem; letter-spacing: .1em; }
+    .step h3 { margin: 8px 0 6px; font-size: 1.02rem; }
+    .step p { margin: 0; color: var(--muted); font-size: .93rem; }
+
+    .cta-band { background: var(--accent); border-radius: 20px; padding: 40px 28px; text-align: center; }
+    .cta-band h2 { margin: 0 0 8px; }
+    .cta-band p { color: var(--muted); margin: 0 0 24px; }
+
+    footer { border-top: 1px solid var(--line); background: var(--surface); padding: 36px 0; }
+    footer .disclaimer { color: var(--muted); font-size: .8rem; line-height: 1.7; margin: 0 0 16px; }
+    footer .meta { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; color: var(--muted); font-size: .82rem; }
+
+    @media (max-width: 720px) {
+      .cards, .steps { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
+  <header>
+    <div class="wrap bar">
+      <div class="logo">株式会社LSFP<small>LIFE SKETCH FINANCIAL PLANNING</small></div>
+      <a class="btn ghost" href="https://lin.ee/Qk9Yint" target="_blank" rel="noopener">LINEで相談する</a>
+    </div>
+  </header>
+
   <main>
-    <h1>iDeCo+</h1>
-    <p class="note">このページは公開基盤の疎通確認用プレースホルダです。<br>公開用コンテンツは Claude Design から差し替えます。</p>
-    <p><a href="../">← LP一覧へ</a></p>
+    <section class="hero">
+      <div class="wrap">
+        <p class="eyebrow">中小企業の福利厚生 ｜ iDeCo＋（イデコプラス）</p>
+        <h1>従業員の「じぶん年金」に、<br>会社からもう一歩の安心を。</h1>
+        <p class="lead">iDeCo＋（中小事業主掛金納付制度）は、従業員のiDeCoに事業主が掛金を上乗せできる制度です。株式会社LSFPは、導入の検討から従業員へのわかりやすい説明、将来シミュレーションまでを一貫して支援します。</p>
+        <div class="cta-row">
+          <a class="btn" href="#contact">導入を相談する</a>
+          <a class="btn ghost" href="#about">iDeCo＋とは</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="wrap">
+        <h2>iDeCo＋とは</h2>
+        <p class="sub">従業員規模の小さい事業主が、従業員の老後の資産づくりを後押しするための制度です。</p>
+        <ul>
+          <li>従業員本人が加入するiDeCoの掛金に、事業主が掛金を上乗せできます。</li>
+          <li>比較的小さな事業所を対象とした、中小企業のための制度です。</li>
+          <li>従業員の資産形成を、会社の福利厚生として支援できます。</li>
+          <li>採用・定着の面でも、働く人に向けた前向きなメッセージになります。</li>
+        </ul>
+        <p class="sub" style="margin-top:20px">※ 対象要件・掛金の範囲・税制上の取扱いには条件があり、変更される場合があります。導入可否や詳細は個別にご確認・ご相談ください。</p>
+      </div>
+    </section>
+
+    <section id="support">
+      <div class="wrap">
+        <h2>株式会社LSFPの支援</h2>
+        <p class="sub">「制度を入れて終わり」にしないための、導入後まで見据えた3つの支援。</p>
+        <div class="cards">
+          <div class="card">
+            <div class="num">01</div>
+            <h3>将来シミュレーション</h3>
+            <p>掛金や運用方針ごとに、将来の資産の見通しを確率の幅で見える化。数字を「自分ごと」として理解できます。</p>
+          </div>
+          <div class="card">
+            <div class="num">02</div>
+            <h3>相談すべきポイントの提示</h3>
+            <p>シミュレーション結果から、「いま考えておくとよいこと」を提示。むやみに煽らず、次の一歩につなげます。</p>
+          </div>
+          <div class="card">
+            <div class="num">03</div>
+            <h3>AIによる多数パターン検証</h3>
+            <p>計算エンジンは、極端な条件を含む多数のパターンで検証済み。安心して使える計算基盤を機械で確かめています。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about">
+      <div class="wrap">
+        <h2>ご相談の流れ</h2>
+        <p class="sub">はじめての制度でも、順を追って進められます。</p>
+        <div class="steps">
+          <div class="step">
+            <h3>お問い合わせ</h3>
+            <p>まずは現在の状況とご関心をお聞かせください。制度の概要からご説明します。</p>
+          </div>
+          <div class="step">
+            <h3>ご説明・シミュレーション</h3>
+            <p>制度の要点と、導入した場合の将来の見通しを、わかりやすくお示しします。</p>
+          </div>
+          <div class="step">
+            <h3>導入・従業員への説明</h3>
+            <p>導入手続きと、働く人へのわかりやすい説明まで支援します。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="cta-band" id="contact">
+          <h2>iDeCo＋の導入を検討してみませんか</h2>
+          <p>制度の概要から、自社に合うかどうかの見きわめまで、お気軽にご相談ください。</p>
+          <a class="btn" href="https://lin.ee/Qk9Yint" target="_blank" rel="noopener">LINEで相談する</a>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer>
+    <div class="wrap">
+      <p class="disclaimer">本ページは iDeCo＋（中小事業主掛金納付制度）に関する一般的な情報提供を目的としたものであり、特定の金融商品の勧誘や投資助言を行うものではありません。制度の要件・税制上の取扱い等は変更される場合があります。導入の可否や個別の取扱いについては、最新の情報をご確認のうえ、専門家にご相談ください。将来シミュレーションは一定の前提に基づく試算であり、将来の成果を保証するものではありません。</p>
+      <div class="meta">
+        <span>© 株式会社LSFP</span>
+        <a href="../">← LP一覧へ</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
