@@ -12,7 +12,8 @@
 | LP名 | パス | 公開URL（第1段階） | 状態 |
 |---|---|---|---|
 | DC退職金の受け取り方 | `dc-taishoku/` | https://lsfp-ai.github.io/lp/dc-taishoku/ | 雛形（疎通確認用プレースホルダ） |
-| iDeCo+ | `idecoplus/` | https://lsfp-ai.github.io/lp/idecoplus/ | 雛形（疎通確認用プレースホルダ） |
+| iDeCo+導入支援 | `idecoplus/` | https://lsfp-ai.github.io/lp/idecoplus/ | 公開中（LINE CTA接続済） |
+| DC退職コンサルサポート実務講座 | `dc-exit-course/` | https://lsfp-ai.github.io/lp/dc-exit-course/ | 公開中（LINE CTA接続済・軽量静的版） |
 
 ## ⚠️ このリポジトリは一般公開専用
 

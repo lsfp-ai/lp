@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DC退職コンサルサポート実務講座｜株式会社LSFP</title>
+  <meta name="description" content="退職金・企業型DC・iDeCoの出口相談を、税務・社保・NISA・取崩し運用までつなぐ実務研修。DCアドバイザー・FP・IFA・保険募集人・税理士・社労士のための実務講座。">
+  <style>
+    :root{
+      --bg:#143024; --bg2:#183826; --ink:#f2efe3; --muted:#a9c0ab;
+      --accent:#8fce a; --accent:#86c99a; --line:rgba(255,255,255,.14);
+      --chip:rgba(134,201,154,.45); --card:#1c4030; --gold:#e7d8a8;
+      --serif:"Hiragino Mincho ProN","Yu Mincho","YuMincho",serif;
+      --sans:"Hiragino Sans","Yu Gothic","Noto Sans JP",sans-serif;
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.9;-webkit-font-smoothing:antialiased;font-size:16px;}
+    .wrap{max-width:940px;margin:0 auto;padding:0 22px;}
+    a{color:var(--accent);}
+    h1,h2,h3{font-family:var(--serif);font-weight:600;letter-spacing:.02em;}
+    .eyebrow{font-family:var(--sans);font-size:.72rem;letter-spacing:.22em;color:var(--accent);font-weight:700;margin:0 0 18px;}
+    .btn{display:inline-block;background:var(--accent);color:#0f2419;text-decoration:none;padding:14px 30px;border-radius:999px;font-weight:700;font-family:var(--sans);}
+    .btn:hover{filter:brightness(1.08);}
+    .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--chip);}
+    .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;}
+
+    header{position:sticky;top:0;z-index:20;background:rgba(20,48,36,.86);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+    .bar{display:flex;align-items:center;justify-content:space-between;padding:14px 0;}
+    .logo{font-weight:800;font-family:var(--sans);letter-spacing:.02em;}
+    .logo small{display:block;font-size:.62rem;color:var(--muted);letter-spacing:.16em;font-weight:600;}
+
+    section{padding:70px 0;border-top:1px solid var(--line);}
+    section.hero{border-top:none;padding:80px 0 64px;}
+    h1.title{font-size:clamp(2rem,6vw,3.4rem);line-height:1.3;margin:0 0 28px;}
+    .lede-label{border-left:3px solid var(--accent);padding-left:16px;margin:28px 0 10px;}
+    .lede-label b{font-family:var(--sans);font-size:1.05rem;}
+    .lede-label p{margin:4px 0 0;color:var(--muted);font-size:.96rem;}
+    .chips{display:flex;flex-wrap:wrap;gap:9px;margin:22px 0;}
+    .chip{border:1px solid var(--chip);border-radius:999px;padding:7px 15px;font-size:.83rem;color:var(--ink);}
+    .sect-eyebrow{font-size:.72rem;letter-spacing:.22em;color:var(--accent);font-weight:700;margin:0 0 14px;font-family:var(--sans);}
+    h2{font-size:clamp(1.5rem,3.6vw,2.1rem);line-height:1.4;margin:0 0 24px;}
+    p{margin:0 0 18px;}
+    .muted{color:var(--muted);}
+    .lead{font-size:1.06rem;color:#dfe7d9;}
+
+    .quotes{display:grid;gap:10px;margin:24px 0;}
+    .quote{background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:12px 18px;color:#e4ecdf;}
+    .anx{display:grid;gap:8px;margin:20px 0;font-family:var(--serif);font-size:1.2rem;}
+
+    .grid{display:grid;gap:16px;}
+    .g2{grid-template-columns:repeat(2,1fr);}
+    .g3{grid-template-columns:repeat(3,1fr);}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;}
+    .card h3{margin:0 0 8px;font-size:1.1rem;}
+    .card p{margin:0;color:var(--muted);font-size:.95rem;}
+    .num{color:var(--accent);font-weight:800;font-family:var(--sans);font-size:.9rem;}
+    .tag{display:inline-block;margin-top:12px;font-size:.78rem;color:var(--gold);border:1px solid rgba(231,216,168,.4);border-radius:999px;padding:3px 11px;}
+
+    ol.steps{list-style:none;counter-reset:s;padding:0;display:grid;gap:14px;}
+    ol.steps li{counter-increment:s;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:18px 20px 18px 58px;position:relative;}
+    ol.steps li::before{content:counter(s);position:absolute;left:18px;top:18px;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#0f2419;font-weight:800;font-family:var(--sans);display:grid;place-items:center;font-size:.9rem;}
+
+    .twocol{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .box{background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:20px 22px;}
+    .box h4{margin:0 0 12px;font-family:var(--sans);font-size:.82rem;letter-spacing:.1em;color:var(--accent);}
+    .box ul{margin:0;padding-left:18px;color:#dfe7d9;} .box li{margin:6px 0;}
+
+    ul.checks{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;}
+    ul.checks li{padding-left:26px;position:relative;color:#dfe7d9;}
+    ul.checks li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:800;}
+
+    table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.9rem;}
+    th,td{border:1px solid var(--line);padding:10px 12px;text-align:left;vertical-align:top;}
+    th{background:var(--bg2);color:var(--accent);font-family:var(--sans);font-size:.82rem;}
+    .note{color:var(--muted);font-size:.82rem;}
+
+    .pillar{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:18px 0;border-top:1px dashed var(--line);}
+    .pillar .pn{font-family:var(--sans);font-weight:800;color:var(--accent);font-size:.78rem;letter-spacing:.1em;white-space:nowrap;padding-top:4px;}
+    .pillar h3{margin:0 0 8px;font-size:1.18rem;} .pillar p{margin:0;color:var(--muted);font-size:.95rem;}
+    .pillar.peak h3::after{content:"山場";margin-left:10px;font-family:var(--sans);font-size:.7rem;color:var(--gold);border:1px solid rgba(231,216,168,.4);border-radius:999px;padding:2px 9px;}
+
+    .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start;}
+    .plan{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;}
+    .plan.reco{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset;}
+    .plan .pname{font-family:var(--sans);font-weight:700;color:var(--accent);}
+    .plan .price{font-family:var(--serif);font-size:1.6rem;margin:8px 0 12px;}
+    .plan ul{margin:0 0 12px;padding-left:18px;color:#dfe7d9;font-size:.9rem;} .plan li{margin:5px 0;}
+    .plan .who{color:var(--muted);font-size:.82rem;}
+
+    .instructor{display:grid;grid-template-columns:120px 1fr;gap:24px;align-items:start;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px;}
+    .avatar{width:120px;height:120px;border-radius:50%;background:linear-gradient(160deg,#1f4a37,#0f2419);border:1px solid var(--chip);display:grid;place-items:center;font-family:var(--serif);font-size:1.5rem;color:var(--gold);}
+    .instructor h3{margin:0 0 2px;font-size:1.3rem;} .role{color:var(--muted);font-size:.9rem;margin:0 0 14px;}
+
+    details{border-top:1px solid var(--line);padding:14px 0;}
+    details summary{cursor:pointer;font-family:var(--serif);font-size:1.05rem;list-style:none;}
+    details summary::-webkit-details-marker{display:none;}
+    details summary::before{content:"＋";color:var(--accent);margin-right:12px;font-family:var(--sans);}
+    details[open] summary::before{content:"－";}
+    details p{margin:12px 0 0;color:var(--muted);}
+
+    .cta-band{background:linear-gradient(160deg,#1f4a37,#12291d);border:1px solid var(--chip);border-radius:20px;padding:48px 30px;text-align:center;}
+    .cta-band h2{margin:0 0 12px;}
+    .closing-big{font-family:var(--serif);font-size:clamp(1.5rem,4vw,2.2rem);line-height:1.5;margin:0 0 24px;}
+
+    footer{border-top:1px solid var(--line);padding:40px 0;background:#0f261b;}
+    footer .disc{color:var(--muted);font-size:.8rem;line-height:1.75;margin:0 0 18px;}
+    footer .meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:var(--muted);font-size:.82rem;}
+
+    @media(max-width:760px){
+      .g2,.g3,.twocol,.plans,ul.checks{grid-template-columns:1fr;}
+      .instructor{grid-template-columns:1fr;justify-items:center;text-align:center;}
+      .pillar{grid-template-columns:1fr;gap:6px;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap bar">
+      <div class="logo">株式会社LSFP<small>LIFE SKETCH FINANCIAL PLANNING</small></div>
+      <a class="btn ghost" href="https://lin.ee/Qk9Yint" target="_blank" rel="noopener">先行案内に登録</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap">
+        <p class="eyebrow">DC EXIT ADVISORY TRAINING</p>
+        <h1 class="title">退職金・企業型DC・iDeCoの<br>出口相談で、もう止まらない。</h1>
+        <div class="lede-label">
+          <b>DC退職コンサルサポート実務講座</b>
+          <p>退職金・企業型DC・iDeCoの出口相談を、税務・社保・NISA・取崩し運用までつなぐ実務研修</p>
+        </div>
+        <div class="chips">
+          <span class="chip">退職所得控除</span><span class="chip">みなし勤続年数</span><span class="chip">重複期間</span>
+          <span class="chip">同年受取・翌年以降受取</span><span class="chip">年金形式受取</span>
+          <span class="chip">国保・介護保険料</span><span class="chip">NISA・特定口座</span><span class="chip">取崩し運用</span>
+        </div>
+        <p class="lead">これらをバラバラに説明するのではなく、<b>1つの相談ストーリー</b>として組み立てる実務講座です。</p>
+        <div class="cta-row">
+          <a class="btn" href="https://lin.ee/Qk9Yint" target="_blank" rel="noopener">講座の詳細を見る</a>
+          <a class="btn ghost" href="https://lin.ee/Qk9Yint" target="_blank" rel="noopener">先行案内に登録する</a>
+        </div>
+        <p class="muted" style="margin-top:28px;font-size:.95rem;">この講座は、退職所得計算アプリの使い方だけを学ぶ研修ではありません。アプリを使って、顧客の不安を整理する。数字で比較する。詳細レポートを作る。税理士に確認できる資料にする。そして、NISA・iDeCo・特定口座・取崩し運用へつなぐ。ここまでが講座の範囲です。</p>
+      </div>
+    </section>
+
+    <!-- QUESTIONS -->
+    <section>
+      <div class="wrap">
+        <p class="sect-eyebrow">THE QUESTIONS YOU FACE</p>
+        <h2>こんな相談を受けたとき、すぐに答えられますか。</h2>
+        <div class="quotes">
+          <div class="quote">「退職金と企業型DCは、同じ年に受け取った方がいいですか」</div>
+          <div class="quote">「iDeCoは一時金と年金、どちらでもらった方がいいですか」</div>
+          <div class="quote">「退職所得控除は、もう使い切っているんですか」</div>
+          <div class="quote">「みなし勤続年数って何ですか」</div>
+          <div class="quote">「重複期間って、何年引けばいいんですか」</div>
+          <div class="quote">「会社の退職金とDCは、別々に控除が使えるんですか」</div>
+          <div class="quote">「60歳でiDeCo、65歳で退職金なら大丈夫ですか」</div>
+          <div class="quote">「社会保険料は上がりますか」</div>
+          <div class="quote">「税理士に聞けばいい話ですか」</div>
+          <div class="quote">「結局、NISAとiDeCoはどちらがいいんですか」</div>
+        </div>
+        <p>この質問に、制度の説明だけで答えるのは危険です。退職金、企業型DC、iDeCo、DB、中退共、小規模企業共済、短期退職手当、国民健康保険、介護保険、NISA、特定口座、取崩し運用。全部がつながるからです。</p>
+        <p>お客様は、税金だけを聞いているようで、実は違います。本当に知りたいのは、これです。</p>
+        <div class="anx">
+          <div>自分は損しないのか。</div>
+          <div>手取りはいくら残るのか。</div>
+          <div>老後のお金は何歳まで持つのか。</div>
+          <div>家族に迷惑をかけないか。</div>
+        </div>
+        <p class="muted">この不安に答えるには、アプリの操作だけでは足りません。</p>
+      </div>
+    </section>
+
+    <!-- NOT AN APP TUTORIAL -->
+    <section style="background:var(--bg2);">
+      <div class="wrap">
+        <p class="sect-eyebrow">NOT AN APP TUTORIAL</p>
+        <h2>これは、アプリ研修ではありません。</h2>
+        <p>退職所得の計算アプリは使います。詳細レポートも出します。グラフも使います。税額比較もします。でも、この講座の目的は、アプリ操作ではありません。</p>
+        <div class="grid g2" style="margin:22px 0;">
+          <div class="card"><p>相談者の不安を止める</p></div>
+          <div class="card"><p>必要情報を聞き出す</p></div>
+          <div class="card"><p>同年受取・翌年受取・年金受取を比較する</p></div>
+          <div class="card"><p>税理士や勤務先に確認できる資料を整える</p></div>
+          <div class="card" style="grid-column:1/-1;"><p>NISA・iDeCo・特定口座・取崩し運用へ進む</p></div>
+        </div>
+        <p>退職所得の税額を出すだけなら、電卓でもできます。でも、顧客相談はそこで終わりません。「では、残ったお金をどう使いますか」「NISAにはいくら入れますか」「何歳まで働きますか」「介護資金はどうしますか」「配偶者にお金の管理を引き継げますか」。</p>
+        <p>ここまで進めて、初めて退職コンサルです。</p>
+        <p class="lead">これは、退職所得計算アプリの研修ではありません。<br>退職金・企業型DC・iDeCoの出口相談を、<b>継続相談に変えるための実務講座</b>です。</p>
+      </div>
+    </section>
+
+    <!-- WHY NOW -->
+    <section>
+      <div class="wrap">
+        <p class="sect-eyebrow">WHY NOW</p>
+        <h2>なぜ、いまDC出口相談なのか。</h2>
+        <div class="grid g3" style="margin-bottom:26px;">
+          <div class="card"><div class="num">01</div><p style="color:var(--ink);margin-top:8px;">企業型DCとiDeCoを使う人が増えた。</p></div>
+          <div class="card"><div class="num">02</div><p style="color:var(--ink);margin-top:8px;">退職金とDC・iDeCoの受取時期が重なる。</p></div>
+          <div class="card"><div class="num">03</div><p style="color:var(--ink);margin-top:8px;">インフレ下で控除が据え置かれ、実質的な負担感が増す。</p></div>
+        </div>
+        <p>退職所得は、原則として「収入金額から退職所得控除額を差し引き、その2分の1を退職所得の金額とする」仕組みです。退職所得控除は、勤続年数20年以下なら年40万円、20年超なら800万円に20年超部分1年あたり70万円を加える考え方です。</p>
+        <p>この仕組みだけなら、まだ説明できます。難しいのは、複数の退職所得が出てくるときです。</p>
+        <div class="box" style="margin-top:20px;">
+          <h4>重なり合う退職所得</h4>
+          <ul style="columns:2;"><li>会社の退職金</li><li>企業型DC</li><li>iDeCo</li><li>DB</li><li>中退共</li><li>小規模企業共済</li></ul>
+        </div>
+        <p style="margin-top:20px;">同じ年に受け取るのか。翌年以降にずらすのか。年金形式にするのか。過去に退職金を受け取っているのか。加入期間が重複しているのか。控除を使い切っているのか。──ここで多くの人が止まります。</p>
+      </div>
+    </section>
+
+    <!-- TEXTBOOK VS PRACTICE -->
+    <section style="background:var(--bg2);">
+      <div class="wrap">
+        <p class="sect-eyebrow">TEXTBOOK VS. PRACTICE</p>
+        <h2>FPの教科書だけでは、実務相談に足りません。</h2>
+        <p>教科書には、退職所得控除の基本も、計算式も、iDeCoの税制優遇も載っています。でも、実務でお客様はこう言います。</p>
+        <div class="quotes">
+          <div class="quote">「退職金は1,200万円ぐらいです。いや、1,500万円かもしれません」</div>
+          <div class="quote">「DCはいつからか分かりません」</div>
+          <div class="quote">「厚生年金基金から移ったかもしれません」</div>
+          <div class="quote">「人事に何を聞けばいいか分かりません」</div>
+          <div class="quote">「65歳まで働くかもしれません。でも、できれば60歳で辞めたいです」</div>
+        </div>
+        <p>金額も、時期も、起算日も、受取方法も、働き方も、あいまいです。教科書の計算問題とは違います。</p>
+        <div class="box"><h4>だから、ヒアリングが要る</h4>
+          <ul><li>「いつ入社しましたか。退職日はいつですか」</li><li>「企業型DCはいつからですか」</li><li>「厚生年金基金から引き継がれた制度ですか」</li><li>「一時金ですか。年金形式ですか」</li><li>「何歳まで働くつもりですか」</li></ul>
+        </div>
+        <p style="margin-top:18px;">厚生年金基金から企業型DCへ移行したケースでは、DCの開始日だけでは足りません。「大元」の起算日確認が必要になります。ここは教科書に出てこない、実務の急所です。</p>
+      </div>
+    </section>
+
+    <!-- YOUR ROLE -->
+    <section>
+      <div class="wrap">
+        <p class="sect-eyebrow">YOUR ROLE AS ADVISOR</p>
+        <h2>税理士・社労士に丸投げすれば終わる話ではありません。</h2>
+        <p>税理士は税務の専門家です。社労士は労務・社会保険の専門家です。ただし、退職金・企業型DC・iDeCo・NISA・国保・介護保険・後期高齢者医療・取崩し運用を全部つないで話せる人は、まだ多くありません。</p>
+        <p>だから、DCアドバイザーやFPに役割があります。税務申告を代行する必要はありません。税理士の仕事を奪う必要もありません。必要なのは、顧客が税理士や勤務先に確認できる材料を整えることです。</p>
+        <ol class="steps">
+          <li>概算を出す。アプリと詳細レポートで、税額と手取りを見える化する。</li>
+          <li>論点を整理する。控除・重複期間・受取時期の分岐を並べる。</li>
+          <li>確認項目をまとめる。税理士に渡せる資料、勤務先に聞くべき項目を明確にする。</li>
+          <li>そのうえで、資産運用と取崩しの相談に進む。ここがアドバイザーの本業です。</li>
+        </ol>
+        <p class="lead" style="margin-top:20px;">これが、DC退職コンサルサポートです。</p>
+      </div>
+    </section>
+
+    <!-- WHAT CLIENTS REALLY ASK -->
+    <section style="background:var(--bg2);">
+      <div class="wrap">
+        <p class="sect-eyebrow">WHAT CLIENTS REALLY ASK</p>
+        <h2>お客様は、退職所得控除を知りたいわけではありません。</h2>
+        <div class="twocol">
+          <div class="box"><h4>口に出る質問（入口）</h4>
+            <ul><li>「税金はいくらですか」</li><li>「一時金と年金、どちらが得ですか」</li><li>「iDeCoはやった方がいいですか」</li><li>「NISAとどちらがいいですか」</li></ul>
+          </div>
+          <div class="box"><h4>本当に聞きたいこと（出口）</h4>
+            <ul><li>「自分は損しないのか」</li><li>「知らないまま税金を払うことにならないか」</li><li>「長生きしてもお金は足りるのか」</li><li>「介護になったら家族に迷惑をかけないか」</li></ul>
+          </div>
+        </div>
+        <p style="margin-top:20px;">退職所得控除は、入口です。みなし勤続年数も、重複期間も、入口です。出口は、老後資金の使い方です。だから、この講座は退職所得の計算だけで終わりません。</p>
+        <p>退職金をどう受け取るか。受け取った後、どこに置くか。NISAへ移すか。特定口座も使うか。iDeCoを追加するか。何歳から取り崩すか。何歳まで働くか。何歳までお金を持たせるか。──ここまで扱います。</p>
+        <p class="lead">顧客は、税金を聞きに来ます。でも、本当に必要なのは、税金を払った後のお金をどう使うかです。</p>
+      </div>
+    </section>
+
+    <!-- LONGEVITY -->
+    <section>
+      <div class="wrap">
+        <p class="sect-eyebrow">START WITH LONGEVITY</p>
+        <h2>退職金の話は、寿命の話から始めると伝わります。</h2>
+        <p>いきなり退職所得控除から話すと、難しくなります。税金から話すと、細かくなります。DCから話すと、制度説明になります。でも、寿命から入ると、参加者が自分ごとにします。</p>
+        <div class="quotes">
+          <div class="quote">「私は何歳まで生きるのか」</div>
+          <div class="quote">「お金は何歳まで持つのか」</div>
+          <div class="quote">「もし100歳まで生きたらどうするのか」</div>
+          <div class="quote">「80歳でお金がなくなったらどうするのか」</div>
+        </div>
+        <p>退職金相談は、税金相談ではありません。長生きする時代の、お金の使い方相談です。この導線の作り方も、講座で扱います。</p>
+        <p class="muted">計画的な取崩しは、流れる川に似ています。止めるのではなく、流し方を設計する。</p>
+        <div class="box">
+          <p style="margin:0;">退職金の税金で止まると、老後資金相談に進めません。重複期間で止まると、NISAの話に進めません。みなし勤続年数で止まると、取崩し運用の話に進めません。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- OUTCOMES -->
+    <section style="background:var(--bg2);">
+      <div class="wrap">
+        <p class="sect-eyebrow">OUTCOMES</p>
+        <h2>この講座で、できるようになること。</h2>
+        <ol class="steps">
+          <li>退職金・企業型DC・iDeCoの受取設計を説明できる力。</li>
+          <li>顧客から必要情報を聞き出す力。</li>
+          <li>退職所得控除、重複期間、みなし勤続年数を整理する力。</li>
+          <li>同年受取・翌年以降受取・年金形式受取を比較する力。</li>
+          <li>詳細レポートを使って、顧客と税理士へ説明する力。</li>
+          <li>税金相談から、NISA・iDeCo・特定口座・取崩し運用へつなげる力。</li>
+          <li>退職前後の顧客と継続相談を作る力。</li>
+        </ol>
+        <p class="muted" style="margin-top:18px;">これは、アプリを使えるようになる研修ではありません。アプリを使って、相談を前に進める研修です。</p>
+      </div>
+    </section>
+
+    <!-- CURRICULUM -->
+    <section>
+      <div class="wrap">
+        <p class="sect-eyebrow">CURRICULUM — SEVEN PILLARS</p>
+        <h2>講座の7本柱</h2>
+        <div class="pillar"><div class="pn">PILLAR 1</div><div><h3>退職所得の基本</h3><p>退職所得控除。1/2課税。分離課税。所得税・住民税・復興特別所得税。退職所得の受給に関する申告書。短期退職手当。特定役員退職手当。教科書知識を、実務相談用に組み替えます。</p></div></div>
+        <div class="pillar"><div class="pn">PILLAR 2</div><div><h3>企業型DC・iDeCo・DB・中退共の整理</h3><p>どれが退職一時金グループなのか。どれがDCグループなのか。どの加入期間を見るのか。どの金額を入力するのか。制度の分類を、相談で使える形に整理します。</p></div></div>
+        <div class="pillar"><div class="pn">PILLAR 3</div><div><h3>起算日確認とヒアリング</h3><p>DCの開始日だけ見ても足りません。厚生年金基金からの移行、入社日までさかのぼる起算。顧客に何を聞くか。人事・総務へ何を確認するか。税理士へ何を渡すか。ここまでテンプレート化します。</p></div></div>
+        <div class="pillar peak"><div class="pn">PILLAR 4</div><div><h3>重複期間とみなし勤続年数</h3><p>重複期間は、年数で単純に引けばよいわけではありません。20年以下は年40万円、20年超は年70万円。重複部分が40万円部分なのか70万円部分なのかで計算が変わるため、「年数ではなく金額で引く」という整理が重要です。ここを図で説明できるようにします。</p></div></div>
+        <div class="pillar"><div class="pn">PILLAR 5</div><div><h3>同年受取・翌年以降受取・年金形式の比較</h3><p>同じ暦年で受け取ると同じ年の退職所得として扱う。分ける場合はそれぞれ計算する。退職所得は社会保険料に影響しない。年金形式は雑所得として社会保険料に影響しうる。──顧客に一番刺さる比較です。</p>
+          <table>
+            <tr><th>受取方法</th><th>所得区分</th><th>控除の扱い</th><th>社会保険料</th></tr>
+            <tr><td>同年受取</td><td>退職所得（合算）</td><td>控除は1本にまとめて判定</td><td>影響しない</td></tr>
+            <tr><td>翌年以降受取</td><td>退職所得（各年で計算）</td><td>重複期間・過去受取の調整あり</td><td>影響しない</td></tr>
+            <tr><td>年金形式</td><td>雑所得（公的年金等）</td><td>公的年金等控除で判定</td><td>影響しうる（国保・介護等）</td></tr>
+          </table>
+          <p class="note">※概要整理です。個別の適用は税理士・勤務先・自治体への確認が必要です。</p>
+        </div></div>
+        <div class="pillar"><div class="pn">PILLAR 6</div><div><h3>NISA・iDeCo・特定口座・取崩し運用</h3><p>受け取った後、どこに置くか。NISAに入れるか。特定口座で運用するか。iDeCoを追加するか。何歳から取り崩すか。新NISAは年間投資枠最大360万円、非課税保有限度額最大1,800万円。iDeCoは2026年12月施行予定の改正で、第2号加入者の共通拠出限度額が月額6.2万円へ引き上げ予定。制度を、退職金の出口相談とつなげます。</p></div></div>
+        <div class="pillar"><div class="pn">PILLAR 7</div><div><h3>AI・Excel・詳細レポート活用</h3><p>AIは相談を置き換えるものではなく、支えるものです。アプリで計算する。Excelで検算する。AIで説明文を整える。詳細レポートで税理士に渡す。顧客向けに1枚で説明する。この一連の流れを演習します。</p></div></div>
+      </div>
+    </section>
+
+    <!-- CASE STUDIES -->
+    <section style="background:var(--bg2);">
+      <div class="wrap">
+        <p class="sect-eyebrow">CASE STUDIES</p>
+        <h2>座学ではなく、ケースで身につけます。</h2>
+        <p class="muted">退職所得の相談は、条文を読んでも身につきません。実際の顧客ケースで計算して、初めて分かります。</p>
+        <div class="grid g2" style="margin-top:20px;">
+          <div class="card"><div class="num">CASE 1</div><h3>50代会社員</h3><p>退職金1,200万円。企業型DC600万円。iDeCoなし。同年受取と翌年受取を比較します。</p><span class="tag">学ぶこと：受取時期の分岐</span></div>
+          <div class="card"><div class="num">CASE 2</div><h3>大企業勤務者</h3><p>厚生年金基金からDB・DCへ移行。会社退職金・DB・企業型DCの起算日が同じ可能性あり。</p><span class="tag">学ぶこと：起算日の確認</span></div>
+          <div class="card"><div class="num">CASE 3</div><h3>公務員・教師</h3><p>30代からiDeCoを満額拠出。将来、高額退職金とぶつかる可能性あり。</p><span class="tag">学ぶこと：NISAとiDeCoの配分</span></div>
+          <div class="card"><div class="num">CASE 4</div><h3>50代からiDeCoを追加</h3><p>退職まで3年・4年・5年。毎月5.4万円拠出。拠出時の所得控除と受取時課税を比較。</p><span class="tag">学ぶこと：拠出と受取の損益</span></div>
+          <div class="card"><div class="num">CASE 5</div><h3>退職金が控除枠未満</h3><p>会社退職金が小さく、退職所得控除を使い切らない。その後、企業型DCやiDeCoを受け取る。</p><span class="tag">学ぶこと：みなし勤続年数</span></div>
+          <div class="card"><div class="num">CASE 6</div><h3>銀行退職後、関連会社へ再就職</h3><p>1回目の退職金。その後、短期勤務先で退職金。短期退職手当の論点あり。</p><span class="tag">学ぶこと：例外処理</span></div>
+          <div class="card"><div class="num">CASE 7</div><h3>中退共ありの企業</h3><p>中退共。会社退職金。企業型DC。どのグループとして扱うかを整理します。</p><span class="tag">学ぶこと：制度分類</span></div>
+          <div class="card"><div class="num">CASE 8</div><h3>NISA枠を超える資産家</h3><p>NISAだけでは足りない。特定口座も使う。税金や社会保険料への心理的抵抗をどう扱うか。</p><span class="tag">学ぶこと：「増えた分から払う」という考え方</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FIVE WALLS -->
+    <section>
+      <div class="wrap">
+        <p class="sect-eyebrow">FIVE WALLS</p>
+        <h2>DC出口相談には、5つの壁があります。</h2>
+        <ol class="steps">
+          <li><b>制度の壁</b>　退職所得控除。企業型DC。iDeCo。DB。中退共。小規模企業共済。短期退職手当。制度が多すぎます。</li>
+          <li><b>計算の壁</b>　同年受取。翌年受取。年金形式。重複期間。みなし勤続年数。1/2課税。分離課税。計算が複雑です。</li>
+          <li><b>ヒアリングの壁</b>　顧客は正確な情報を持っていません。退職金額もあいまい。DCの開始日もあいまい。だから、聞き方が必要です。</li>
+          <li><b>説明の壁</b>　計算できても、説明できなければ使えません。顧客に説明する。税理士に渡す。勤務先に確認する。家族に共有する。ここまで考える必要があります。</li>
+          <li><b>次の相談への壁</b>　税金だけで終わると、単発相談です。NISA。iDeCo。特定口座。取崩し運用。介護資金。相続。ライフスケッチ。ここへつなげると、継続相談になります。</li>
+        </ol>
+        <p class="lead" style="margin-top:22px;">退職金、企業型DC、iDeCo、NISA、特定口座。別々に考えると、相談が途切れます。全部つなぐと、継続相談になります。</p>
+      </div>
+    </section>
+
+    <!-- WHO -->
+    <section style="background:var(--bg2);">
+      <div class="wrap">
+        <p class="sect-eyebrow">WHO THIS IS FOR</p>
+        <h2>この講座は、こんな方のための実務研修です。</h2>
+        <div class="grid g2">
+          <div class="card"><h3>DCアドバイザーの方へ</h3><p>加入者教育だけで終わっていませんか。入口の教育は増えました。でも、出口相談はまだ空いています。60歳が近づく加入者は、「受け取り方はどうすればいいですか」「税金はいくらですか」と聞いてきます。この質問に対応できると、DCアドバイザーの価値は上がります。</p></div>
+          <div class="card"><h3>FP・IFAの方へ</h3><p>退職金相談は、資産運用相談の入口です。税金の不安を整理する。退職金の受取を設計する。NISAと特定口座へつなぐ。取崩し運用へ進める。継続相談になる。退職所得で止まらないこと。ここが差になります。</p></div>
+          <div class="card"><h3>保険募集人の方へ</h3><p>退職金相談を、保険提案だけで終わらせていませんか。顧客は、保険だけを求めていません。NISAも、iDeCoも、社会保険料も、取崩し運用も気になっています。この講座は、保険以外の相談導線を作ります。</p></div>
+          <div class="card"><h3>税理士事務所の方へ</h3><p>顧問先から、退職金・iDeCo・NISAを聞かれる機会が増えます。税務申告だけではありません。受取設計、社会保険料、金融所得、家族への資産移転。顧問先から聞かれたときに、論点整理ができるようになります。</p></div>
+          <div class="card" style="grid-column:1/-1;"><h3>社労士事務所の方へ</h3><p>退職前後の相談は、労務だけでは終わりません。再雇用。定年延長。企業型DC。退職金。公的年金。国民健康保険。介護保険。後期高齢者医療。退職前教育を強化できます。</p></div>
+        </div>
+        <p class="lead" style="margin-top:22px;">アプリを覚えるだけでは、相談はできません。必要なのは、聞き方、見せ方、つなげ方です。</p>
+        <p class="muted">税金をゼロにする講座ではありません。分からないまま払わないための講座です。</p>
+      </div>
+    </section>
+
+    <!-- MATERIALS -->
+    <section>
+      <div class="wrap">
+        <p class="sect-eyebrow">MATERIALS &amp; TEMPLATES</p>
+        <h2>講義だけではなく、実務で使える資料を渡します。</h2>
+        <ul class="checks">
+          <li>退職金・DC・iDeCoヒアリングシート</li>
+          <li>人事・総務への確認依頼文</li>
+          <li>退職所得控除の基本図解</li>
+          <li>重複期間とみなし勤続年数の図解</li>
+          <li>同年受取・翌年受取・年金形式の比較表</li>
+          <li>税理士提出用メモ</li>
+          <li>顧客向け説明資料</li>
+          <li>NISA・iDeCo・特定口座の使い分け資料</li>
+          <li>ライフスケッチ接続シート</li>
+          <li>セミナー用スライド</li>
+          <li>90分セミナー台本</li>
+          <li>AI検算プロンプト</li>
+          <li>よくある質問集</li>
+        </ul>
+        <p class="muted" style="margin-top:18px;">受講して終わりではありません。翌日から相談で使える資料を整えます。</p>
+      </div>
+    </section>
+
+    <!-- FORMAT -->
+    <section style="background:var(--bg2);">
+      <div class="wrap">
+        <p class="sect-eyebrow">FORMAT</p>
+        <h2>講座形式</h2>
+        <div class="grid g3" style="margin-bottom:24px;">
+          <div class="card"><h3>全5回</h3><p>ライブ講義＋録画視聴</p></div>
+          <div class="card"><h3>各2時間</h3><p>合計10時間</p></div>
+          <div class="card"><h3>＋月例会</h3><p>ケース研究会を継続開催</p></div>
+        </div>
+        <ol class="steps">
+          <li><b>第1回</b>　退職所得とDC出口相談の全体像</li>
+          <li><b>第2回</b>　企業型DC・iDeCo・DB・中退共の整理</li>
+          <li><b>第3回</b>　重複期間とみなし勤続年数</li>
+          <li><b>第4回</b>　ケース演習とアプリ入力</li>
+          <li><b>第5回</b>　顧客説明、税理士提出資料、NISA・取崩し相談への接続</li>
+        </ol>
+        <p class="note" style="margin-top:14px;">ライブ講義／録画視聴／ケース演習／アプリ操作／詳細レポート作成／質疑応答／提出課題</p>
+      </div>
+    </section>
+
+    <!-- PLANS -->
+    <section>
+      <div class="wrap">
+        <p class="sect-eyebrow">PLANS</p>
+        <h2>受講プラン</h2>
+        <p class="note">※以下は仮表示です。正式価格は募集時にご案内します。</p>
+        <div class="plans">
+          <div class="plan"><div class="pname">ライト</div><div class="price">132,000円</div>
+            <ul><li>講義参加／録画視聴</li><li>基本資料</li><li>アプリ利用</li><li>ケース演習3本</li></ul>
+            <p class="who">既存ユーザー、まず試したいFP・DCアドバイザー向け</p></div>
+          <div class="plan reco"><div class="pname">スタンダード（推奨）</div><div class="price">198,000円</div>
+            <ul><li>全5回講義／録画視聴</li><li>資料一式／アプリ利用</li><li>ケース演習10本</li><li>税理士提出用レポート雛形</li><li>提出課題添削1回</li></ul>
+            <p class="who">実務で使いたいFP・IFA・DCアドバイザー向け</p></div>
+          <div class="plan"><div class="pname">プロ</div><div class="price">330,000〜550,000円</div>
+            <ul><li>スタンダードの全内容</li><li>個別相談1回</li><li>セミナー台本／LPテンプレート</li><li>共同セミナー設計</li><li>事務所内研修利用</li></ul>
+            <p class="who">税理士・社労士事務所、保険代理店、IFA法人向け</p></div>
+        </div>
+        <p class="note" style="margin-top:16px;">継続プラン　年額 55,000〜110,000円　／　月例ケース研究会・制度改正アップデート・アプリ利用更新・資料更新・受講者限定Q&amp;A</p>
+      </div>
+    </section>
+
+    <!-- INSTRUCTOR -->
+    <section style="background:var(--bg2);">
+      <div class="wrap">
+        <p class="sect-eyebrow">INSTRUCTOR</p>
+        <h2>講師紹介</h2>
+        <div class="instructor">
+          <div class="avatar">加藤</div>
+          <div>
+            <h3>加藤 博</h3>
+            <p class="role">株式会社LSFP 代表取締役　／　CFP®・1級ファイナンシャル・プランニング技能士</p>
+            <p>「お金を増やす」より、「安心して使える人生」を設計する。人生後半のお金の設計図「ライフスケッチ®」を軸に、退職金・企業型DC・iDeCoの受取設計から取崩し運用まで、50〜60代の相談実務に取り組んでいます。</p>
+            <p class="muted" style="margin:0;">この講座では、退職所得計算ツールの開発者として、計算の仕組みだけでなく、実際の相談で「どう聞き、どう見せ、どうつなげるか」までお伝えします。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section>
+      <div class="wrap">
+        <p class="sect-eyebrow">FAQ</p>
+        <h2>よくある質問</h2>
+        <details><summary>税理士ではありませんが、受講して大丈夫ですか。</summary><p>はい。税務申告を代行するための講座ではありません。顧客が税理士や勤務先に確認できる材料を整え、相談を前に進めるための実務講座です。</p></details>
+        <details><summary>退職所得の知識があまりなくても大丈夫ですか。</summary><p>基本から実務相談用に組み替えて解説します。教科書の知識を「相談で使える形」にすることを重視しています。</p></details>
+        <details><summary>アプリが使えれば十分ではありませんか。</summary><p>アプリは計算の道具です。この講座は、聞き方・見せ方・つなげ方まで扱い、単発の税額計算を継続相談に変えることを目的とします。</p></details>
+        <details><summary>税理士に任せればよいのではありませんか。</summary><p>税務は税理士の領域です。一方で、退職金・DC・iDeCo・NISA・社会保険・取崩し運用を横断してつなぐ役割は空いています。そこを担うための講座です。</p></details>
+        <details><summary>企業型DCの導入支援にも使えますか。</summary><p>出口（受取・相談）に焦点を当てた講座です。加入者教育の先にある出口相談の設計として活用いただけます。</p></details>
+        <details><summary>保険募集人でも使えますか。</summary><p>はい。保険提案で終わらせず、NISA・iDeCo・社会保険・取崩し運用まで含む相談導線を作るために活用できます。</p></details>
+        <details><summary>顧客に税額を断定してよいですか。</summary><p>本講座と計算ツールは概算・論点整理を目的とします。個別具体的な課税判断は、税理士・勤務先・自治体等への確認を前提としてお伝えします。</p></details>
+      </div>
+    </section>
+
+    <!-- CLOSING -->
+    <section>
+      <div class="wrap">
+        <p class="sect-eyebrow">CLOSING</p>
+        <p class="closing-big">DCの入口教育は増えました。<br>でも、出口相談ができる人はまだ少ない。</p>
+        <p>これから、退職金と企業型DCとiDeCoの受取相談は増えます。60歳でiDeCo。65歳で退職金。一時金か、年金形式か。同じ年か、翌年以降か。NISAに移すか、特定口座も使うか、取り崩しながら運用するか。</p>
+        <p>この相談は、制度説明だけでは終わりません。税金。社会保険料。運用。取崩し。長生き。介護。家族。全部つながります。だから、今のうちに出口相談を学んでください。</p>
+        <p class="lead">アプリを使える人になるのではありません。退職前後の相談を受けられる人になるのです。</p>
+        <div class="cta-band" style="margin-top:32px;">
+          <h2>DC退職コンサルサポート実務講座</h2>
+          <p class="muted">退職金・企業型DC・iDeCoの出口相談を、継続相談に変える。</p>
+          <div class="cta-row" style="justify-content:center;">
+            <a class="btn" href="https://lin.ee/Qk9Yint" target="_blank" rel="noopener">先行案内に登録する</a>
+            <a class="btn ghost" href="https://lin.ee/Qk9Yint" target="_blank" rel="noopener">個別説明会を予約する</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p class="disc">※本講座と計算ツールは、制度理解と概算シミュレーションを目的とします。個別具体的な税務申告、源泉徴収、課税判断、社会保険料への影響は、税理士、勤務先、金融機関、自治体にご確認ください。本内容は情報提供を目的としたものであり、特定の金融商品の購入を勧誘するものではありません。投資には価格変動等のリスクがあり、将来の成果を保証するものではありません。</p>
+      <div class="meta">
+        <span>© 株式会社LSFP</span>
+        <a href="../">← LP一覧へ</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
