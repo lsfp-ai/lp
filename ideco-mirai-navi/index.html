@@ -339,7 +339,7 @@ function simulate(cfg){
   $("themeBtn").addEventListener("click",()=>{const r=document.documentElement;const cur=r.dataset.theme|| (matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");r.dataset.theme=cur==="dark"?"light":"dark";});
   // アドバイザー名簿（ID→{氏名,予約URL}）。URLに ?a=<ID> を付けて選択。生URLはパラメータで受けない＝名簿のIDだけ受理（なりすまし/XSS防止）。将来は共通名簿（課金台帳）へ昇格。
   const ADVISORS={
-    kato:{name:"加藤 博（株式会社LSFP）",url:""} // ← 予約リンク未設定（加藤さんのURLが来たら url に入れるだけ）
+    kato:{name:"加藤 博（株式会社LSFP）",url:"https://forms.gle/ypFEFg4vZJfJVW9bA"} // 加藤さんの予約フォーム（Googleフォーム）
     // 例) ohike:{name:"大池 ○○",url:"https://…"}
   };
   (function wireConsult(){
