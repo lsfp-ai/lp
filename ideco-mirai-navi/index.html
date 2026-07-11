@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<!-- generated from lsfp-ai/lsfp-ideco-mirai-navi : ideco_mirai_navi_member.html（加入者版・計算核はengine.jsとバイト一致・verify_syncで機械保証） -->
+<!-- generated from lsfp-ai/lsfp-ideco-mirai-navi : ideco_mirai_navi_member.html -->
 </head>
 <body>
 <title>iDeCo+ みらいナビ かんたん版 ― 3分でわかる老後のお金</title>
@@ -98,12 +98,12 @@
 <div class="wrap">
   <header class="top">
     <div class="mark">iD</div>
-    <div><h1>iDeCo+ みらいナビ <span style="font-size:13px;color:var(--sub);font-weight:700">かんたん版</span></h1><div class="sub">3分でわかる、あなたの老後のお金のシミュレーション</div></div>
+    <div><h1>iDeCo+ みらいナビ <span style="font-size:13px;color:var(--sub);font-weight:700">かんたん版</span></h1><div class="sub">担当と話す前に、3分で自分の状況を整理する"たたき台"</div></div>
     <div class="right"><button class="theme" id="themeBtn" type="button">🌗 表示</button></div>
   </header>
 
   <div class="learnbar">
-    <b>📖 これは「学びのための試算」です。</b> 将来を予測・保証するものではありません。<b>税・社会保険料・手数料は含みません</b>。特定商品の推奨ではありません。くわしくは担当アドバイザーにご相談ください。
+    <b>📖 これは「相談の前のたたき台」です。</b> 診断や結論ではありません。将来を予測・保証するものではなく、<b>税・社会保険料・手数料は含みません</b>。特定商品の推奨でもありません。数字は<b>確定ではなく</b>、前提（利回り・使う額・受給開始）を変えると大きく変わります。担当アドバイザーと前提を一緒に確認するための素材としてお使いください。
   </div>
 
   <!-- 入力 -->
@@ -404,7 +404,7 @@ function simulate(cfg){
     let v;
     if(sv>=80) v=`いまのペースなら、${maxAge}歳まで<b>おおむね足りる見込み</b>です（全パターン中${sv}%が到達）。`;
     else if(sv>=50) v=`${maxAge}歳まで足りる見込みは<b>${sv}%</b>。<b>下振れに注意</b>——積立額・受け取り開始・毎月使う額のどれかで調整の余地があります。`;
-    else v=`このままだと、${maxAge}歳より前に<b>資金が尽きる見込み</b>です（足りる見込み${sv}%）。受け取り方の見直しを相談しましょう。`;
+    else v=`このままだと、${maxAge}歳より前に<b>資金が尽きる見込み</b>です（足りる見込み${sv}%）。<b>ただしこれは確定ではありません</b>——前提（利回り・使う額・受給開始）を変えると大きく変わります。慌てて判断せず、家計全体で・担当アドバイザーと前提を一緒に確認しましょう。`;
     $("verdict").innerHTML=v;
     const afManV=Math.round(afford*RF(dY)/1e4*10)/10;
     $("plain").innerHTML=`控えめ基準（10回に4回はこれより下振れ）で見ると、受け取り開始時のおよその残高は <b>${man(S.sStart[qn]*RF(dY))}万円</b>。この前提なら毎月 <b>${afManV}万円</b> までは、計算上、想定寿命まで尽きない目安です（今の価値・毎年物価に合わせて見直す前提・保証ではありません）。<br>※ 退職金の受け取り方・公的年金・税や社会保険料はこの試算に含みません。あなたの数字での整理は担当アドバイザーへ。`;
