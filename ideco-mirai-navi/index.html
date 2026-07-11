@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<!-- generated from lsfp-ai/lsfp-ideco-mirai-navi : ideco_mirai_navi_member.html（加入者版・計算核はengine.jsとバイト一致・verify_syncで機械保証） -->
+</head>
+<body>
+<title>iDeCo+ みらいナビ かんたん版 ― 3分でわかる老後のお金</title>
+<style>
+  :root{
+    --paper:#eef2f0;--surface:#fff;--ink:#15221e;--sub:#5a6a64;--line:#d8e2dd;--line2:#e6ede9;
+    --navy:#1f3a4d;--navy-ink:#eaf1f5;--teal:#0d7d6e;--teal2:#0a5f54;
+    --gold:#b8892b;--gold-soft:#b8892b18;--good:#2f8f5b;--warn:#b7791f;--crit:#c0453b;
+    --band-out:#0d7d6e18;--band-in:#0d7d6e34;--median:#0a5f54;--acc-fill:#e58aa51e;
+    --shadow:0 1px 2px #15221e0f,0 10px 26px #15221e0d;--r:14px;
+    --sans:system-ui,-apple-system,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){:root{--paper:#0d1512;--surface:#15211d;--ink:#e7eeeb;--sub:#93a49e;--line:#26332f;--line2:#1e2a26;--navy:#14303f;--navy-ink:#dbe8ef;--teal:#3fb9a8;--teal2:#63d1c1;--gold:#d6a94e;--gold-soft:#d6a94e1c;--good:#5cc081;--warn:#e0a94a;--crit:#e0736a;--band-out:#3fb9a81c;--band-in:#3fb9a83c;--median:#63d1c1;--shadow:0 1px 2px #0006,0 12px 32px #0007}}
+  :root[data-theme="light"]{--paper:#eef2f0;--surface:#fff;--ink:#15221e;--sub:#5a6a64;--line:#d8e2dd;--line2:#e6ede9;--teal:#0d7d6e;--navy:#1f3a4d;--navy-ink:#eaf1f5;--gold:#b8892b;--gold-soft:#b8892b18;--good:#2f8f5b;--warn:#b7791f;--crit:#c0453b;--band-out:#0d7d6e18;--band-in:#0d7d6e34;--median:#0a5f54;--shadow:0 1px 2px #15221e0f,0 10px 26px #15221e0d}
+  :root[data-theme="dark"]{--paper:#0d1512;--surface:#15211d;--ink:#e7eeeb;--sub:#93a49e;--line:#26332f;--line2:#1e2a26;--navy:#14303f;--navy-ink:#dbe8ef;--teal:#3fb9a8;--gold:#d6a94e;--gold-soft:#d6a94e1c;--good:#5cc081;--warn:#e0a94a;--crit:#e0736a;--band-out:#3fb9a81c;--band-in:#3fb9a83c;--median:#63d1c1;--shadow:0 1px 2px #0006,0 12px 32px #0007}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:640px;margin:0 auto;padding:20px 18px 56px}
+  .tabnum{font-variant-numeric:tabular-nums}
+  header.top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .mark{width:40px;height:40px;border-radius:11px;background:linear-gradient(150deg,var(--teal),var(--navy));display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;box-shadow:var(--shadow)}
+  h1{font-size:20px;margin:0;font-weight:800;letter-spacing:.01em}
+  .top .sub{font-size:12.5px;color:var(--sub);margin-top:1px}
+  .top .right{margin-left:auto}
+  .theme{font:inherit;font-size:12px;background:var(--surface);border:1px solid var(--line);color:var(--sub);border-radius:8px;padding:6px 10px;cursor:pointer}
+  input:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid var(--teal);outline-offset:1px}
+
+  .learnbar{background:var(--gold-soft);border:1px solid color-mix(in srgb,var(--gold) 40%,transparent);border-radius:11px;padding:11px 15px;margin-bottom:16px;font-size:12.5px;color:var(--ink)}
+  .learnbar b{font-weight:700}
+
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px 17px;margin-bottom:16px}
+  .eyebrow{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--sub);font-weight:700;margin:0 0 13px;display:flex;align-items:center;gap:8px}
+  .eyebrow .no{width:19px;height:19px;border-radius:6px;background:var(--navy);color:var(--navy-ink);display:grid;place-items:center;font-size:11px}
+
+  .q{margin-bottom:15px}
+  .q:last-child{margin-bottom:0}
+  .q .lab{font-size:13.5px;font-weight:600;margin-bottom:7px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .q .lab .val{font-size:16px;font-weight:800;color:var(--teal)}
+  .q .hint{font-size:11.5px;color:var(--sub);font-weight:400}
+  input[type=range]{width:100%;accent-color:var(--teal);height:22px;margin:0}
+  .numrow{display:flex;align-items:center;gap:8px}
+  .numrow input[type=number]{width:110px;font:inherit;font-size:16px;font-weight:700;text-align:right;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink);font-variant-numeric:tabular-nums}
+  .numrow .u{font-size:12.5px;color:var(--sub)}
+  .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:4px}
+  .seg button{font:inherit;font-size:12.5px;font-weight:700;border:0;border-radius:7px;padding:9px 4px;cursor:pointer;background:transparent;color:var(--sub);line-height:1.3}
+  .seg button small{display:block;font-size:10px;font-weight:600;opacity:.8}
+  .seg button[aria-pressed="true"]{background:var(--teal);color:#fff}
+  .valmsg{font-size:12px;color:var(--crit);margin-top:10px;line-height:1.5}
+  .valmsg:empty{display:none}
+
+  /* 結果 */
+  .result .headline{font-size:14px;font-weight:700;margin:0 0 4px}
+  .bigrow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 4px}
+  @media (max-width:460px){.bigrow{grid-template-columns:1fr}}
+  .big{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 15px}
+  .big.gold{background:linear-gradient(160deg,var(--gold-soft),transparent)}
+  .big .k{font-size:11.5px;color:var(--sub);font-weight:600;margin-bottom:6px}
+  .big .v{font-size:28px;font-weight:800;letter-spacing:-.02em;line-height:1}
+  .big .v small{font-size:13px;font-weight:600;color:var(--sub);margin-left:2px}
+  .big.gold .v{color:var(--gold)}
+  .big .f{font-size:11.5px;color:var(--sub);margin-top:6px;line-height:1.5}
+  .badge{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:6px;vertical-align:middle}
+  .bg-good{background:color-mix(in srgb,var(--good) 16%,transparent);color:var(--good)}
+  .bg-warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+  .bg-crit{background:color-mix(in srgb,var(--crit) 16%,transparent);color:var(--crit)}
+  .plain{font-size:13px;color:var(--ink);background:var(--paper);border:1px solid var(--line2);border-radius:11px;padding:12px 14px;margin-top:12px;line-height:1.65}
+  .plain b{color:var(--teal)}
+
+  canvas{width:100%;height:auto;display:block;margin-top:6px}
+  .legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;font-size:11px;color:var(--sub)}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .sw{width:14px;height:9px;border-radius:3px;display:inline-block}
+
+  /* 相談導線 */
+  .cta{background:linear-gradient(155deg,var(--navy),var(--teal2));color:#fff;border-radius:var(--r);padding:18px 18px;margin-bottom:16px;box-shadow:var(--shadow)}
+  .cta h3{margin:0 0 6px;font-size:16px;font-weight:800}
+  .cta p{margin:0 0 13px;font-size:12.5px;opacity:.94;line-height:1.6}
+  .cta a,.cta button{display:inline-block;font:inherit;font-size:14px;font-weight:800;background:#fff;color:var(--teal2);border:0;border-radius:10px;padding:11px 20px;cursor:pointer;text-decoration:none}
+
+  footer{margin-top:22px;font-size:11px;color:var(--sub);line-height:1.55}
+  .disc-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:15px 17px;box-shadow:var(--shadow)}
+  .disc-box h4{font-size:12.5px;margin:0 0 9px;font-weight:700;display:flex;align-items:center;gap:7px}
+  .disc-box h4 .ic{color:var(--warn)}
+  .disc-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+  .disc-list li{font-size:11.5px;color:var(--sub);line-height:1.55;padding-left:15px;position:relative}
+  .disc-list li::before{content:"—";position:absolute;left:0;color:var(--teal)}
+  .disc-list li b{color:var(--ink);font-weight:600}
+  .disc-provider{font-size:11.5px;color:var(--sub);margin-top:11px;padding-top:10px;border-top:1px solid var(--line2)}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="mark">iD</div>
+    <div><h1>iDeCo+ みらいナビ <span style="font-size:13px;color:var(--sub);font-weight:700">かんたん版</span></h1><div class="sub">3分でわかる、あなたの老後のお金のシミュレーション</div></div>
+    <div class="right"><button class="theme" id="themeBtn" type="button">🌗 表示</button></div>
+  </header>
+
+  <div class="learnbar">
+    <b>📖 これは「学びのための試算」です。</b> 将来を予測・保証するものではありません。<b>税・社会保険料・手数料は含みません</b>。特定商品の推奨ではありません。くわしくは担当アドバイザーにご相談ください。
+  </div>
+
+  <!-- 入力 -->
+  <div class="card">
+    <p class="eyebrow"><span class="no">1</span>あなたのこと（3つだけ）</p>
+    <div class="q">
+      <div class="lab">いまの年齢 <span class="val"><span id="ageV">45</span>歳</span></div>
+      <input type="range" id="age" min="20" max="64" value="45">
+    </div>
+    <div class="q">
+      <div class="lab">いまの積立残高 <span class="hint">iDeCo+・NISA など合計</span></div>
+      <div class="numrow"><input type="number" id="bal" value="500" min="0" step="10"><span class="u">万円</span></div>
+    </div>
+    <div class="q">
+      <div class="lab">毎月の積立額 <span class="val"><span id="monV">3.0</span>万</span></div>
+      <input type="range" id="mon" min="0" max="12" value="3" step="0.5">
+    </div>
+
+    <p class="eyebrow" style="margin-top:20px"><span class="no">2</span>受け取り（老後）のこと</p>
+    <div class="q">
+      <div class="lab">受け取り（取り崩し）を始める年齢 <span class="val"><span id="drawV">65</span>歳</span></div>
+      <input type="range" id="draw" min="55" max="75" value="65">
+    </div>
+    <div class="q">
+      <div class="lab">老後に毎月使いたい金額 <span class="val"><span id="spendV">15</span>万</span></div>
+      <input type="range" id="spend" min="3" max="40" value="15">
+    </div>
+
+    <p class="eyebrow" style="margin-top:20px"><span class="no">3</span>運用スタイル</p>
+    <div class="q">
+      <div class="seg" id="styleSeg">
+        <button type="button" data-mu="4" data-sig="8" aria-pressed="false">控えめ<small>年4%想定</small></button>
+        <button type="button" data-mu="7" data-sig="15" aria-pressed="true">標準<small>年7%想定</small></button>
+        <button type="button" data-mu="9" data-sig="20" aria-pressed="false">積極<small>年9%想定</small></button>
+      </div>
+      <div class="hint" style="margin-top:8px">※ 想定寿命 <b><span id="maxLbl">95</span>歳</b>まで・インフレ 年2% を「今の価値」で表示。金額は物価に合わせて毎年見直す前提です。
+        <span style="display:inline-flex;gap:4px;margin-left:6px">
+          <button type="button" class="theme mxbtn" data-m="90">90</button>
+          <button type="button" class="theme mxbtn" data-m="95" style="border-color:var(--teal);color:var(--teal)">95</button>
+          <button type="button" class="theme mxbtn" data-m="100">100</button>
+        </span>
+      </div>
+    </div>
+    <div class="valmsg" id="valMsg"></div>
+  </div>
+
+  <!-- 結果 -->
+  <div class="card result">
+    <p class="eyebrow">あなたの試算結果（残高・使える額は「控えめ＝40%タイル」基準／足りる見込みは全パターン中の割合）</p>
+    <p class="headline" id="verdict">—</p>
+    <div class="bigrow">
+      <div class="big"><div class="k">想定寿命まで足りる見込み</div><div class="v tabnum" id="rSurv">—<span id="rSurvBadge"></span></div><div class="f" id="rSurvF">—</div></div>
+      <div class="big gold"><div class="k">毎月いくらまで使える（尽きない上限）</div><div class="v tabnum" id="rAfford">—</div><div class="f">40%基準・計算上、想定寿命まで尽きない目安（今の価値・保証ではありません）</div></div>
+    </div>
+    <div class="plain" id="plain">—</div>
+
+    <p class="eyebrow" style="margin-top:18px">お金の推移（モンテカルロ <span id="mcN">2,000</span>通り・今の価値）</p>
+    <canvas id="chart" width="600" height="260" aria-label="資産残高の見込み"></canvas>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--band-out)"></i>楽観〜悲観の幅</span>
+      <span><i class="sw" style="background:var(--median);height:3px"></i>控えめ基準(40%)</span>
+      <span><i class="sw" style="background:var(--warn);height:0;border-top:2px dashed var(--warn)"></i>受け取り開始</span>
+    </div>
+  </div>
+
+  <!-- 相談導線 -->
+  <div class="cta">
+    <h3>💬 あなたに合った「受け取り方」は、人によって変わります</h3>
+    <p>退職金の受け取り方、公的年金の開始時期、税や社会保険料——ここに含めていない要素で結果は大きく変わります。担当アドバイザーが、あなたの数字で一緒に整理します。</p>
+    <div id="advName" style="display:none;font-size:12px;opacity:.92;margin-bottom:9px;font-weight:700"></div>
+    <a href="#" id="consultBtn" data-placeholder="1">担当アドバイザーに相談する</a>
+  </div>
+
+  <footer>
+    <div class="disc-box">
+      <h4><span class="ic">⚠</span>ご利用にあたって</h4>
+      <ul class="disc-list">
+        <li>本ツールは老後のお金を<b>確率的に試算</b>するもので、将来の成果・受取額・元本を<b>保証しません</b>。</li>
+        <li>運用の<b>利回り・リスクは前提（仮定）</b>です。前提が変われば結果も変わります。</li>
+        <li>試算は<b>税・社会保険料・手数料を含まない簡易計算</b>です。実際の手取りは異なります。</li>
+        <li>特定の商品・制度の<b>推奨や勧誘ではありません</b>。ご判断は担当FP・税理士等の専門家にご相談ください。</li>
+        <li>入力内容は<b>お使いのブラウザ内でのみ計算</b>し、サーバーへ送信・保存しません。</li>
+      </ul>
+      <p class="disc-provider">提供：<b>株式会社LSFP</b>　｜　計算核はアドバイザー版と同一（検証済みモンテカルロ）。標準スタイル＝利回り7%・リスク15%。</p>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  const $=id=>document.getElementById(id);
+  // ===== 計算核（アドバイザー版 engine.js と同一・verify_syncで一致を機械保証）=====
+const QS=[0.10,0.20,0.25,0.40,0.50,0.75,0.90];
+let N=2000;
+function setN(n){N=n;}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function makeNorm(rng){let has=false,c=0;return function(){if(has){has=false;return c;}const u=Math.max(1e-9,rng()),v=rng(),r=Math.sqrt(-2*Math.log(u));c=r*Math.sin(6.283185*v);has=true;return r*Math.cos(6.283185*v);};}
+function pmt(r,n,PV){if(n<=0)return 0;if(Math.abs(r)<1e-9)return PV/n;return PV*r/(1-Math.pow(1+r,-n));}
+function solveEffAnnual(P0,C,target){
+    if(!(target>0))return null;
+    const fv=r=>{let v=P0;for(let i=0;i<C.length;i++)v=v*(1+r)+C[i];return v;};
+    let lo=-0.03,hi=0.03; // 月利 ≒ 年-30%〜+40%
+    if(fv(hi)<target){hi=0.06;} if(fv(hi)<target)return null; // 上限超は解なし
+    if(fv(lo)>target)return null;
+    for(let k=0;k<80;k++){const mid=(lo+hi)/2;if(fv(mid)<target)lo=mid;else hi=mid;}
+    return Math.pow(1+(lo+hi)/2,12)-1; // 年利
+  }
+function drawEnd(S0,rM,w0,n,inflR,keep,flows){let v=S0,F=flows||null;for(let k=0;k<n;k++){if(F)for(let j=0;j<F.length;j++)if(F[j].k===k+1)v+=F[j].yen;v=v*(1+rM)-(keep?w0*Math.pow(1+inflR,Math.floor(k/12)):w0);}return v;}
+function drawMinBal(S0,rM,w0,n,inflR,keep,flows){let v=S0,mn=S0,F=flows||null;for(let k=0;k<n;k++){if(F)for(let j=0;j<F.length;j++)if(F[j].k===k+1)v+=F[j].yen;v=v*(1+rM)-(keep?w0*Math.pow(1+inflR,Math.floor(k/12)):w0);if(v<mn)mn=v;}return mn;}
+function buildDrawdownFlows(cfg){const n=(cfg.maxAge-cfg.drawAge)*12,fl=[];if(cfg.retAmt>0&&cfg.retAge>cfg.drawAge){const k=(cfg.retAge-cfg.drawAge)*12;if(k>=1&&k<=n)fl.push({k,yen:cfg.retAmt*1e4});}for(const d of cfg.draws)if(d&&d.amt>0){const k=(d.age-cfg.drawAge)*12;if(k>=1&&k<=n)fl.push({k,yen:-d.amt*1e4});}return fl;}
+function solveRequiredRate(S0,w0,n,inflR,keep,flows){
+    if(!(S0>0)||!(w0>0)||n<=0)return null;
+    if(flows&&flows.length){ // late flow対応：途中最小残高≥0（一度も枯渇しない）最小月利を二分（最小残高はrに単調増加）＝MC生存率と同じ枯渇判定
+      const minb=r=>drawMinBal(S0,r,w0,n,inflR||0,!!keep,flows);
+      let lo=-0.05,hi=0.02;
+      if(minb(hi)<0)return {tooHigh:true}; // 最大級の利回りでも途中で枯渇＝現実的利回りでは不可能
+      if(minb(lo)>=0)return Math.pow(1+lo,12)-1; // 極低利でも枯渇しない＝運用ほぼ不要
+      for(let k=0;k<100;k++){const mid=(lo+hi)/2;if(minb(mid)<0)lo=mid;else hi=mid;}
+      return Math.pow(1+(lo+hi)/2,12)-1;
+    }
+    // flowsなし＝従来PV（bit不変）：PV(r)=Σ w_k/(1+r)^(k+1) はrに厳密単調減少。S0=PVの根が必要利回り。
+    const g=r=>{let pv=0;for(let k=0;k<n;k++){const w=keep?w0*Math.pow(1+(inflR||0),Math.floor(k/12)):w0;pv+=w/Math.pow(1+r,k+1);}return pv-S0;}; // rに対し単調減少
+    let lo=-0.05,hi=0.02; // 月利。hi≒年27%（これ超の必要利回りは非現実的＝困難）
+    if(g(hi)>0)return {tooHigh:true}; // 年約27%でもPVがS0を超える＝この取崩額は現実的利回りでは不可能
+    if(g(lo)<0)return Math.pow(1+lo,12)-1; // 極低利でも足りる＝運用ほぼ不要（下限を返す）
+    for(let k=0;k<100;k++){const mid=(lo+hi)/2;if(g(mid)>0)lo=mid;else hi=mid;}
+    return Math.pow(1+(lo+hi)/2,12)-1;
+  }
+function solveAffordable(S0,rM,n,inflR,keep,flows){
+    if(!(S0>0)||n<=0)return 0;
+    if(flows&&flows.length){ // 途中最小残高≥0（一度も枯渇しない）最大取崩額を二分（最小残高はw0に単調減少）＝後受け取り退職金/途中引出を織込む
+      if(drawMinBal(S0,rM,0,n,inflR||0,!!keep,flows)<0)return 0; // 取崩0でも途中引出等で枯渇
+      let extra=0;for(let j=0;j<flows.length;j++)if(flows[j].yen>0)extra+=flows[j].yen;
+      let lo=0,hi=(S0+extra)*(1+Math.max(0,rM))+1; // 上界＝総原資を1期成長させた額（厳密上界）
+      for(let k=0;k<100;k++){const mid=(lo+hi)/2;if(drawMinBal(S0,rM,mid,n,inflR||0,!!keep,flows)>=0)lo=mid;else hi=mid;}
+      return (lo+hi)/2;
+    }
+    const f=w0=>drawEnd(S0,rM,w0,n,inflR||0,!!keep); // flowsなし＝従来drawEnd終価（bit不変）・w0に単調減少
+    let lo=0,hi=S0; // 上限は1ヶ月で使い切る額で十分
+    for(let k=0;k<90;k++){const mid=(lo+hi)/2;if(f(mid)>0)lo=mid;else hi=mid;}
+    return (lo+hi)/2; // 初期の月額（円）
+  }
+function simulate(cfg){
+    const {startAge,drawAge,maxAge,retAge,retAmt,retMu,retSig,wMon,wRate,wMu,wSig,assets,draws,mode,mat,infl,spendMode}=cfg;
+    // 正準strict-input：取崩開始は現在より後・想定寿命は取崩開始より後（不正は黙って誤らず大声で弾く）
+    if(!(drawAge>startAge))throw new Error("drawAge must be > startAge");
+    if(!(maxAge>drawAge))throw new Error("maxAge must be > drawAge");
+    const years=maxAge-startAge,months=years*12,drawMonth=(drawAge-startAge)*12,retMonth=(retAge-startAge)*12;
+    const nA=assets.length;
+    const inflR=(infl||0)/100, rf=m=>1/Math.pow(1+inflR,m/12); // 実質化係数（今=startAge基準）
+    const mMu=assets.map(a=>a.mu/100/12),mSig=assets.map(a=>a.sig/100/Math.sqrt(12));
+    const dMu=wMu/100/12,dSig=wSig/100/Math.sqrt(12),wYen=wMon*1e4,retYen=retAmt*1e4,mRate=wRate/100/12;
+    const rMu=(retMu||0)/100/12,rSig=(retSig||0)/100/Math.sqrt(12),retDefer=retAmt>0&&retMonth<=drawMonth; // 受取が取崩開始まで＝据置運用
+    const retSeedM=Math.max(1,retMonth); // 受取年齢が現在以下(retMonth<=0)でも初月に在庫として据置運用（消失防止）
+    // 途中引出：現在年齢(m<=0)は初月に適用・想定寿命超は無視（黙って取りこぼさない）
+    const ev=draws.filter(d=>d.amt>0).map(d=>({m:Math.max(1,(d.age-startAge)*12),i:d.i,yen:d.amt*1e4})).filter(e=>e.m<=months);
+    // 満期分割投資
+    const matOn=mat&&mat.amt>0, matM=(mat?mat.age-startAge:0)*12, matAmtY=mat?mat.amt*1e4:0;
+    const matSeedM=Math.max(1,matM); // 満期年齢が現在以下でも初月に投入開始（消失防止）
+    const matSplitEnd=matSeedM+(mat?mat.yrs:0)*12, matMove=matOn?matAmtY/(mat.yrs*12):0;
+    const matMu=(mat?mat.mu:0)/100/12, matSig=(mat?mat.sig:0)/100/Math.sqrt(12);
+    const rng=mulberry32(2027),norm=makeNorm(rng);
+    const yearTot=Array.from({length:years+1},()=>new Float64Array(N));
+    const yearCum=Array.from({length:years+1},()=>new Float64Array(N)); // 累計受取（名目）
+    const yearCumR=Array.from({length:years+1},()=>new Float64Array(N)); // 累計受取（実質＝今の価値）
+    const startBal=new Float64Array(N),depAge=new Float64Array(N),aStart=assets.map(()=>new Float64Array(N)),matStart=new Float64Array(N),retStart=new Float64Array(N);
+    for(let p=0;p<N;p++){
+      const bal=assets.map(a=>a.start*1e4);let total=0,started=false,dep=maxAge+1,cum=0,cumR=0;
+      let mCash=0,mInv=0,retPot=0; // 満期：待機現金＋投入済み／退職金：据置運用ポット
+      yearTot[0][p]=bal.reduce((s,v)=>s+v,0);
+      for(let m=1;m<=months;m++){
+        const ageInt=startAge+Math.floor((m-1)/12);
+        // 満期トラック（毎月・積立/取崩どちらでも進行。matSeedMで受取済み満期も消失させない）
+        if(matOn){
+          if(m===matSeedM)mCash+=matAmtY;
+          mInv=mInv*Math.exp((matMu-0.5*matSig*matSig)+matSig*norm());
+          if(m>=matSeedM&&m<matSplitEnd&&mCash>0){const mv=Math.min(mCash,matMove);mCash-=mv;mInv+=mv;}
+        }
+        // 退職金トラック（受取年齢で入金→取崩開始まで据置運用。入金月は成長させない＝受取＝取崩開始なら成長0）
+        if(retDefer&&m>=retSeedM){if(m===retSeedM)retPot=retYen;else retPot=retPot*Math.exp((rMu-0.5*rSig*rSig)+rSig*norm());}
+        // 積立フェーズ（取崩開始月 drawMonth まで積立・成長・同月イベントを反映）
+        if(!started){
+          for(let i=0;i<nA;i++){bal[i]=bal[i]*Math.exp((mMu[i]-0.5*mSig[i]*mSig[i])+mSig[i]*norm());if(ageInt<assets[i].endAge)bal[i]+=assets[i].monthly*1e4;}
+          for(const e of ev)if(e.m===m){
+            const rfm=rf(m);
+            if(e.i>=0&&e.i<nA){const t=Math.min(bal[e.i],e.yen);bal[e.i]-=t;cum+=t;cumR+=t*rfm;}
+            else if(e.i===-2){if(retDefer){const t=Math.min(retPot,e.yen);retPot-=t;cum+=t;cumR+=t*rfm;}} // 退職金から
+            else if(e.i===-3){let need=e.yen;const t1=Math.min(mInv,need);mInv-=t1;need-=t1;cum+=t1;cumR+=t1*rfm;const t2=Math.min(mCash,need);mCash-=t2;cum+=t2;cumR+=t2*rfm;} // 満期から
+            else{let need=e.yen;for(let i=0;i<nA&&need>0;i++){const t=Math.min(bal[i],need);bal[i]-=t;need-=t;cum+=t;cumR+=t*rfm;}} // 総額から（資産按分）
+          }
+        }
+        // 取崩開始月の資産確定＝当月の積立・成長・同月イベントを反映した後（1ヶ月ズレ防止・取崩開始残高はイベント適用後）
+        if(m===drawMonth){for(let i=0;i<nA;i++)aStart[i][p]=bal[i];matStart[p]=mInv+mCash;retStart[p]=retDefer?retPot:retYen;total=bal.reduce((s,v)=>s+v,0)+mInv+mCash+(retDefer?retPot:0);started=true;startBal[p]=total;mInv=0;mCash=0;retPot=0;}
+        else if(started){ // 取崩フェーズ（m>drawMonth）
+          if(retMonth>drawMonth&&m===retMonth)total+=retYen;
+          for(const e of ev)if(e.m===m){const t=Math.min(total,e.yen);total-=t;cum+=t;cumR+=t*rf(m);}
+          total=total*Math.exp((dMu-0.5*dSig*dSig)+dSig*norm());
+          // 定額の「生活キープ」＝毎年インフレ分だけ取崩額を増やし購買力を保つ
+          const wBase= spendMode==="flat"? wYen : wYen*Math.pow(1+inflR,Math.max(0,ageInt-drawAge));
+          const w= mode==="rate"? total*mRate : Math.min(wBase,total);
+          total-=w;cum+=w;cumR+=w*rf(m);
+          if(total<=0){total=0;if(dep>maxAge)dep=ageInt;}
+        }
+        if(m%12===0){yearTot[m/12][p]=started?total:(bal.reduce((s,v)=>s+v,0)+mInv+mCash+retPot);yearCum[m/12][p]=cum;yearCumR[m/12][p]=cumR;}
+      }
+      if(!started){startBal[p]=bal.reduce((s,v)=>s+v,0)+mInv+mCash+retPot;for(let i=0;i<nA;i++)aStart[i][p]=bal[i];matStart[p]=mInv+mCash;retStart[p]=retDefer?retPot:retYen;}
+      depAge[p]=dep;
+    }
+    const qcut=arr=>{const a=Array.from(arr).sort((x,y)=>x-y);return QS.map(q=>a[Math.min(N-1,Math.floor(q*N))]);};
+    const bands=yearTot.map(qcut), cumBands=yearCum.map(qcut), cumBandsR=yearCumR.map(qcut);
+    const sStart=Array.from(startBal).sort((x,y)=>x-y),sDep=Array.from(depAge).sort((x,y)=>x-y);
+    // 運用商品（資産）の取崩開始時合計＝実効利回り逆算の対象（退職金・満期は除外）
+    const aTotal=new Float64Array(N);for(let p=0;p<N;p++){let s=0;for(let i=0;i<nA;i++)s+=aStart[i][p];aTotal[p]=s;}
+    const aTotalSorted=Array.from(aTotal).sort((x,y)=>x-y);
+    return {startAge,drawAge,maxAge,years,bands,cumBands,cumBandsR,sStart,sDep,aTotalSorted,inflR,rf,
+      aStartSorted:aStart.map(arr=>Array.from(arr).sort((x,y)=>x-y)),
+      matStartSorted:Array.from(matStart).sort((x,y)=>x-y),matOn,
+      retStartSorted:Array.from(retStart).sort((x,y)=>x-y),retDefer,
+      survProb:sDep.filter(d=>d>maxAge).length/N};
+  }
+  // ===== 計算核ここまで =====
+
+  const man=n=>Math.round(n/1e4).toLocaleString("ja-JP");
+  let styleMu=7, styleSig=15, maxAge=95;
+
+  // 入力配線
+  const bind=(id,vid,fmt)=>{const el=$(id);const upd=()=>{if(vid)$(vid).textContent=fmt?fmt(el.value):el.value;request();};el.addEventListener("input",upd);};
+  bind("age","ageV"); bind("mon","monV",v=>(+v).toFixed(1)); bind("draw","drawV"); bind("spend","spendV");
+  $("bal").addEventListener("input",request);
+  $("styleSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;[...$("styleSeg").children].forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");styleMu=+b.dataset.mu;styleSig=+b.dataset.sig;request();});
+  document.querySelectorAll(".mxbtn").forEach(b=>b.addEventListener("click",()=>{maxAge=+b.dataset.m;document.querySelectorAll(".mxbtn").forEach(x=>{x.style.borderColor="var(--line)";x.style.color="var(--sub)";});b.style.borderColor="var(--teal)";b.style.color="var(--teal)";$("maxLbl").textContent=maxAge;request();}));
+  $("themeBtn").addEventListener("click",()=>{const r=document.documentElement;const cur=r.dataset.theme|| (matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");r.dataset.theme=cur==="dark"?"light":"dark";});
+  // アドバイザー名簿（ID→{氏名,予約URL}）。URLに ?a=<ID> を付けて選択。生URLはパラメータで受けない＝名簿のIDだけ受理（なりすまし/XSS防止）。将来は共通名簿（課金台帳）へ昇格。
+  const ADVISORS={
+    kato:{name:"加藤 博（株式会社LSFP）",url:""} // ← 予約リンク未設定（加藤さんのURLが来たら url に入れるだけ）
+    // 例) ohike:{name:"大池 ○○",url:"https://…"}
+  };
+  (function wireConsult(){
+    const cbtn=$("consultBtn"), nameEl=$("advName");
+    const id=(new URLSearchParams(location.search).get("a")||"").toLowerCase().replace(/[^a-z0-9_-]/g,"");
+    const adv=ADVISORS[id]||null;
+    const safe=u=>/^https:\/\//i.test(u||"")?u:""; // httpsのみ許可
+    if(adv){ nameEl.textContent="担当："+adv.name; nameEl.style.display="block"; }
+    const url=adv?safe(adv.url):"";
+    if(url){ cbtn.setAttribute("href",url); cbtn.target="_blank"; cbtn.rel="noopener noreferrer"; cbtn.textContent=adv.name.split("（")[0]+"に相談する"; cbtn.removeAttribute("data-placeholder"); }
+    else{ cbtn.addEventListener("click",e=>{e.preventDefault();alert(adv?"この担当アドバイザーの予約リンクは準備中です。担当までお問い合わせください。":"担当アドバイザーからの案内リンク（?a=ID 付き）でご利用ください。準備中の場合は担当までお問い合わせください。");}); }
+  })();
+
+  const cv=$("chart"),ctx=cv.getContext("2d"),css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  function draw(S){
+    const rfy=y=>S.rf(y*12); // 今の価値
+    const B=(y,idx)=>S.bands[y][idx]*rfy(y);
+    const DPR=Math.min(2,window.devicePixelRatio||1),W=cv.clientWidth||600,H=260;
+    cv.width=W*DPR;cv.height=H*DPR;cv.style.height=H+"px";ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
+    const padL=52,padR=12,padT=10,padB=26,pW=W-padL-padR,pH=H-padT-padB,yrs=S.years;
+    let maxV=0;for(let y=0;y<=yrs;y++)maxV=Math.max(maxV,B(y,6));maxV=Math.max(maxV*1.08,1e6);
+    const X=y=>padL+(y/yrs)*pW,Y=v=>padT+pH-(Math.max(0,v)/maxV)*pH;
+    ctx.font="11px "+css("--sans");ctx.textBaseline="middle";
+    for(let i=0;i<=4;i++){const v=maxV*i/4,yy=Y(v);ctx.strokeStyle=css("--line");ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(padL,yy);ctx.lineTo(W-padR,yy);ctx.stroke();ctx.fillStyle=css("--sub");ctx.textAlign="right";ctx.fillText(Math.round(v/1e4).toLocaleString()+"万",padL-6,yy);}
+    ctx.textAlign="center";ctx.textBaseline="top";const te=yrs>40?10:5;
+    for(let y=0;y<=yrs;y++){if(y%te!==0&&y!==yrs)continue;ctx.fillStyle=css("--sub");ctx.fillText((S.startAge+y)+"",X(y),padT+pH+6);}
+    const dY=S.drawAge-S.startAge;
+    if(dY>0&&dY<=yrs){ctx.fillStyle=css("--acc-fill");ctx.fillRect(padL,padT,X(dY)-padL,pH);}
+    const band=(lo,hi)=>{ctx.beginPath();for(let y=0;y<=yrs;y++)ctx.lineTo(X(y),Y(B(y,hi)));for(let y=yrs;y>=0;y--)ctx.lineTo(X(y),Y(B(y,lo)));ctx.closePath();};
+    ctx.fillStyle=css("--band-out");band(0,6);ctx.fill();ctx.fillStyle=css("--band-in");band(2,5);ctx.fill();
+    if(dY>0&&dY<=yrs){ctx.strokeStyle=css("--warn");ctx.lineWidth=1.5;ctx.setLineDash([5,4]);ctx.beginPath();ctx.moveTo(X(dY),padT);ctx.lineTo(X(dY),padT+pH);ctx.stroke();ctx.setLineDash([]);}
+    ctx.strokeStyle=css("--median");ctx.lineWidth=2.4;ctx.beginPath();for(let y=0;y<=yrs;y++){const xx=X(y),yy=Y(B(y,3));y===0?ctx.moveTo(xx,yy):ctx.lineTo(xx,yy);}ctx.stroke();
+  }
+
+  function setBadge(id,tone,txt){const el=$(id);el.className="badge bg-"+tone;el.textContent=txt;}
+
+  let _rt=null; function request(){clearTimeout(_rt);_rt=setTimeout(render,20);} // rAFはバックグラウンドタブで発火しない環境があるためsetTimeoutデバウンスで確実に再計算
+  function render(){
+    const age=+$("age").value, bal=Math.max(0,+$("bal").value||0), mon=+$("mon").value, spend=+$("spend").value, infl=2;
+    // 受給開始は「今の年齢より後・想定寿命より前」に制約し、スライダー表示も追従（表示と計算のズレ防止＝Codex P1）
+    const drawEl=$("draw"); drawEl.min=age+1; drawEl.max=maxAge-1;
+    if(+drawEl.value<age+1)drawEl.value=age+1; if(+drawEl.value>maxAge-1)drawEl.value=maxAge-1;
+    const drawAge=+drawEl.value; $("drawV").textContent=drawAge;
+    if(!(maxAge>drawAge)){$("valMsg").textContent="想定寿命は受け取り開始より後にしてください。";return;}
+    $("valMsg").textContent="";
+    const dY=drawAge-age;
+    // 「毎月使いたい額」は"今の価値"入力。engineは取崩開始後にインフレ増額するので、取崩開始の名目額へ換算して渡す（若年層の楽観バイアス防止＝Codex P1）
+    const cfg={startAge:age,drawAge,maxAge,retAge:drawAge,retAmt:0,retMu:0,retSig:0,
+      wMon:spend*Math.pow(1+infl/100,dY),wRate:4,wMu:styleMu,wSig:styleSig,
+      assets:[{name:"あなたの積立",start:bal,monthly:mon,endAge:drawAge,mu:styleMu,sig:styleSig,on:true}],
+      draws:[],mode:"amount",mat:{age:50,amt:0,yrs:3,mu:0,sig:0},infl:2,spendMode:"keep"};
+    let S; try{S=simulate(cfg);}catch(e){$("valMsg").textContent="入力をご確認ください。";return;}
+    const RF=y=>S.rf(y*12), qn=Math.floor(0.4*N);
+    // 尽きない上限（今の価値・初年度）
+    const afford=solveAffordable(S.sStart[qn], styleMu/100/12, (maxAge-drawAge)*12, S.inflR, true, []);
+    const sv=Math.round(S.survProb*100);
+    $("rSurv").firstChild.textContent=sv+"%";
+    setBadge("rSurvBadge", sv>=75?"good":sv>=50?"warn":"crit", sv>=75?"比較的良好":sv>=50?"注意":"要見直し");
+    $("rSurvF").textContent=`全パターン中（毎月${spend}万・今の価値で）`;
+    $("rAfford").innerHTML=(Math.round(afford*RF(dY)/1e4*10)/10).toLocaleString()+'<small>万/月</small>';
+    // ことばの結論
+    let v;
+    if(sv>=80) v=`いまのペースなら、${maxAge}歳まで<b>おおむね足りる見込み</b>です（全パターン中${sv}%が到達）。`;
+    else if(sv>=50) v=`${maxAge}歳まで足りる見込みは<b>${sv}%</b>。<b>下振れに注意</b>——積立額・受け取り開始・毎月使う額のどれかで調整の余地があります。`;
+    else v=`このままだと、${maxAge}歳より前に<b>資金が尽きる見込み</b>です（足りる見込み${sv}%）。受け取り方の見直しを相談しましょう。`;
+    $("verdict").innerHTML=v;
+    const afManV=Math.round(afford*RF(dY)/1e4*10)/10;
+    $("plain").innerHTML=`控えめ基準（10回に4回はこれより下振れ）で見ると、受け取り開始時のおよその残高は <b>${man(S.sStart[qn]*RF(dY))}万円</b>。この前提なら毎月 <b>${afManV}万円</b> までは、計算上、想定寿命まで尽きない目安です（今の価値・毎年物価に合わせて見直す前提・保証ではありません）。<br>※ 退職金の受け取り方・公的年金・税や社会保険料はこの試算に含みません。あなたの数字での整理は担当アドバイザーへ。`;
+    $("mcN").textContent=N.toLocaleString();
+    draw(S);
+  }
+
+  // 初期化
+  document.querySelectorAll(".mxbtn").forEach(b=>{if(+b.dataset.m===95){b.style.borderColor="var(--teal)";b.style.color="var(--teal)";}});
+  render();
+})();
+</script>
+
+</body>
+</html>
