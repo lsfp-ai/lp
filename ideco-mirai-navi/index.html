@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<!-- generated from lsfp-ai/lsfp-ideco-mirai-navi : ideco_mirai_navi_member.html -->
+<!-- generated from lsfp-ai/lsfp-ideco-mirai-navi -->
 </head>
 <body>
 <title>iDeCo+ みらいナビ かんたん版 ― 3分でわかる老後のお金</title>
@@ -103,7 +103,7 @@
   </header>
 
   <div class="learnbar">
-    <b>📖 これは「相談の前のたたき台」です。</b> 診断や結論ではありません。将来を予測・保証するものではなく、<b>税・社会保険料・手数料は含みません</b>。特定商品の推奨でもありません。数字は<b>確定ではなく</b>、前提（利回り・使う額・受給開始）を変えると大きく変わります。担当アドバイザーと前提を一緒に確認するための素材としてお使いください。
+    <b>📖 これは「相談の前のたたき台」です。</b> 診断や結論ではありません。将来を予測・保証するものではなく、<b>税・社会保険料・手数料は含みません</b>。特定商品の推奨でもありません。数字は<b>確定ではなく</b>、前提（利回り・使う額・受給開始）を変えると大きく変わります。<b>担当ファイナンシャルプランナー（FP）への相談の入口</b>として、前提を一緒に確認するための素材にお使いください。
   </div>
 
   <!-- 入力 -->
@@ -139,6 +139,7 @@
         <button type="button" data-mu="7" data-sig="15" aria-pressed="true">標準<small>年7%想定</small></button>
         <button type="button" data-mu="9" data-sig="20" aria-pressed="false">積極<small>年9%想定</small></button>
       </div>
+      <div class="hint" style="margin-top:7px">※ これは<b>将来の値動きの幅を仮に選ぶ</b>ものです。特定の運用方法・商品を勧めるものではありません。</div>
       <div class="hint" style="margin-top:8px">※ 想定寿命 <b><span id="maxLbl">95</span>歳</b>まで・インフレ 年2% を「今の価値」で表示。金額は物価に合わせて毎年見直す前提です。
         <span style="display:inline-flex;gap:4px;margin-left:6px">
           <button type="button" class="theme mxbtn" data-m="90">90</button>
@@ -174,7 +175,7 @@
     <h3>💬 あなたに合った「受け取り方」は、人によって変わります</h3>
     <p>退職金の受け取り方、公的年金の開始時期、税や社会保険料——ここに含めていない要素で結果は大きく変わります。担当アドバイザーが、あなたの数字で一緒に整理します。</p>
     <div id="advName" style="display:none;font-size:12px;opacity:.92;margin-bottom:9px;font-weight:700"></div>
-    <a href="#" id="consultBtn" data-placeholder="1">担当アドバイザーに相談する</a>
+    <a href="#" id="consultBtn" data-placeholder="1">担当アドバイザーと前提を確認する</a>
   </div>
 
   <footer>
@@ -185,7 +186,7 @@
         <li>運用の<b>利回り・リスクは前提（仮定）</b>です。前提が変われば結果も変わります。</li>
         <li>試算は<b>税・社会保険料・手数料を含まない簡易計算</b>です。実際の手取りは異なります。</li>
         <li>特定の商品・制度の<b>推奨や勧誘ではありません</b>。ご判断は担当FP・税理士等の専門家にご相談ください。</li>
-        <li>入力内容は<b>お使いのブラウザ内でのみ計算</b>し、サーバーへ送信・保存しません。</li>
+        <li>入力内容は<b>お使いのブラウザ内でのみ計算</b>し、サーバーへ送信・保存しません（個人情報を持ちません）。<b>結果が自動で送られることはなく</b>、相談時に共有するかどうかはご自身で選べます。</li>
       </ul>
       <p class="disc-provider">提供：<b>株式会社LSFP</b>　｜　計算核はアドバイザー版と同一（検証済みモンテカルロ）。標準スタイル＝利回り7%・リスク15%。</p>
     </div>
@@ -349,7 +350,7 @@ function simulate(cfg){
     const safe=u=>/^https:\/\//i.test(u||"")?u:""; // httpsのみ許可
     if(adv){ nameEl.textContent="担当："+adv.name; nameEl.style.display="block"; }
     const url=adv?safe(adv.url):"";
-    if(url){ cbtn.setAttribute("href",url); cbtn.target="_blank"; cbtn.rel="noopener noreferrer"; cbtn.textContent=adv.name.split("（")[0]+"に相談する"; cbtn.removeAttribute("data-placeholder"); }
+    if(url){ cbtn.setAttribute("href",url); cbtn.target="_blank"; cbtn.rel="noopener noreferrer"; cbtn.textContent=adv.name.split("（")[0]+"と前提を確認する"; cbtn.removeAttribute("data-placeholder"); }
     else{ cbtn.addEventListener("click",e=>{e.preventDefault();alert(adv?"この担当アドバイザーの予約リンクは準備中です。担当までお問い合わせください。":"担当アドバイザーからの案内リンク（?a=ID 付き）でご利用ください。準備中の場合は担当までお問い合わせください。");}); }
   })();
 
