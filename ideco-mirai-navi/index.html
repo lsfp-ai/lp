@@ -34,6 +34,12 @@
 
   .learnbar{background:var(--gold-soft);border:1px solid color-mix(in srgb,var(--gold) 40%,transparent);border-radius:11px;padding:11px 15px;margin-bottom:16px;font-size:12.5px;color:var(--ink)}
   .learnbar b{font-weight:700}
+  .learnbar summary{cursor:pointer;list-style:none;line-height:1.55}
+  .learnbar summary::-webkit-details-marker{display:none}
+  .learnbar .more{color:var(--gold);font-weight:700;margin-left:4px;white-space:nowrap}
+  .learnbar .more::after{content:" ▾"}
+  .learnbar[open] .more::after{content:" ▴"}
+  .learnbar .learnbody{margin-top:9px;padding-top:9px;border-top:1px solid color-mix(in srgb,var(--gold) 30%,transparent);color:var(--sub);font-size:12px;line-height:1.6}
 
   .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px 17px;margin-bottom:16px}
   .eyebrow{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--sub);font-weight:700;margin:0 0 13px;display:flex;align-items:center;gap:8px}
@@ -56,7 +62,29 @@
   .valmsg:empty{display:none}
 
   /* 結果 */
-  .result .headline{font-size:14px;font-weight:700;margin:0 0 4px}
+  .result .headline{font-size:17px;font-weight:800;margin:0 0 6px;line-height:1.5;letter-spacing:.01em}
+  .result .headline b{color:var(--teal)}
+  /* 実額＝今の価値 の併記 */
+  .twoval{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin:14px 0 0}
+  .twoval .tv-k{font-size:11.5px;color:var(--sub);font-weight:600;margin-bottom:9px}
+  .twoval .tv-row{display:flex;align-items:center;gap:10px}
+  .twoval .tv{display:flex;flex-direction:column;gap:2px;flex:1}
+  .twoval .tv-tag{font-size:10.5px;color:var(--sub);font-weight:600}
+  .twoval .tv-tag.teal{color:var(--teal)}
+  .twoval .tv-v{font-size:21px;font-weight:800;letter-spacing:-.01em;line-height:1.05}
+  .twoval .tv-v.teal{color:var(--teal)}
+  .twoval .tv-eq{font-size:18px;color:var(--sub);font-weight:700;flex:0 0 auto}
+  .twoval .tv-f{font-size:10.5px;color:var(--sub);margin-top:8px;line-height:1.5}
+  @media (max-width:420px){.twoval .tv-v{font-size:18px}}
+  /* 折りたたみ注記（今の価値の説明など） */
+  .note{margin-top:12px;font-size:12px}
+  .note summary{cursor:pointer;list-style:none;color:var(--teal);font-weight:700;font-size:12.5px}
+  .note summary::-webkit-details-marker{display:none}
+  .note .more{color:var(--sub);font-weight:600;margin-left:4px;font-size:11px}
+  .note .more::after{content:" ▾"}
+  .note[open] .more::after{content:" ▴"}
+  .note .notebody{margin-top:8px;color:var(--sub);line-height:1.65;background:var(--paper);border:1px solid var(--line2);border-radius:10px;padding:11px 13px}
+  .note .notebody b{color:var(--ink);font-weight:700}
   .bigrow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 4px}
   @media (max-width:460px){.bigrow{grid-template-columns:1fr}}
   .big{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:14px 15px}
@@ -98,13 +126,14 @@
 <div class="wrap">
   <header class="top">
     <div class="mark">iD</div>
-    <div><h1>iDeCo+ みらいナビ <span style="font-size:13px;color:var(--sub);font-weight:700">かんたん版</span></h1><div class="sub">担当と話す前に、3分で自分の状況を整理する"たたき台"</div></div>
+    <div><h1><span style="white-space:nowrap">iDeCo+ みらいナビ</span> <span style="font-size:13px;color:var(--sub);font-weight:700;white-space:nowrap">かんたん版</span></h1><div class="sub">担当と話す前に、3分で状況を整理する"たたき台"</div></div>
     <div class="right"><button class="theme" id="themeBtn" type="button">🌗 表示</button></div>
   </header>
 
-  <div class="learnbar">
-    <b>📖 これは「相談の前のたたき台」です。</b> 診断や結論ではありません。将来を予測・保証するものではなく、<b>税・社会保険料・手数料は含みません</b>。<b>対象は「あなたが入力した積立資産（iDeCo+・NISA など）」だけです。公的年金・生活費・退職金・配偶者や住宅費など家計全体は含みません＝「老後全体が安心か」の判定ではありません。</b>特定商品の推奨でもありません。数字は<b>確定ではなく</b>、前提（利回り・使う額・受給開始）を変えると大きく変わります。<b>担当ファイナンシャルプランナー（FP）への相談の入口</b>として、前提を一緒に確認するための素材にお使いください。
-  </div>
+  <details class="learnbar">
+    <summary><b>📖 相談前の"たたき台"です。</b>あなたの積立分だけの試算で、税・社保・手数料や公的年金・家計全体は含みません。<span class="more">くわしく</span></summary>
+    <div class="learnbody">診断や結論ではありません。対象は「あなたが入力した積立資産（iDeCo+・NISA など）」だけで、公的年金・生活費・退職金・住宅費など家計全体は含まず、「老後全体が安心か」の判定ではありません。特定商品の推奨でもありません。数字は確定ではなく、前提（利回り・使う額・受給開始）を変えると大きく変わります。担当FPへの相談の入口としてお使いください。</div>
+  </details>
 
   <!-- 入力 -->
   <div class="card">
@@ -154,12 +183,27 @@
 
   <!-- 結果 -->
   <div class="card result">
-    <p class="eyebrow"><b>入力した積立資産だけの試算です（公的年金・生活費・家計全体は含みません）。</b>残高・使える額は「控えめ＝40%タイル」基準／足りる見込みは全パターン中の割合。</p>
     <p class="headline" id="verdict">—</p>
     <div class="bigrow">
-      <div class="big"><div class="k">想定寿命まで足りる見込み</div><div class="v tabnum" id="rSurv">—<span id="rSurvBadge"></span></div><div class="f" id="rSurvF">—</div></div>
-      <div class="big gold"><div class="k">毎月いくらまで使える目安（尽きない上限）</div><div class="v tabnum" id="rAfford">—</div><div class="f">40%基準・計算上、想定寿命まで尽きない目安（今の価値・保証ではありません）</div></div>
+      <div class="big"><div class="k">想定寿命（<span id="survAgeLbl">95</span>歳）まで足りる見込み</div><div class="v tabnum" id="rSurv">—<span id="rSurvBadge"></span></div><div class="f" id="rSurvF">—</div></div>
+      <div class="big gold"><div class="k">老後に毎月使える目安（尽きない上限）</div><div class="v tabnum" id="rAfford">—</div><div class="f" id="rAffordF">—</div></div>
     </div>
+
+    <div class="twoval">
+      <div class="tv-k">受け取り開始（<span id="drawAgeLbl">65</span>歳）時点の残高の目安</div>
+      <div class="tv-row">
+        <div class="tv"><span class="tv-tag"><span id="drawAgeLbl2">65</span>歳時点の金額</span><span class="tv-v tabnum" id="balNom">—</span></div>
+        <div class="tv-eq">→</div>
+        <div class="tv"><span class="tv-tag teal">今のお金の感覚では</span><span class="tv-v tabnum teal" id="balReal">—</span></div>
+      </div>
+      <div class="tv-f">→＝年2%の物価上昇分を割り引いて「今の価値」に換算した額（保証ではありません）</div>
+    </div>
+
+    <details class="note">
+      <summary>「今の価値」ってなに？<span class="more">ひらく</span></summary>
+      <div class="notebody">物価が上がると、同じ金額でも買える量は減ります。たとえば将来の1,000万円は、いまの1,000万円ほどの価値はありません。そこでこのツールは、<b>将来のお金を「いまの物価だと、いくらに相当するか」に置き換えて</b>（インフレ 年2%想定）表示しています。つまり<b>今の価値＝いまの生活感覚での金額</b>です。上の「将来の見かけの額」は、その置き換え前の数字です。</div>
+    </details>
+
     <div class="plain" id="plain">—</div>
 
     <p class="eyebrow" style="margin-top:18px">お金の推移（モンテカルロ <span id="mcN">2,000</span>通り・今の価値）</p>
@@ -173,10 +217,10 @@
 
   <!-- 相談導線 -->
   <div class="cta">
-    <h3>💬 あなたに合った「受け取り方」は、人によって変わります</h3>
-    <p>退職金の受け取り方、公的年金の開始時期、税や社会保険料——ここに含めていない要素で結果は大きく変わります。担当アドバイザーが、あなたの数字で一緒に整理します。</p>
+    <h3>💬 「受け取り方」で結果は大きく変わります</h3>
+    <p>退職金・公的年金・税や社会保険料は、この試算に含んでいません。あなたの数字での整理は、アドバイザーが一緒に行います。</p>
     <div id="advName" style="display:none;font-size:12px;opacity:.92;margin-bottom:9px;font-weight:700"></div>
-    <a href="#" id="consultBtn" data-placeholder="1">担当アドバイザーと前提を確認する</a>
+    <a href="#" id="consultBtn" data-placeholder="1">アドバイザーに相談する</a>
   </div>
 
   <footer>
@@ -351,7 +395,7 @@ function simulate(cfg){
     const safe=u=>/^https:\/\//i.test(u||"")?u:""; // httpsのみ許可
     if(adv){ nameEl.textContent="担当："+adv.name; nameEl.style.display="block"; }
     const url=adv?safe(adv.url):"";
-    if(url){ cbtn.setAttribute("href",url); cbtn.target="_blank"; cbtn.rel="noopener noreferrer"; cbtn.textContent=adv.name.split("（")[0]+"と前提を確認する"; cbtn.removeAttribute("data-placeholder"); }
+    if(url){ cbtn.setAttribute("href",url); cbtn.target="_blank"; cbtn.rel="noopener noreferrer"; cbtn.textContent=adv.name.split("（")[0]+"に相談する"; cbtn.removeAttribute("data-placeholder"); }
     else{ cbtn.addEventListener("click",e=>{e.preventDefault();alert(adv?"この担当アドバイザーの予約リンクは準備中です。担当までお問い合わせください。":"担当アドバイザーからの案内リンク（?a=ID 付き）でご利用ください。準備中の場合は担当までお問い合わせください。");}); }
   })();
 
@@ -401,15 +445,22 @@ function simulate(cfg){
     $("rSurv").firstChild.textContent=sv+"%";
     setBadge("rSurvBadge", sv>=75?"good":sv>=50?"warn":"crit", sv>=75?"比較的良好":sv>=50?"注意":"要見直し");
     $("rSurvF").textContent=`全パターン中（毎月${spend}万・今の価値で）`;
-    $("rAfford").innerHTML=(Math.round(afford*RF(dY)/1e4*10)/10).toLocaleString()+'<small>万/月</small>';
+    const afReal=Math.round(afford*RF(dY)/1e4*10)/10; // 今の価値の月額
+    const afNom =Math.round(afford/1e4*10)/10;         // 将来の見かけ（受取開始時）の月額
+    $("rAfford").innerHTML=afReal.toLocaleString()+'<small>万/月</small>';
+    $("rAffordF").innerHTML=`＝今のお金の感覚。受け取り開始（${drawAge}歳）時点の額では約 <b>${afNom.toLocaleString()}万/月</b>（40%基準・保証ではありません）`;
+    $("survAgeLbl").textContent=maxAge;
+    $("drawAgeLbl").textContent=drawAge;
+    $("drawAgeLbl2").textContent=drawAge;
+    $("balNom").textContent=man(S.sStart[qn])+'万';        // 実額（将来の見かけ）
+    $("balReal").textContent=man(S.sStart[qn]*RF(dY))+'万'; // 今の価値
     // ことばの結論
     let v;
-    if(sv>=80) v=`いまのペースなら、${maxAge}歳まで<b>おおむね足りる見込み</b>です（全パターン中${sv}%が到達）。`;
-    else if(sv>=50) v=`${maxAge}歳まで足りる見込みは<b>${sv}%</b>。<b>下振れに注意</b>——積立額・受け取り開始・毎月使う額のどれかで調整の余地があります。`;
-    else v=`このままだと、${maxAge}歳より前に<b>資金が尽きる見込み</b>です（足りる見込み${sv}%）。<b>ただしこれは確定ではありません</b>——前提（利回り・使う額・受給開始）を変えると大きく変わります。慌てて判断せず、家計全体で・担当アドバイザーと前提を一緒に確認しましょう。`;
+    if(sv>=80) v=`いまのペースなら、${maxAge}歳まで<b>おおむね足りる見込み</b>です。`;
+    else if(sv>=50) v=`${maxAge}歳まで足りる見込みは<b>${sv}%</b>。<b>下振れに注意</b>——積立額・受け取り開始・使う額のどれかで調整できます。`;
+    else v=`このままだと <b>${maxAge}歳より前に資金が尽きる見込み</b>です。ただし確定ではありません。<b>前提を変えれば大きく変わります</b>——アドバイザーと一緒に見直しましょう。`;
     $("verdict").innerHTML=v;
-    const afManV=Math.round(afford*RF(dY)/1e4*10)/10;
-    $("plain").innerHTML=`控えめ基準（10回に4回はこれより下振れ）で見ると、受け取り開始時のおよその残高は <b>${man(S.sStart[qn]*RF(dY))}万円</b>。この前提なら毎月 <b>${afManV}万円</b> までは、計算上、想定寿命まで尽きない目安です（今の価値・毎年物価に合わせて見直す前提・保証ではありません）。<br>※ 退職金の受け取り方・公的年金・税や社会保険料はこの試算に含みません。あなたの数字での整理は担当アドバイザーへ。`;
+    $("plain").innerHTML=`※ 「控えめ＝40%基準」（10回に4回はこれより下振れ）で見た試算の目安で、保証ではありません。退職金の受け取り方・公的年金・税や社会保険料など家計全体は含みません。`;
     $("mcN").textContent=N.toLocaleString();
     draw(S);
   }
