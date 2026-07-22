@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>あなたの積立は将来いくら？今の価値でも見てみよう ｜ iDeCo+・企業型DC 加入者版</title>
+<title>あなたの積立は将来いくら？額面と今の価値を見比べる ｜ iDeCo+・企業型DC 加入者版</title>
 <!-- generated from lsfp-ai/lsfp-ideco-mirai-navi -->
 </head>
 <body>
@@ -52,6 +52,9 @@
   .q .lab{font-size:13.5px;font-weight:600;margin-bottom:7px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
   .q .lab .val{font-size:16px;font-weight:800;color:var(--teal)}
   .q .hint{font-size:11.5px;color:var(--sub);font-weight:400}
+  .limitcheck{display:flex;align-items:flex-start;gap:8px;margin-top:9px;padding:9px 10px;background:var(--paper);border:1px solid var(--line2);border-radius:9px;font-size:12px;color:var(--ink);cursor:pointer;line-height:1.5}
+  .limitcheck input{margin:3px 0 0;accent-color:var(--teal);flex:0 0 auto}
+  .limitcheck b{color:var(--teal)}
   input[type=range]{width:100%;accent-color:var(--teal);height:22px;margin:0}
   .numrow{display:flex;align-items:center;gap:8px}
   .numrow input[type=number]{width:110px;font:inherit;font-size:16px;font-weight:700;text-align:right;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink);font-variant-numeric:tabular-nums}
@@ -67,18 +70,24 @@
   /* 結果 */
   .result .headline{font-size:17px;font-weight:800;margin:0 0 6px;line-height:1.5;letter-spacing:.01em}
   .result .headline b{color:var(--teal)}
-  /* 実額＝今の価値 の併記 */
-  .twoval{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin:14px 0 0}
-  .twoval .tv-k{font-size:11.5px;color:var(--sub);font-weight:600;margin-bottom:9px}
-  .twoval .tv-row{display:flex;align-items:center;gap:10px}
-  .twoval .tv{display:flex;flex-direction:column;gap:2px;flex:1}
-  .twoval .tv-tag{font-size:10.5px;color:var(--sub);font-weight:600}
-  .twoval .tv-tag.teal{color:var(--teal)}
-  .twoval .tv-v{font-size:21px;font-weight:800;letter-spacing:-.01em;line-height:1.05}
-  .twoval .tv-v.teal{color:var(--teal)}
-  .twoval .tv-eq{font-size:18px;color:var(--sub);font-weight:700;flex:0 0 auto}
-  .twoval .tv-f{font-size:10.5px;color:var(--sub);margin-top:8px;line-height:1.5}
-  @media (max-width:420px){.twoval .tv-v{font-size:18px}}
+  .moneytabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:4px;margin-top:12px}
+  .moneytabs button{font:inherit;font-size:12.5px;font-weight:800;border:0;border-radius:7px;padding:9px 5px;cursor:pointer;background:transparent;color:var(--sub);line-height:1.3}
+  .moneytabs button[aria-pressed="true"]{background:var(--teal);color:#fff}
+  .viewintro{font-size:12px;color:var(--sub);line-height:1.55;margin:8px 2px 0}
+  .inflationaction{font-size:12px;color:var(--ink);line-height:1.6;margin-top:9px;padding:10px 12px;background:var(--gold-soft);border:1px solid color-mix(in srgb,var(--gold) 35%,transparent);border-radius:9px}
+  .inflationaction b{color:var(--teal)}
+  .resultcap{font-size:12px;color:var(--sub);font-weight:800;margin:15px 0 7px}
+  .fundbox{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-top:12px}
+  .fundhead{font-size:12.5px;font-weight:800;margin-bottom:7px}
+  .fundrow{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:5px 0;font-size:12px;color:var(--sub)}
+  .fundrow b{font-size:17px;color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .fundrow.total{border-top:1px solid var(--line);margin-top:3px;padding-top:9px;color:var(--ink);font-weight:700}
+  .fundrow.total b{color:var(--teal)}
+  .fundarrow{font-size:11px;color:var(--sub);text-align:center;margin:6px 0}
+  .fundresult{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 10px;background:var(--surface);border:1px solid var(--line2);border-radius:9px;padding:10px 11px;font-size:11.5px;color:var(--sub);font-weight:700}
+  .fundresult b{font-size:21px;color:var(--teal);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .fundnote{font-size:10.5px;color:var(--sub);line-height:1.5;margin:8px 0 0}
+  @media (max-width:360px){.top h1{font-size:17px}.top #themeBtn{padding:6px}.top #themeBtn .themeText{display:none}.fundresult b{font-size:18px}.moneytabs button{font-size:11.5px}}
   /* 折りたたみ注記（今の価値の説明など） */
   .note{margin-top:12px;font-size:12px}
   .note summary{cursor:pointer;list-style:none;color:var(--teal);font-weight:700;font-size:12.5px}
@@ -193,8 +202,8 @@
 <div class="wrap">
   <header class="top">
     <div class="mark">iD</div>
-    <div><h1><span style="display:block;white-space:nowrap">あなたの積立は将来いくら？</span><span style="display:block;white-space:nowrap">今の価値でも見てみよう</span></h1><div class="sub"><span>iDeCo+・企業型DC 加入者向け</span><span>3分で状況整理</span></div></div>
-    <div class="right"><button class="theme" id="themeBtn" type="button">🌗 表示</button></div>
+    <div><h1><span style="display:block;white-space:nowrap">あなたの積立は将来いくら？</span><span style="display:block;white-space:nowrap">額面と今の価値を見比べる</span></h1><div class="sub"><span>iDeCo+・企業型DC 加入者向け</span><span>3分で状況整理</span></div></div>
+    <div class="right"><button class="theme" id="themeBtn" type="button" aria-label="表示テーマを切り替える"><span aria-hidden="true">🌗</span> <span class="themeText">表示</span></button></div>
   </header>
 
   <details class="learnbar">
@@ -227,8 +236,10 @@
     </div>
     <div class="q">
       <div class="lab">会社分を含む毎月の掛金合計 <span class="val"><span id="monV">2.0</span>万</span></div>
-      <input type="range" id="mon" min="0" max="5.5" value="2" step="0.1" aria-label="会社分を含む毎月の掛金合計（万円）" aria-describedby="monHint">
+      <input type="range" id="mon" min="0" max="5.5" value="2" step="0.1" aria-label="会社分を含む毎月の掛金合計（万円）" aria-describedby="monHint limit62Hint">
       <div class="hint" id="monHint" style="margin-top:7px">※ 加入者サイトや「運用状況のお知らせ」に載っている現在の金額を入れてください。</div>
+      <label class="limitcheck"><input type="checkbox" id="limit62" aria-describedby="limit62Hint"><span><b>月6.2万円まで掛けられる</b>と確認できた</span></label>
+      <div class="hint" id="limit62Hint" style="margin-top:6px">※ 2026年12月以降の共通上限枠を使うための選択です。月6.2万円は全員が掛けられる額ではありません。会社の掛金やDB（確定給付企業年金）などの掛金相当額を差し引く場合があります。加入者サイトや担当者で「あなたの毎月の掛金合計が6.2万円まで」と確認できた場合だけチェックしてください。</div>
     </div>
 
     <p class="eyebrow" style="margin-top:20px"><span class="no">2</span>受け取り（老後）のこと</p>
@@ -240,7 +251,7 @@
     <div class="q">
       <div class="lab">受け取り開始年に、この積立から毎月受け取りたい額面 <span class="val"><span id="spendV">15</span>万</span></div>
       <input type="range" id="spend" min="3" max="40" value="15" aria-label="受け取り開始年にこの積立から毎月受け取りたい税引前の額面（万円）" aria-describedby="spendHint">
-      <div class="hint" id="spendHint" style="margin-top:7px">※ <span id="spendStartAge">65</span>歳時点の<b>税・社会保険料などを引く前の月額</b>です。今の価値ではありません。今のお金の感覚では約<b><span id="spendRealV">10.1</span>万円</b>です（物価上昇 年2%を仮定）。試算では、その後も毎月同じ額面を受け取る前提です。</div>
+      <div class="hint" id="spendHint" style="margin-top:7px">※ <span id="spendStartAge">65</span>歳時点の<b>税・社会保険料などを引く前の額面</b>です。試算では、その後も毎月同じ額面を受け取ります。結果の2つのタブで、額面とインフレを加味した今の経済価値を切り替えられます。</div>
     </div>
 
     <p class="eyebrow" style="margin-top:20px"><span class="no">3</span>将来の増え方と値動きの3つの例</p>
@@ -255,7 +266,7 @@
         <summary>4%・7%・9%と「値動き」ってなに？<span class="more">ひらく</span></summary>
         <div class="notebody"><b>増え方7%</b>は、長い期間で見た年平均の増え方を7%と仮に置く意味です。毎年7%ずつ増える意味ではありません。<b>値動き15%</b>は、1年ごとの運用結果が上下にばらつく大きさの仮定です。15%下がると決まっている意味でも、損失の上限でもありません。いまの商品がどのケースに近いかは、担当者に確認してください。</div>
       </details>
-      <div class="hint" style="margin-top:8px">※ 想定寿命 <b><span id="maxLbl">95</span>歳</b>まで・物価上昇 年2% を仮定し、将来の残高を「今の価値」に換算します。受け取る月額は毎年増やさず、同じ額面で試算します。
+      <div class="hint" style="margin-top:8px">※ 想定寿命 <b><span id="maxLbl">95</span>歳</b>まで・物価上昇 年2% を仮定します。結果では「額面」と「インフレを加味した今の経済価値」を切り替えて表示します。受け取る月額は毎年増やさず、同じ額面で試算します。
         <span style="display:inline-flex;gap:4px;margin-left:6px">
           <button type="button" class="theme mxbtn" data-m="90" aria-label="想定寿命90歳">90</button>
           <button type="button" class="theme mxbtn" data-m="95" aria-label="想定寿命95歳" style="border-color:var(--teal);color:var(--teal)">95</button>
@@ -270,24 +281,31 @@
   <!-- 結果 -->
   <div class="card result">
     <p class="eyebrow"><span class="no">4</span>あなたの積立の見通し <span class="sample-chip" id="resultSample">サンプル</span></p>
-    <div class="twoval">
-      <div class="tv-k">受け取り開始（<span id="drawAgeLbl">65</span>歳）の「将来の積立残高」と「今の価値」</div>
-      <div class="tv-row">
-        <div class="tv"><span class="tv-tag"><span id="drawAgeLbl2">65</span>歳の積立残高（額面）</span><span class="tv-v tabnum" id="balNom">—</span></div>
-        <div class="tv-eq">→</div>
-        <div class="tv"><span class="tv-tag teal">今のお金の感覚では</span><span class="tv-v tabnum teal" id="balReal">—</span></div>
-      </div>
-      <div class="tv-f">2,000通りのうち、10回中4回はこれより下になる水準です。年2%の物価上昇を仮定して「今の価値」に換算しています（保証ではありません）</div>
+    <div class="moneytabs" id="moneyViewSeg" role="group" aria-label="金額の表示方法">
+      <button type="button" data-view="nominal" aria-label="額面（そのまま）" aria-pressed="true">額面</button>
+      <button type="button" data-view="real" aria-label="今の価値（インフレ加味）" aria-pressed="false">今の価値</button>
+    </div>
+    <p class="viewintro" id="viewIntro" aria-live="polite">将来、口座や受取額に表示される金額です。物価上昇は差し引いていません。</p>
+    <div class="inflationaction" id="inflationAction" style="display:none"><b>次に試すこと：</b>同じ額面でも、将来買えるものは少なくなります。積み立て中なら、毎月の掛金を増やした場合を試してみてください。受け取り開始年齢を遅らせた場合、希望月額を見直した場合も一緒に比べられます。</div>
+
+    <div class="fundbox">
+      <div class="fundhead">受け取り開始まで</div>
+      <div class="fundrow"><span>現在の残高</span><b id="fundCurrent">—</b></div>
+      <div class="fundrow"><span id="fundFutureK">＋これから積み立てる掛金</span><b id="fundFuture">—</b></div>
+      <div class="fundrow total"><span id="fundTotalK">＝現在残高＋これからの掛金</span><b id="fundTotal">—</b></div>
+      <div class="fundarrow">↓ 上は現在残高とこれからの掛金を足した参考値。運用した結果の残高は下です</div>
+      <div class="fundresult"><span id="fundResultK">65歳の残高の目安（10回中4回はこれより下）</span><b id="fundResult">—</b></div>
+      <p class="fundnote" id="fundNote">※ 額面の合計は、時期の違う金額をそのまま足した「払込ベース」の数字です。受け取り開始時の残高との差は、運用益とは一致しません。過去に払った掛金の総額ではなく、現在の残高にはこれまでの運用結果も含まれます。</p>
     </div>
 
-    <div class="plain"><b>金額が減るわけではありません。</b>物価が上がると、同じ金額で買えるものが減るため、将来の金額を今の買い物感覚に置き換えています。</div>
-
     <details class="note">
-      <summary>「今の価値」ってなに？<span class="more">ひらく</span></summary>
-      <div class="notebody">物価が上がると、同じ金額でも買える量は減ります。たとえば将来の1,000万円は、いまの1,000万円ほどの価値はありません。そこでこのツールは、<b>将来のお金を「いまの物価だと、いくらに相当するか」に置き換えて</b>（インフレ 年2%想定）表示しています。つまり<b>今の価値＝いまの生活感覚での金額</b>です。上の「将来の積立残高（額面）」は、その置き換え前の数字です。</div>
+      <summary>「額面」と「インフレを加味」の違い<span class="more">ひらく</span></summary>
+      <div class="notebody"><b>額面</b>は、将来の口座や受取額に表示される、そのままの金額です。<b>インフレを加味</b>は、物価上昇を年2%と仮定し、将来のお金で今と同じくらい買えるものはどの程度かを示す金額です。お金そのものが減る意味ではありません。同じ試算を2つの読み方で表示しています。</div>
     </details>
 
-    <div class="bigrow single">
+    <p class="resultcap">受け取り開始後</p>
+    <div class="bigrow">
+      <div class="big"><div class="k" id="rDesiredK">設定した毎月の受取額（額面）</div><div class="v tabnum" id="rDesired">—</div><div class="f" id="rDesiredF">—</div></div>
       <div class="big gold"><div class="k" id="rAffordK">65歳から95歳まで、毎月受け取りを続けられる税引前月額の目安</div><div class="v tabnum" id="rAfford">—</div><div class="f" id="rAffordF">—</div>
         <div class="pseg" id="pSeg" role="group" aria-label="目標とする確率">
           <button type="button" data-p="80" aria-pressed="true">80%でみる</button>
@@ -300,7 +318,7 @@
     <p class="headline" id="verdict">—</p>
 
     <details class="note survfold">
-      <summary>希望する月<span id="survSpendLbl">15</span>万円を<span id="survAgeFoldLbl">95</span>歳まで受け取り続けられるかを見る<span class="more">ひらく</span></summary>
+      <summary><span id="survSpendView">希望する額面月15万円</span>を<span id="survAgeFoldLbl">95</span>歳まで受け取り続けられるかを見る<span class="more">ひらく</span></summary>
       <div class="notebody">
         <div class="big"><div class="k">計算パターンを3組に分けて、残高が尽きずに<span id="survAgeLbl">95</span>歳まで受け取りを続けられた割合</div><div class="v tabnum" id="rSurv">—<span id="rSurvBadge"></span></div><div class="f" id="rSurvF">—</div></div>
       </div>
@@ -310,7 +328,7 @@
 
     <details class="chartfold" id="chartFold">
       <summary>詳しい結果を見る（2,000通りの幅）</summary>
-      <p class="eyebrow" style="margin-top:14px">積み立てから受け取りまで<br>残高の推移（<span id="mcN">2,000</span>通り・今の価値）</p>
+      <p class="eyebrow" style="margin-top:14px">積み立てから受け取りまで<br>残高の推移（<span id="mcN">2,000</span>通り・<span id="chartModeLbl">額面</span>）</p>
       <div class="chartbox">
         <canvas id="chart" width="600" height="260" aria-label="積み立て期間と受け取り開始後の残高の推移。下の年齢スライダーで40%ラインの残高を確認できます"></canvas>
         <div class="charttip" id="chartTip" aria-hidden="true"></div>
@@ -320,10 +338,10 @@
         <input type="range" id="chartAge" min="65" max="95" value="80" step="1" aria-label="40%ラインの残高を確認する年齢">
       </div>
       <div class="chartread" id="chartReadout" role="status" aria-live="polite">
-        <div class="chartmetric balance"><div class="k">40%ラインの残高</div><div class="v" id="chartBalV">—</div></div>
-        <div class="chartmetric"><div class="k">その年齢までの受取累計</div><div class="v" id="chartCumV">—</div></div>
+        <div class="chartmetric balance"><div class="k" id="chartBalK">40%ラインの残高（額面）</div><div class="v" id="chartBalV">—</div></div>
+        <div class="chartmetric"><div class="k" id="chartCumK">その年齢までの受取累計（額面）</div><div class="v" id="chartCumV">—</div></div>
       </div>
-      <p class="chartdesc">どちらも今のお金の感覚に換算した目安です。緑の実線は40%ラインの残高、帯は2,000通りの試算の幅です。積み立てで増える期間から、受け取り開始後に減っていく期間までを続けて表示しています。受取累計は、その年齢までに受け取った金額の合計で、残高とは別に計算しています。帯の上側は一部省略し、40%ラインを読みやすくしています。</p>
+      <p class="chartdesc" id="chartDesc">額面の残高と受取累計です。緑の実線は40%ラインの残高、帯は2,000通りの試算の幅です。積み立てで増える期間から、受け取り開始後に減っていく期間までを続けて表示しています。受取累計は残高とは別に計算しています。帯の上側は一部省略しています。</p>
       <div class="legend">
         <span><i class="sw" style="background:var(--band-out)"></i>試算の幅（上側は一部省略）</span>
         <span><i class="sw" style="background:var(--median);height:3px"></i>40%ライン（10回中4回はこれより下）</span>
@@ -528,6 +546,7 @@ function simulate(cfg){
   const man=n=>Math.round(n/1e4).toLocaleString("ja-JP");
   let styleMu=7, styleSig=15, maxAge=95;
   let pTarget=0.80; // 「毎月使える額」の目標生存確率（80%/90%・セレクタ連動）
+  let moneyView="nominal",lastMoneyData=null;
   // 単一seedの見かけの精密さを避ける。計算核は変えず、皮側で乱数の異なる3組を同条件で比較する。
   const AFFORD_SEEDS=[2027,1,2],N_AFFORD_PER_SEED=1000;
   let _apCache={key:"",val:null}; // cfg×pのメモ（quick→fullの二重solve防止）
@@ -554,6 +573,78 @@ function simulate(cfg){
     return [lo,hi];
   };
   const rangeText=(lo,hi)=>lo===hi?lo.toLocaleString("ja-JP"):`${lo.toLocaleString("ja-JP")}〜${hi.toLocaleString("ja-JP")}`;
+  const wanText=n=>(Math.round(n*10)/10).toLocaleString("ja-JP",{maximumFractionDigits:1});
+  const moneyText=yen=>`${man(yen)}万`;
+
+  function applyMoneyView(){
+    const D=lastMoneyData;if(!D)return;
+    const real=moneyView==="real";
+    $("viewIntro").textContent=real
+      ?"物価上昇を年2%と仮定し、将来のお金を今の経済価値に直した金額です。"
+      :"将来、口座や受取額に表示される金額です。物価上昇は差し引いていません。";
+    $("inflationAction").style.display=real?"block":"none";
+    $("fundCurrent").textContent=moneyText(D.currentYen);
+    $("fundFutureK").textContent=real?"＋これからの掛金（各月を今の価値へ換算）":"＋これから積み立てる掛金";
+    $("fundFuture").textContent=moneyText(real?D.futureRealYen:D.futureNomYen);
+    $("fundTotalK").textContent=real?"＝上の2つを今の価値で合計":"＝現在残高＋これからの掛金";
+    $("fundTotal").textContent=moneyText(real?D.totalRealYen:D.totalNomYen);
+    $("fundResultK").textContent=`${D.drawAge}歳の残高の目安（10回中4回はこれより下・${real?"今の価値":"額面"}）`;
+    $("fundResult").textContent=moneyText(real?D.startRealYen:D.startNomYen);
+    $("fundNote").textContent=real
+      ?"※ これからの掛金は、積み立てる各月の金額を今の価値に直して合計しています。現在残高は今ある金額をそのまま使っています。受け取り開始時の残高との差は、運用益そのものではありません。"
+      :"※ 額面の合計は、時期の違う金額をそのまま足した「払込ベース」の数字です。受け取り開始時の残高との差は、運用益とは一致しません。過去に払った掛金の総額ではなく、現在の残高にはこれまでの運用結果も含まれます。";
+
+    const desired=real?D.spendReal:D.spend;
+    $("rDesiredK").textContent=real?`設定した毎月の受取額（${D.drawAge}歳の額面を、今の価値に換算）`:"設定した毎月の受取額（額面）";
+    $("rDesired").innerHTML=`${wanText(desired)}<small>万/月</small>`;
+    $("rDesiredF").textContent=real
+      ?`額面は月${wanText(D.spend)}万円のままです。額面固定のため、今の価値は受け取り開始後も少しずつ下がります。`
+      :`${D.drawAge}歳から毎月同じ額面で受け取る設定です。税・社会保険料などを引く前です。`;
+    $("rAffordK").textContent=`${D.drawAge}歳から${D.maxAge}歳まで受け取りを続けられる月額の目安（${real?"開始時の今の価値":"額面"}）`;
+    if(!D.ap){
+      $("rAfford").innerHTML='…<small>計算中</small>';
+      $("rAffordF").textContent=`3組×${N_AFFORD_PER_SEED.toLocaleString()}通りで計算しています…`;
+    }else if(D.ap.feasible){
+      const lo=real?D.affordRealLo:D.affordNomLo,hi=real?D.affordRealHi:D.affordNomHi;
+      $("rAfford").innerHTML='約'+rangeText(lo,hi)+'<small>万/月</small>';
+      $("rAffordF").innerHTML=real
+        ?`受け取り開始時の今の価値です。額面では約 <b>${rangeText(D.affordNomLo,D.affordNomHi)}万/月</b>です。3組の試算で、${D.maxAge}歳まで残高がもった割合が約${D.pPct}%になる月額の幅です。`
+        :`受け取り開始時の税引前額面です。3組の試算で、${D.maxAge}歳まで残高がもった割合が約${D.pPct}%になる月額の幅です。今の価値は上のタブで確認できます。`;
+    }else{
+      $("rAfford").innerHTML='目安を算出できませんでした';
+      $("rAffordF").textContent=`受取額を0円としても、3組すべてでは${D.maxAge}歳まで残高が残る試算が${D.pPct}%に届きません。`;
+    }
+
+    $("survSpendView").textContent=real
+      ?`希望する額面月${wanText(D.spend)}万円（受け取り開始時の今の価値 約${wanText(D.spendReal)}万円）`
+      :`希望する額面月${wanText(D.spend)}万円`;
+    if(!D.ap){
+      $("verdict").textContent="条件を変えました。計算が終わるまでお待ちください。";
+      $("rSurvF").textContent=`3組×${N_AFFORD_PER_SEED.toLocaleString()}通りで計算しています…`;
+    }else{
+      const desiredLead=real
+        ?`希望した額面月${wanText(D.spend)}万円は、${D.drawAge}歳の開始時点の今の価値で約${wanText(D.spendReal)}万円です。`
+        :`希望額は税引前の額面月${wanText(D.spend)}万円です。`;
+      const survText=D.svLo===D.svHi?`${D.svLo}%`:`${D.svLo}〜${D.svHi}%`;
+      if(!D.ap.feasible)$("verdict").innerHTML=`${desiredLead}受取額を0円としても、3組すべてでは${D.maxAge}歳まで残高が残る試算が${D.pPct}%に届かず、月額の目安を算出できませんでした。`;
+      else if(D.svLo>=D.pPct)$("verdict").innerHTML=`${desiredLead}この額面を毎月受け取った場合、${D.maxAge}歳まで残高がもった試算は、3組すべてで約<b>${D.pPct}%以上</b>でした。確定ではありません。`;
+      else{
+        const afford=real?rangeText(D.affordRealLo,D.affordRealHi):rangeText(D.affordNomLo,D.affordNomHi);
+        $("verdict").innerHTML=`${desiredLead}この額面を毎月受け取った場合、${D.maxAge}歳まで残高がもった試算は<b>${survText}</b>でした。約${D.pPct}%を目標にした月額は、${real?"開始時の今の価値":"額面"}で<b>${afford}万円</b>です。`;
+      }
+      $("rSurvF").textContent=real
+        ?`${D.drawAge}歳から額面月${wanText(D.spend)}万円を受け取る試算です。開始時の今の価値は約${wanText(D.spendReal)}万円で、その後は額面固定のため少しずつ下がります。各組${N_AFFORD_PER_SEED.toLocaleString()}通りです。`
+        :`${D.drawAge}歳から税引前の額面月${wanText(D.spend)}万円を毎月受け取り、${D.maxAge}歳まで残高が尽きなかった割合です。各組${N_AFFORD_PER_SEED.toLocaleString()}通りです。`;
+    }
+
+    $("chartModeLbl").textContent=real?"今の価値":"額面";
+    $("chartBalK").textContent=`40%ラインの残高（${real?"今の価値":"額面"}）`;
+    $("chartCumK").textContent=`その年齢までの受取累計（${real?"今の価値":"額面"}）`;
+    $("chartDesc").textContent=real
+      ?"物価上昇 年2%を反映し、今の経済価値に直した残高と受取累計です。緑の実線は40%ライン、帯は2,000通りの幅です。積み立て期間から受け取り開始後までを続けて表示しています。帯の上側は一部省略しています。"
+      :"額面の残高と受取累計です。緑の実線は40%ライン、帯は2,000通りの幅です。積み立て期間から受け取り開始後までを続けて表示しています。帯の上側は一部省略しています。";
+    cv.setAttribute("aria-label",`積み立て期間と受け取り開始後の残高の推移（${real?"今の価値":"額面"}）。年齢スライダーで40%ラインを確認できます`);
+  }
 
   // 制度・主要3項目を本人が確認するまでは「サンプル」と明示し、相談メモをコピーさせない。
   const coreTouched={scheme:false,age:false,bal:false,mon:false};
@@ -579,30 +670,29 @@ function simulate(cfg){
   const bind=(id,vid,fmt,isCore)=>{const el=$(id);const upd=()=>{if(vid)$(vid).textContent=fmt?fmt(el.value):el.value;if(isCore)markCoreTouched(id);request();};el.addEventListener("input",upd);};
   bind("age","ageV",null,true); bind("mon","monV",v=>(+v).toFixed(1),true); bind("draw","drawV"); bind("spend","spendV");
   $("bal").addEventListener("input",()=>{markCoreTouched("bal");request();});
-  const reform202612=Date.now()>=Date.UTC(2026,10,30,15); // 2026-12-01 00:00 JST
   const activeScheme=()=>{const b=[...$("schemeSeg").querySelectorAll("button")].find(x=>x.getAttribute("aria-pressed")==="true");return b?b.dataset.scheme:"unknown";};
   const schemeLabel=()=>({idecoplus:"iDeCo+",corporate:"企業型DC",unknown:"わからない"}[activeScheme()]||"わからない");
   function applySchemeLimit(){
-    const scheme=activeScheme(),mon=$("mon"),limit=reform202612?6.2:(scheme==="idecoplus"?2.3:5.5);
+    const scheme=activeScheme(),mon=$("mon"),confirmed62=$("limit62").checked,limit=confirmed62?6.2:(scheme==="idecoplus"?2.3:5.5);
     mon.max=String(limit);
     if(+mon.value>limit)mon.value=String(limit);
     $("monV").textContent=(+mon.value).toFixed(1);
-    if(scheme==="idecoplus"){
+    if(confirmed62){
+      $("schemeHint").textContent=scheme==="unknown"?"※ 制度名が分からない状態で試算します。":"※ "+schemeLabel()+"として試算します。会社分と本人分の合計を入力してください。";
+      $("monHint").textContent="※ 月6.2万円まで掛けられると確認できた前提で表示しています。会社の掛金やDBなどの掛金相当額により、実際の上限は下がる場合があります。加入者サイトなどに載っている現在額を入力してください。";
+    }else if(scheme==="idecoplus"){
       $("schemeHint").textContent="※ iDeCo+として試算します。会社分と本人分の合計を入力してください。";
-      $("monHint").textContent=reform202612
-        ?"※ 2026年12月からの共通上限6.2万円を表示範囲にしています。会社規約や他制度により、実際の上限が下がる場合があります。"
-        :"※ 現在の上限は、本人分と会社分の合計で月2.3万円です。2026年12月から共通上限6.2万円に変わります。会社規約などで上限が下がる場合があります。";
+      $("monHint").textContent="※ 6.2万円の確認チェックがないため、本人分と会社分の合計で月2.3万円まで表示しています。会社規約などで上限が下がる場合があります。";
     }else if(scheme==="corporate"){
       $("schemeHint").textContent="※ 企業型DCとして試算します。会社分と本人分の合計を入力してください。";
-      $("monHint").textContent=reform202612
-        ?"※ 2026年12月からの企業型DCの上限6.2万円を表示範囲にしています。他制度や規約により、実際の上限が下がる場合があります。"
-        :"※ 現在の企業型DCの上限は月5.5万円です。2026年12月から月6.2万円に変わります。他制度や規約により、実際の上限が下がる場合があります。";
+      $("monHint").textContent="※ 6.2万円の確認チェックがないため、月5.5万円まで表示しています。会社の掛金やDBなどの掛金相当額、会社規約により実際の上限が下がる場合があります。";
     }else{
       $("schemeHint").textContent="※ 分からないままでも試算できます。相談メモに「わからない」と残せます。";
-      $("monHint").textContent=`※ この画面の表示上限は月${limit.toFixed(1)}万円です。加入者サイトや「運用状況のお知らせ」に載っている現在額を入れてください。`;
+      $("monHint").textContent="※ 制度が分からず、6.2万円の確認チェックもないため、この画面では月5.5万円まで表示しています。加入者サイトなどに載っている現在額を入力してください。";
     }
   }
   $("schemeSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;[...$("schemeSeg").children].forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");markCoreTouched("scheme");applySchemeLimit();request();});
+  $("limit62").addEventListener("change",()=>{applySchemeLimit();request();});
   $("styleSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;[...$("styleSeg").children].forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");styleMu=+b.dataset.mu;styleSig=+b.dataset.sig;request();});
   document.querySelectorAll(".mxbtn").forEach(b=>b.addEventListener("click",()=>{maxAge=+b.dataset.m;document.querySelectorAll(".mxbtn").forEach(x=>{x.style.borderColor="var(--line)";x.style.color="var(--sub)";});b.style.borderColor="var(--teal)";b.style.color="var(--teal)";$("maxLbl").textContent=maxAge;request();}));
   $("themeBtn").addEventListener("click",()=>{const r=document.documentElement;const cur=r.dataset.theme|| (matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");r.dataset.theme=cur==="dark"?"light":"dark";});
@@ -611,6 +701,14 @@ function simulate(cfg){
     pTarget=+b.dataset.p/100;
     document.querySelectorAll("#pSeg button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
     request();
+  });
+  $("moneyViewSeg").addEventListener("click",e=>{
+    const b=e.target.closest("button");if(!b)return;
+    moneyView=b.dataset.view==="real"?"real":"nominal";
+    document.querySelectorAll("#moneyViewSeg button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
+    applyMoneyView();
+    if($("chartFold").open&&lastFullS)draw(lastFullS);
+    if(fullResultReady)updateMemo();
   });
   // アドバイザー名簿（ID→{氏名,予約URL}）。URLに ?a=<ID> を付けて選択。生URLはパラメータで受けない＝名簿のIDだけ受理（なりすまし/XSS防止）。将来は共通名簿（課金台帳）へ昇格。
   const ADVISORS={
@@ -633,19 +731,23 @@ function simulate(cfg){
     return b?`ケース${b.dataset.case}（増え方${b.dataset.mu}%・値動き${b.dataset.sig}%）`:"—";
   }
   function updateMemo(){
+    const D=lastMoneyData;if(!D)return;
     const surv=$("rSurv").firstChild?$("rSurv").firstChild.textContent.trim():"—";
+    const affordNom=D.ap&&D.ap.feasible?`${rangeText(D.affordNomLo,D.affordNomHi)}万円/月`:"算出できず";
+    const affordReal=D.ap&&D.ap.feasible?`${rangeText(D.affordRealLo,D.affordRealHi)}万円/月`:"算出できず";
     $("memoText").value=[
       coreConfirmed()?"【iDeCo+・企業型DC 相談メモ】":"【サンプル・まだコピーできません】",
       `制度：${schemeLabel()}`,
       `年齢：${$("age").value}歳`,
       `現在の運用残高：約${$("bal").value}万円`,
       `会社分を含む毎月の掛金：${(+$("mon").value).toFixed(1)}万円`,
+      `月6.2万円まで掛けられる確認：${$("limit62").checked?"確認できた":"未確認"}`,
       `受け取り開始の仮定：${$("draw").value}歳`,
-      `この積立から受け取りたい月額：${$("spend").value}万円（${$("draw").value}歳時点の税引前額面／以後も同額面／今のお金の感覚では約${$("spendRealV").textContent}万円）`,
+      `現在残高＋これからの掛金：額面${moneyText(D.totalNomYen)}／今の価値${moneyText(D.totalRealYen)}（運用益は含めない比較用合計）`,
       `試したケース：${activeCaseLabel()}（受け取り開始時に掛金の拠出を止め、同じケースで残高を運用しながら取り崩す）`,
-      `受け取り開始時の積立残高（額面）：${$("balNom").textContent.trim()}`,
-      `今の価値：${$("balReal").textContent.trim()}`,
-      `約${Math.round(pTarget*100)}%を目標にした税引前月額の目安（計算パターン3組）：${$("rAfford").textContent.trim()}`,
+      `受け取り開始時の残高（40%ライン）：額面${moneyText(D.startNomYen)}／今の価値${moneyText(D.startRealYen)}`,
+      `この積立から受け取りたい月額：額面${wanText(D.spend)}万円／開始時の今の価値約${wanText(D.spendReal)}万円（以後も同額面）`,
+      `約${Math.round(pTarget*100)}%を目標にした月額の目安（計算パターン3組）：額面${affordNom}／開始時の今の価値${affordReal}`,
       `希望月額で想定寿命まで残高がもった割合（計算パターン3組）：${surv}`,
       "",
       "聞きたいこと：実際に受け取りを始められる年齢／制度上の掛金上限／いまの運用と受取後の運用はどのケースに近いか／税引後の受取額"
@@ -668,13 +770,15 @@ function simulate(cfg){
   const chartMoney=yen=>`${Math.round(Math.max(0,yen)/1e4).toLocaleString("ja-JP")}万円`;
   function updateChartReadout(S,y){
     const age=S.startAge+y;
+    const factor=moneyView==="real"?S.rf(y*12):1;
     chartAge.min=String(S.startAge);chartAge.max=String(S.maxAge);chartAge.value=String(age);
     $("chartAgeV").textContent=age;
-    $("chartBalV").textContent=chartMoney(S.bands[y][3]*S.rf(y*12));
-    $("chartCumV").textContent=age<S.drawAge?"受け取り開始前":age===S.drawAge?"受け取り開始時":chartMoney(S.cumBandsR[y][3]);
+    $("chartBalV").textContent=chartMoney(S.bands[y][3]*factor);
+    const cum=moneyView==="real"?S.cumBandsR[y][3]:S.cumBands[y][3];
+    $("chartCumV").textContent=age<S.drawAge?"受け取り開始前":age===S.drawAge?"受け取り開始時":chartMoney(cum);
   }
   function draw(S){
-    const rfy=y=>S.rf(y*12); // 今の価値
+    const rfy=y=>moneyView==="real"?S.rf(y*12):1;
     const B=(y,idx)=>S.bands[y][idx]*rfy(y);
     const DPR=Math.min(2,window.devicePixelRatio||1),W=cv.clientWidth||600,H=260;
     cv.width=W*DPR;cv.height=H*DPR;cv.style.height=H+"px";ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
@@ -702,7 +806,7 @@ function simulate(cfg){
     ctx.strokeStyle=css("--gold");ctx.lineWidth=1.5;ctx.setLineDash([4,3]);ctx.beginPath();ctx.moveTo(sx,padT);ctx.lineTo(sx,padT+pH);ctx.stroke();ctx.setLineDash([]);
     ctx.fillStyle=css("--gold");ctx.beginPath();ctx.arc(sx,Math.max(padT,Math.min(padT+pH,sy)),4,0,Math.PI*2);ctx.fill();ctx.restore();
     updateChartReadout(S,selectedY);
-    chartTip.textContent=`${selectedAge}歳　残高 ${chartMoney(B(selectedY,3))}`;
+    chartTip.textContent=`${selectedAge}歳　${moneyView==="real"?"今の価値":"額面"}の残高 ${chartMoney(B(selectedY,3))}`;
     chartTip.style.left=Math.max(74,Math.min(W-74,sx))+"px";
     chartTip.style.top=Math.max(42,Math.min(H-30,sy-7))+"px";
   }
@@ -754,50 +858,31 @@ function simulate(cfg){
     let S;try{S=simulate(cfg);}catch(e){$("valMsg").textContent="入力をご確認ください。";inputValid=false;fullResultReady=false;refreshCopyState();return;}
     const RF=y=>S.rf(y*12), qn=Math.floor(0.4*N);
     $("spendStartAge").textContent=drawAge;
-    $("spendRealV").textContent=(spend*RF(dY)).toFixed(1);
     // 主結果は乱数の異なる3組の幅で示し、単一seedを0.1万円単位の確定的な目安に見せない。
     let ap;try{ap=affordProbBand(cfg,pTarget,!quick);}catch(e){$("valMsg").textContent="計算を完了できませんでした。条件を確認して、もう一度お試しください。";inputValid=false;fullResultReady=false;refreshCopyState();return;}
     const pPct=Math.round(pTarget*100);
     let svLo=null,svHi=null;
     if(!ap){
       $("rSurv").firstChild.textContent="…";setBadge("rSurvBadge","warn","計算中");
-      $("rSurvF").textContent=`3組×${N_AFFORD_PER_SEED.toLocaleString()}通りで計算しています…`;
     }else{
       svLo=Math.round(ap.survLo*100);svHi=Math.round(ap.survHi*100);
       $("rSurv").firstChild.textContent=(svLo===svHi?`${svLo}%`:`${svLo}〜${svHi}%`);
       setBadge("rSurvBadge",svLo>=75?"good":"warn",svLo>=75?"割合を確認":svLo>=50?"条件を比べる":"相談で確認");
-      $("rSurvF").textContent=`${drawAge}歳から税引前月${spend}万円を毎月同じ額面で受け取り、${maxAge}歳まで残高が尽きなかった割合です。各組${N_AFFORD_PER_SEED.toLocaleString()}通りの試算です。`;
     }
-    $("rAffordK").textContent=`${drawAge}歳から${maxAge}歳まで、毎月受け取りを続けられる税引前月額の目安`;
-    let affordNomLo=null,affordNomHi=null;
-    if(!ap){ // 操作中で未計算＝2,000通りの確定値が出るまで速報額を出さない
-      $("rAfford").innerHTML='…<small>計算中</small>';
-      $("rAffordF").textContent=`3組×${N_AFFORD_PER_SEED.toLocaleString()}通りで計算しています…`;
-    }else{
+    let affordNomLo=null,affordNomHi=null,affordRealLo=null,affordRealHi=null;
+    if(ap){
       [affordNomLo,affordNomHi]=rangeRounded(ap.loYen,ap.hiYen);
-      const [afRealLo,afRealHi]=rangeRounded(ap.loYen,ap.hiYen,RF(dY));
-      $("rAfford").innerHTML='約'+rangeText(affordNomLo,affordNomHi)+'<small>万/月</small>';
-      $("rAffordF").innerHTML=ap.feasible
-        ?`＝${drawAge}歳時点の税引前月額。今のお金の感覚では約 <b>${rangeText(afRealLo,afRealHi)}万/月</b>です。計算パターンを3組に分け、各組で${maxAge}歳まで残高がもった試算が約${pPct}%になる月額の幅です（保証ではありません）。`
-        :`受取額を0円としても、3組すべてでは${maxAge}歳まで残高が残る試算が${pPct}%に届きません。担当者に確認してください。`;
+      [affordRealLo,affordRealHi]=rangeRounded(ap.loYen,ap.hiYen,RF(dY));
     }
     $("survAgeLbl").textContent=maxAge;
     $("survAgeFoldLbl").textContent=maxAge;
-    $("survSpendLbl").textContent=spend;
-    $("drawAgeLbl").textContent=drawAge;
-    $("drawAgeLbl2").textContent=drawAge;
-    $("balNom").textContent=man(S.sStart[qn])+'万';        // 将来の積立残高（額面）
-    $("balReal").textContent=man(S.sStart[qn]*RF(dY))+'万'; // 今の価値
-    // ことばの結論。この積立だけの試算であることを先に示し、失敗判定にしない。
-    let v;
-    if(!ap)v="条件を変えました。計算が終わるまでお待ちください。";
-    else if(svLo>=pPct)v=`希望額は税引前月<b>${spend}万円</b>です。この金額を${drawAge}歳から毎月受け取った場合、${maxAge}歳まで残高がもった試算は、3組すべてで約<b>${pPct}%以上</b>でした。確定ではありません。`;
-    else{
-      const survText=svLo===svHi?`${svLo}%`:`${svLo}〜${svHi}%`;
-      v=`希望額は税引前月<b>${spend}万円</b>です。この金額を${drawAge}歳から毎月受け取った場合、${maxAge}歳まで残高がもった試算は<b>${survText}</b>でした。約${pPct}%を目標にすると、税引前月額の目安は<b>${rangeText(affordNomLo,affordNomHi)}万円</b>です。`;
-    }
-    $("verdict").innerHTML=v;
-    $("plain").innerHTML=`※ 残高は、<b>10回中4回はこれより下になる水準</b>です。月額の幅は計算パターンを3組に分けて確認しています。どちらも保証ではありません。退職金・公的年金・税や社会保険料など家計全体は含みません。`;
+    const currentYen=bal*1e4,futureNomYen=mon*1e4*dY*12;
+    let futureRealYen=0;for(let m=1;m<=dY*12;m++)futureRealYen+=mon*1e4*S.rf(m);
+    lastMoneyData={age,drawAge,maxAge,spend,spendReal:spend*RF(dY),pPct,ap,svLo,svHi,
+      currentYen,futureNomYen,futureRealYen,totalNomYen:currentYen+futureNomYen,totalRealYen:currentYen+futureRealYen,
+      startNomYen:S.sStart[qn],startRealYen:S.sStart[qn]*RF(dY),affordNomLo,affordNomHi,affordRealLo,affordRealHi};
+    applyMoneyView();
+    $("plain").innerHTML=`※ 受け取り開始時の残高、グラフの残高、受取累計は、2,000通りから<b>それぞれ別に40%ラインを取り出した目安</b>です。残高の差額と受取累計を足し引きしても一致しません。月額の幅は別の計算パターン3組で確認しています。すべて保証ではありません。`;
     $("mcN").textContent=N.toLocaleString();
     if(!quick)lastFullS=S;
     if($("chartFold").open)draw(S);
