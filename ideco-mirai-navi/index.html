@@ -120,7 +120,19 @@
   .chartfold summary::-webkit-details-marker{display:none}
   .chartfold summary::after{content:"▾";font-size:11px;color:var(--sub);margin-left:auto}
   .chartfold[open] summary::after{content:"▴"}
-  canvas{width:100%;height:auto;display:block;margin-top:6px}
+  .chartbox{position:relative;margin-top:8px}
+  canvas{width:100%;height:auto;display:block;touch-action:pan-y;cursor:crosshair}
+  .charttip{position:absolute;z-index:2;transform:translate(-50%,-100%);background:var(--navy);color:var(--navy-ink);border-radius:7px;padding:5px 8px;font-size:11px;font-weight:700;line-height:1.35;white-space:nowrap;pointer-events:none;box-shadow:var(--shadow)}
+  .charttip:empty{display:none}
+  .chartpick{margin-top:9px}
+  .chartpick .lab{font-size:11.5px;color:var(--sub);display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .chartpick .lab b{font-size:14px;color:var(--teal)}
+  .chartread{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}
+  .chartmetric{background:var(--paper);border:1px solid var(--line2);border-radius:9px;padding:9px 10px;min-width:0}
+  .chartmetric .k{font-size:10.5px;color:var(--sub);line-height:1.4}
+  .chartmetric .v{font-size:17px;font-weight:800;color:var(--ink);line-height:1.25;margin-top:2px;font-variant-numeric:tabular-nums}
+  .chartmetric.balance .v{color:var(--teal)}
+  .chartdesc{font-size:11px;color:var(--sub);line-height:1.55;margin:8px 0 0}
   .legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;font-size:11px;color:var(--sub)}
   .legend span{display:inline-flex;align-items:center;gap:5px}
   .sw{width:14px;height:9px;border-radius:3px;display:inline-block}
@@ -186,7 +198,7 @@
 
   <details class="learnbar">
     <summary><b>📖 この積立だけの将来を試算します。</b>公的年金などは別です。<span class="more">くわしく</span></summary>
-    <div class="learnbody">診断や結論ではありません。対象は「あなたのiDeCo+・企業型DCの積立」だけで、公的年金・生活費・退職金・住宅費など家計全体は含まず、「老後全体が安心か」の判定ではありません。特定商品の推奨でもありません。数字は確定ではなく、前提（利回り・使う額・受け取り開始年齢）を変えると大きく変わります。担当アドバイザーへの相談の入口としてお使いください。</div>
+    <div class="learnbody">この試算は、iDeCo+・企業型DCで積み立てたお金が将来どのくらいになり、毎月どのくらい受け取れそうかを見る目安です。公的年金、退職金、生活費、住宅費などは含まれないため、老後生活全体が安心かどうかは判定できません。結果は利回り、受取額、受け取り開始年齢によって変わります。特定の商品をおすすめするものではありません。気になる点を担当アドバイザーへ相談するときにお使いください。</div>
   </details>
 
   <div class="sbanner" id="sBanner"><span>🧪</span><span><b>サンプル値で表示中。</b>下の「制度・年齢・残高・毎月の掛金」を確認すると、あなたの積立の見通しに切り替わります。</span></div>
@@ -297,11 +309,23 @@
 
     <details class="chartfold" id="chartFold">
       <summary>詳しい結果を見る（2,000通りの幅）</summary>
-      <p class="eyebrow" style="margin-top:14px">お金の推移（モンテカルロ <span id="mcN">2,000</span>通り・今の価値）</p>
-      <canvas id="chart" width="600" height="260" aria-label="資産残高の見込み"></canvas>
+      <p class="eyebrow" style="margin-top:14px">積み立てから受け取りまでの残高の推移（<span id="mcN">2,000</span>通り・今の価値）</p>
+      <div class="chartbox">
+        <canvas id="chart" width="600" height="260" aria-label="積み立て期間と受け取り開始後の残高の推移。下の年齢スライダーで40%ラインの残高を確認できます"></canvas>
+        <div class="charttip" id="chartTip" aria-hidden="true"></div>
+      </div>
+      <div class="chartpick">
+        <div class="lab"><span>確認する年齢</span><b><span id="chartAgeV">—</span>歳</b></div>
+        <input type="range" id="chartAge" min="65" max="95" value="80" step="1" aria-label="40%ラインの残高を確認する年齢">
+      </div>
+      <div class="chartread" id="chartReadout" role="status" aria-live="polite">
+        <div class="chartmetric balance"><div class="k">40%ラインの残高</div><div class="v" id="chartBalV">—</div></div>
+        <div class="chartmetric"><div class="k">その年齢までの受取累計</div><div class="v" id="chartCumV">—</div></div>
+      </div>
+      <p class="chartdesc">どちらも今のお金の感覚に換算した目安です。緑の実線は40%ラインの残高、帯は2,000通りの試算の幅です。積み立てで増える期間から、受け取り開始後に減っていく期間までを続けて表示しています。受取累計は、その年齢までに受け取った金額の合計で、残高とは別に計算しています。帯の上側は一部省略し、40%ラインを読みやすくしています。</p>
       <div class="legend">
-        <span><i class="sw" style="background:var(--band-out)"></i>楽観〜悲観の幅</span>
-        <span><i class="sw" style="background:var(--median);height:3px"></i>10回中4回はこれより下になる水準</span>
+        <span><i class="sw" style="background:var(--band-out)"></i>試算の幅（上側は一部省略）</span>
+        <span><i class="sw" style="background:var(--median);height:3px"></i>40%ライン（10回中4回はこれより下）</span>
         <span><i class="sw" style="background:var(--warn);height:0;border-top:2px dashed var(--warn)"></i>受け取り開始</span>
       </div>
     </details>
@@ -564,10 +588,14 @@ function simulate(cfg){
     $("monV").textContent=(+mon.value).toFixed(1);
     if(scheme==="idecoplus"){
       $("schemeHint").textContent="※ iDeCo+として試算します。会社分と本人分の合計を入力してください。";
-      $("monHint").textContent=reform202612?"※ 2026年12月以降の共通上限6.2万円を表示範囲にしています。会社規約や他制度との関係で上限が下がる場合があります。":"※ 2026年7月時点の制度上限は、本人分と会社分の合計で月2.3万円です。会社規約などで上限が下がる場合があります。実際の現在額を入力してください。";
+      $("monHint").textContent=reform202612
+        ?"※ 2026年12月からの共通上限6.2万円を表示範囲にしています。会社規約や他制度により、実際の上限が下がる場合があります。"
+        :"※ 現在の上限は、本人分と会社分の合計で月2.3万円です。2026年12月から共通上限6.2万円に変わります。会社規約などで上限が下がる場合があります。";
     }else if(scheme==="corporate"){
       $("schemeHint").textContent="※ 企業型DCとして試算します。会社分と本人分の合計を入力してください。";
-      $("monHint").textContent=reform202612?"※ 2026年12月以降の共通上限6.2万円を表示範囲にしています。他制度や規約で上限が下がる場合があります。":"※ 2026年7月時点の企業型DCの上限5.5万円を表示範囲にしています。他制度や規約で上限が下がる場合があります。";
+      $("monHint").textContent=reform202612
+        ?"※ 2026年12月からの企業型DCの上限6.2万円を表示範囲にしています。他制度や規約により、実際の上限が下がる場合があります。"
+        :"※ 現在の企業型DCの上限は月5.5万円です。2026年12月から月6.2万円に変わります。他制度や規約により、実際の上限が下がる場合があります。";
     }else{
       $("schemeHint").textContent="※ 分からないままでも試算できます。相談メモに「わからない」と残せます。";
       $("monHint").textContent=`※ この画面の表示上限は月${limit.toFixed(1)}万円です。加入者サイトや「運用状況のお知らせ」に載っている現在額を入れてください。`;
@@ -634,26 +662,60 @@ function simulate(cfg){
   });
   $("chartFold").addEventListener("toggle",()=>{if($("chartFold").open&&lastFullS)draw(lastFullS);});
 
-  const cv=$("chart"),ctx=cv.getContext("2d"),css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const cv=$("chart"),ctx=cv.getContext("2d"),chartAge=$("chartAge"),chartTip=$("chartTip"),css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  let chartSelectedAge=null,chartGeom=null;
+  const chartMoney=yen=>`${Math.round(Math.max(0,yen)/1e4).toLocaleString("ja-JP")}万円`;
+  function updateChartReadout(S,y){
+    const age=S.startAge+y;
+    chartAge.min=String(S.startAge);chartAge.max=String(S.maxAge);chartAge.value=String(age);
+    $("chartAgeV").textContent=age;
+    $("chartBalV").textContent=chartMoney(S.bands[y][3]*S.rf(y*12));
+    $("chartCumV").textContent=age<S.drawAge?"受け取り開始前":age===S.drawAge?"受け取り開始時":chartMoney(S.cumBandsR[y][3]);
+  }
   function draw(S){
     const rfy=y=>S.rf(y*12); // 今の価値
     const B=(y,idx)=>S.bands[y][idx]*rfy(y);
     const DPR=Math.min(2,window.devicePixelRatio||1),W=cv.clientWidth||600,H=260;
     cv.width=W*DPR;cv.height=H*DPR;cv.style.height=H+"px";ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,W,H);
-    const padL=52,padR=12,padT=10,padB=26,pW=W-padL-padR,pH=H-padT-padB,yrs=S.years;
-    let maxV=0;for(let y=0;y<=yrs;y++)maxV=Math.max(maxV,B(y,6));maxV=Math.max(maxV*1.08,1e6);
-    const X=y=>padL+(y/yrs)*pW,Y=v=>padT+pH-(Math.max(0,v)/maxV)*pH;
-    ctx.font="11px "+css("--sans");ctx.textBaseline="middle";
+    const padL=62,padR=10,padT=12,padB=28,pW=W-padL-padR,pH=H-padT-padB,yrs=S.years;
+    const fromY=0,span=Math.max(1,yrs),drawY=Math.max(0,Math.min(yrs,S.drawAge-S.startAge));
+    let lineMax=0;for(let y=fromY;y<=yrs;y++)lineMax=Math.max(lineMax,B(y,3));
+    const rawMax=Math.max(lineMax*1.06,1e6),mag=Math.pow(10,Math.floor(Math.log10(rawMax))),norm=rawMax/mag;
+    const maxV=(norm<=1?1:norm<=2?2:norm<=5?5:10)*mag;
+    const X=y=>padL+((y-fromY)/span)*pW,Y=v=>padT+pH-(Math.max(0,v)/maxV)*pH;
+    chartGeom={padL,pW,fromY,span};
+    ctx.font="12px "+css("--sans");ctx.textBaseline="middle";
     for(let i=0;i<=4;i++){const v=maxV*i/4,yy=Y(v);ctx.strokeStyle=css("--line");ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(padL,yy);ctx.lineTo(W-padR,yy);ctx.stroke();ctx.fillStyle=css("--sub");ctx.textAlign="right";ctx.fillText(Math.round(v/1e4).toLocaleString()+"万",padL-6,yy);}
-    ctx.textAlign="center";ctx.textBaseline="top";const te=yrs>40?10:5;
-    for(let y=0;y<=yrs;y++){if(y%te!==0&&y!==yrs)continue;ctx.fillStyle=css("--sub");ctx.fillText((S.startAge+y)+"",X(y),padT+pH+6);}
-    const dY=S.drawAge-S.startAge;
-    if(dY>0&&dY<=yrs){ctx.fillStyle=css("--acc-fill");ctx.fillRect(padL,padT,X(dY)-padL,pH);}
-    const band=(lo,hi)=>{ctx.beginPath();for(let y=0;y<=yrs;y++)ctx.lineTo(X(y),Y(B(y,hi)));for(let y=yrs;y>=0;y--)ctx.lineTo(X(y),Y(B(y,lo)));ctx.closePath();};
+    ctx.textAlign="center";ctx.textBaseline="top";const te=span>25?10:5;
+    for(let y=fromY;y<=yrs;y++){if(y!==fromY&&y!==yrs&&y%te!==0)continue;const age=S.startAge+y;ctx.fillStyle=css("--sub");ctx.fillText(age+"歳",X(y),padT+pH+6);}
+    ctx.save();ctx.beginPath();ctx.rect(padL,padT,pW,pH);ctx.clip();
+    if(drawY>0){ctx.fillStyle=css("--acc-fill");ctx.fillRect(X(0),padT,X(drawY)-X(0),pH);}
+    const band=(lo,hi)=>{ctx.beginPath();for(let y=fromY;y<=yrs;y++)ctx.lineTo(X(y),Y(B(y,hi)));for(let y=yrs;y>=fromY;y--)ctx.lineTo(X(y),Y(B(y,lo)));ctx.closePath();};
     ctx.fillStyle=css("--band-out");band(0,6);ctx.fill();ctx.fillStyle=css("--band-in");band(2,5);ctx.fill();
-    if(dY>0&&dY<=yrs){ctx.strokeStyle=css("--warn");ctx.lineWidth=1.5;ctx.setLineDash([5,4]);ctx.beginPath();ctx.moveTo(X(dY),padT);ctx.lineTo(X(dY),padT+pH);ctx.stroke();ctx.setLineDash([]);}
-    ctx.strokeStyle=css("--median");ctx.lineWidth=2.4;ctx.beginPath();for(let y=0;y<=yrs;y++){const xx=X(y),yy=Y(B(y,3));y===0?ctx.moveTo(xx,yy):ctx.lineTo(xx,yy);}ctx.stroke();
+    ctx.strokeStyle=css("--median");ctx.lineWidth=2.8;ctx.beginPath();for(let y=fromY;y<=yrs;y++){const xx=X(y),yy=Y(B(y,3));y===fromY?ctx.moveTo(xx,yy):ctx.lineTo(xx,yy);}ctx.stroke();
+    if(drawY>0){ctx.strokeStyle=css("--warn");ctx.lineWidth=1.5;ctx.setLineDash([5,4]);ctx.beginPath();ctx.moveTo(X(drawY),padT);ctx.lineTo(X(drawY),padT+pH);ctx.stroke();ctx.setLineDash([]);}
+    const defaultAge=S.drawAge;
+    const selectedAge=chartSelectedAge==null||chartSelectedAge<S.startAge||chartSelectedAge>S.maxAge?defaultAge:chartSelectedAge;
+    chartSelectedAge=selectedAge;
+    const selectedY=selectedAge-S.startAge,sx=X(selectedY),sy=Y(B(selectedY,3));
+    ctx.strokeStyle=css("--gold");ctx.lineWidth=1.5;ctx.setLineDash([4,3]);ctx.beginPath();ctx.moveTo(sx,padT);ctx.lineTo(sx,padT+pH);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle=css("--gold");ctx.beginPath();ctx.arc(sx,Math.max(padT,Math.min(padT+pH,sy)),4,0,Math.PI*2);ctx.fill();ctx.restore();
+    updateChartReadout(S,selectedY);
+    chartTip.textContent=`${selectedAge}歳　残高 ${chartMoney(B(selectedY,3))}`;
+    chartTip.style.left=Math.max(74,Math.min(W-74,sx))+"px";
+    chartTip.style.top=Math.max(42,Math.min(H-30,sy-7))+"px";
   }
+
+  chartAge.addEventListener("input",()=>{chartSelectedAge=+chartAge.value;if(lastFullS)draw(lastFullS);});
+  function pickChartAge(e){
+    if(!chartGeom||!lastFullS)return;
+    const rect=cv.getBoundingClientRect(),x=e.clientX-rect.left;
+    const frac=Math.max(0,Math.min(1,(x-chartGeom.padL)/chartGeom.pW));
+    const y=chartGeom.fromY+Math.round(frac*chartGeom.span);
+    chartSelectedAge=lastFullS.startAge+y;draw(lastFullS);
+  }
+  cv.addEventListener("pointerdown",pickChartAge);
+  cv.addEventListener("pointermove",e=>{if(e.pointerType==="mouse"||e.buttons===1)pickChartAge(e);});
 
   function setBadge(id,tone,txt){const el=$(id);el.className="badge bg-"+tone;el.textContent=txt;}
 
@@ -731,7 +793,7 @@ function simulate(cfg){
     else if(svLo>=pPct)v=`希望額は税引前月<b>${spend}万円</b>です。この金額を${drawAge}歳から毎月受け取った場合、${maxAge}歳まで残高がもった試算は、3組すべてで約<b>${pPct}%以上</b>でした。確定ではありません。`;
     else{
       const survText=svLo===svHi?`${svLo}%`:`${svLo}〜${svHi}%`;
-      v=`希望額は税引前月<b>${spend}万円</b>です。この金額を${drawAge}歳から毎月受け取った場合、${maxAge}歳まで残高がもった試算は<b>${survText}</b>でした。約${pPct}%を目標にすると、税引前月額の目安は<b>${rangeText(affordNomLo,affordNomHi)}万円</b>です。受取額・開始年齢・運用を担当者に相談できます。`;
+      v=`希望額は税引前月<b>${spend}万円</b>です。この金額を${drawAge}歳から毎月受け取った場合、${maxAge}歳まで残高がもった試算は<b>${survText}</b>でした。約${pPct}%を目標にすると、税引前月額の目安は<b>${rangeText(affordNomLo,affordNomHi)}万円</b>です。`;
     }
     $("verdict").innerHTML=v;
     $("plain").innerHTML=`※ 残高は、<b>10回中4回はこれより下になる水準</b>です。月額の幅は計算パターンを3組に分けて確認しています。どちらも保証ではありません。退職金・公的年金・税や社会保険料など家計全体は含みません。`;
