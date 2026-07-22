@@ -213,9 +213,9 @@
       <div class="hint" style="margin-top:7px">※ 65歳は<b>仮の値</b>です。後から変えられます。実際の受取方法や税・社会保険料は、担当アドバイザーと別に確認してください。</div>
     </div>
     <div class="q">
-      <div class="lab">この積立から毎月受け取りたい金額 <span class="val"><span id="spendV">15</span>万</span></div>
-      <input type="range" id="spend" min="3" max="40" value="15" aria-label="この積立から毎月受け取りたい金額（万円）">
-      <div class="hint" style="margin-top:7px">※ 15万円は<b>仮の値</b>です。公的年金は別にして、この積立資産だけから受け取る金額を試します。</div>
+      <div class="lab">受け取り開始時に、この積立から毎月受け取りたい金額 <span class="val"><span id="spendV">15</span>万</span></div>
+      <input type="range" id="spend" min="3" max="40" value="15" aria-label="受け取り開始時にこの積立から毎月受け取りたい金額（将来の実額・万円）" aria-describedby="spendHint">
+      <div class="hint" id="spendHint" style="margin-top:7px">※ 入力するのは、受け取り開始（<span id="spendStartAge">65</span>歳）時点で実際に受け取りたい<b>将来の金額</b>です。今の価値ではありません。今のお金の感覚では約<b><span id="spendRealV">10.1</span>万円</b>です（年2%の物価上昇を仮定）。公的年金は別です。</div>
     </div>
 
     <p class="eyebrow" style="margin-top:20px"><span class="no">3</span>将来の増え方と値動きの3つの例</p>
@@ -262,7 +262,7 @@
     </details>
 
     <div class="bigrow single">
-      <div class="big gold"><div class="k" id="rAffordK">この積立が95歳まで続きやすい毎月の受取額</div><div class="v tabnum" id="rAfford">—</div><div class="f" id="rAffordF">—</div>
+      <div class="big gold"><div class="k" id="rAffordK">65歳から受け取れて、この積立が95歳まで続きやすい毎月額（将来の実額）</div><div class="v tabnum" id="rAfford">—</div><div class="f" id="rAffordF">—</div>
         <div class="pseg" id="pSeg" role="group" aria-label="目標とする確率">
           <button type="button" data-p="80" aria-pressed="true">80%でみる</button>
           <button type="button" data-p="90" aria-pressed="false">90%でみる</button>
@@ -547,7 +547,7 @@ function simulate(cfg){
       `現在の運用残高：約${$("bal").value||0}万円`,
       `会社分を含む毎月の掛金：${(+$("mon").value).toFixed(1)}万円`,
       `受け取り開始の仮定：${$("draw").value}歳`,
-      `この積立から受け取りたい月額：${$("spend").value}万円（今の価値）`,
+      `この積立から受け取りたい月額：${$("spend").value}万円（${$("draw").value}歳時点の将来の実額／今のお金の感覚では約${$("spendRealV").textContent}万円）`,
       `試したケース：${activeCaseLabel()}`,
       `受け取り開始時の見かけの金額：${$("balNom").textContent.trim()}`,
       `今の価値：${$("balReal").textContent.trim()}`,
@@ -605,22 +605,24 @@ function simulate(cfg){
     if(!(maxAge>drawAge)){$("valMsg").textContent="想定寿命は受け取り開始より後にしてください。";return;}
     $("valMsg").textContent="";
     const dY=drawAge-age;
-    // 「毎月使いたい額」は"今の価値"入力。engineは取崩開始後にインフレ増額するので、取崩開始の名目額へ換算して渡す（若年層の楽観バイアス防止＝Codex P1）
+    // 「毎月受け取りたい額」は受け取り開始時の将来の実額。engineにはそのまま渡し、開始後は物価に合わせて増額する。
     const cfg={startAge:age,drawAge,maxAge,retAge:drawAge,retAmt:0,retMu:0,retSig:0,
-      wMon:spend*Math.pow(1+infl/100,dY),wRate:4,wMu:styleMu,wSig:styleSig,
+      wMon:spend,wRate:4,wMu:styleMu,wSig:styleSig,
       assets:[{name:"あなたの積立",start:bal,monthly:mon,endAge:drawAge,mu:styleMu,sig:styleSig,on:true}],
-      draws:[],mode:"amount",mat:{age:50,amt:0,yrs:3,mu:0,sig:0},infl:2,spendMode:"keep"};
+      draws:[],mode:"amount",mat:{age:50,amt:0,yrs:3,mu:0,sig:0},infl,spendMode:"keep"};
     let S; try{S=simulate(cfg);}catch(e){$("valMsg").textContent="入力をご確認ください。";return;}
     const RF=y=>S.rf(y*12), qn=Math.floor(0.4*N);
+    $("spendStartAge").textContent=drawAge;
+    $("spendRealV").textContent=(spend*RF(dY)).toFixed(1);
     // 使える上限（F2根治）：simulateと同一のMCで「想定寿命まで目標割合もつ」最大の毎月取崩額を解く（皮は呼ぶだけ・logicはengine）
     // Codex P1対応：上限額は常時N_AFFORD=2,000本で解く（quick描画では計算せず、600本の速報額を一切表示しない）
     const ap=affordProb2000(cfg,pTarget,!quick), pPct=Math.round(pTarget*100);
     const sv=Math.round(S.survProb*100);
     $("rSurv").firstChild.textContent=sv+"%";
     setBadge("rSurvBadge", sv>=75?"good":"warn", sv>=75?"比較の目安":sv>=50?"条件を比べる":"相談で確認");
-    $("rSurvF").textContent=`この積立だけから毎月${spend}万を受け取る場合（今の価値で）`;
+    $("rSurvF").textContent=`この積立だけから毎月${spend}万を受け取る場合（${drawAge}歳時点の将来の実額）`;
     // ラベルA（加藤さん確定）：「◯%の確率でもつ」と確率を断定しない＝「試算のうち約◯%で足りる見込み」（8割の分かりやすさは残す）
-    $("rAffordK").textContent=`この積立が${maxAge}歳まで続きやすい毎月の受取額`;
+    $("rAffordK").textContent=`${drawAge}歳から受け取れて、この積立が${maxAge}歳まで続きやすい毎月額（将来の実額）`;
     if(!ap){ // 操作中で未計算＝2,000通りの確定値が出るまで速報額を出さない
       $("rAfford").innerHTML='…<small>計算中</small>';
       $("rAffordF").textContent=`${N_AFFORD.toLocaleString()}通りで計算しています…`;
@@ -628,9 +630,9 @@ function simulate(cfg){
       const afford=ap.wYen;
       const afReal=Math.round(afford*RF(dY)/1e4*10)/10; // 今の価値の月額
       const afNom =Math.round(afford/1e4*10)/10;         // 将来の見かけ（受取開始時）の月額
-      $("rAfford").innerHTML=afReal.toLocaleString()+'<small>万/月</small>';
+      $("rAfford").innerHTML=afNom.toLocaleString()+'<small>万/月</small>';
       $("rAffordF").innerHTML=ap.feasible
-        ?`＝今のお金の感覚。${N_AFFORD.toLocaleString()}通りのうち約${pPct}%で${maxAge}歳まで続いた月額の目安です。受け取り開始（${drawAge}歳）時点の額では約 <b>${afNom.toLocaleString()}万/月</b>（保証ではありません）`
+        ?`＝${drawAge}歳時点の将来の実額。今のお金の感覚では約 <b>${afReal.toLocaleString()}万/月</b>です。${N_AFFORD.toLocaleString()}通りのうち約${pPct}%で${maxAge}歳まで続いた目安です（保証ではありません）`
         :`取崩0でも${maxAge}歳まで${pPct}%に届きません`;
     }
     $("survAgeLbl").textContent=maxAge;
@@ -642,8 +644,8 @@ function simulate(cfg){
     $("balReal").textContent=man(S.sStart[qn]*RF(dY))+'万'; // 今の価値
     // ことばの結論。この積立だけの試算であることを先に示し、失敗判定にしない。
     let v;
-    if(sv>=80) v=`希望する月<b>${spend}万円</b>でも、${maxAge}歳まで<b>続きやすい試算</b>です。確定ではありません。`;
-    else v=`希望する月<b>${spend}万円</b>と、上の「続きやすい月額」には差があります。差を縮める方法を担当者に相談できます。`;
+    if(sv>=80) v=`希望する月<b>${spend}万円</b>（${drawAge}歳時点の将来の実額）でも、${maxAge}歳まで<b>続きやすい試算</b>です。確定ではありません。`;
+    else v=`希望する月<b>${spend}万円</b>（${drawAge}歳時点の将来の実額）と、上の「続きやすい月額」には差があります。差を縮める方法を担当者に相談できます。`;
     $("verdict").innerHTML=v;
     $("plain").innerHTML=`※ 表示する残高は、<b>10回中4回はこれより下になる水準</b>で見た試算の目安です。保証ではありません。退職金・公的年金・税や社会保険料など家計全体は含みません。`;
     $("mcN").textContent=N.toLocaleString();
