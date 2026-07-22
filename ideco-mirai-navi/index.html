@@ -120,6 +120,7 @@
   .chartfold summary::-webkit-details-marker{display:none}
   .chartfold summary::after{content:"▾";font-size:11px;color:var(--sub);margin-left:auto}
   .chartfold[open] summary::after{content:"▴"}
+  .chartfold>.eyebrow{display:block;letter-spacing:.04em;line-height:1.55}
   .chartbox{position:relative;margin-top:8px}
   canvas{width:100%;height:auto;display:block;touch-action:pan-y;cursor:crosshair}
   .charttip{position:absolute;z-index:2;transform:translate(-50%,-100%);background:var(--navy);color:var(--navy-ink);border-radius:7px;padding:5px 8px;font-size:11px;font-weight:700;line-height:1.35;white-space:nowrap;pointer-events:none;box-shadow:var(--shadow)}
@@ -309,7 +310,7 @@
 
     <details class="chartfold" id="chartFold">
       <summary>詳しい結果を見る（2,000通りの幅）</summary>
-      <p class="eyebrow" style="margin-top:14px">積み立てから受け取りまでの残高の推移（<span id="mcN">2,000</span>通り・今の価値）</p>
+      <p class="eyebrow" style="margin-top:14px">積み立てから受け取りまで<br>残高の推移（<span id="mcN">2,000</span>通り・今の価値）</p>
       <div class="chartbox">
         <canvas id="chart" width="600" height="260" aria-label="積み立て期間と受け取り開始後の残高の推移。下の年齢スライダーで40%ラインの残高を確認できます"></canvas>
         <div class="charttip" id="chartTip" aria-hidden="true"></div>
