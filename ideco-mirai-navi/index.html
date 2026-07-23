@@ -824,7 +824,19 @@ function simulate(cfg){
   });
   const bind=(id,vid,fmt,isCore)=>{const el=$(id);const upd=()=>{if(vid)$(vid).textContent=fmt?fmt(el.value):el.value;if(isCore)markCoreTouched(id);request();};el.addEventListener("input",upd);};
   bind("age","ageV",null,true); bind("mon","monV",v=>(+v).toFixed(1),true); bind("draw","drawV"); bind("spend","spendV");
-  $("bal").addEventListener("input",()=>{markCoreTouched("bal");request();});
+  const balanceInput=$("bal");
+  const balanceSampleValue=balanceInput.defaultValue;
+  balanceInput.addEventListener("focus",()=>{
+    if(coreTouched.bal||balanceInput.value!==balanceSampleValue)return;
+    requestAnimationFrame(()=>{
+      if(document.activeElement!==balanceInput||coreTouched.bal||balanceInput.value!==balanceSampleValue)return;
+      // iOSがタップ位置を決めた後、初期値を入れ直してnumber入力のカーソルを末尾へ移す。
+      const sampleValue=balanceInput.value;
+      balanceInput.value="";
+      balanceInput.value=sampleValue;
+    });
+  });
+  balanceInput.addEventListener("input",()=>{markCoreTouched("bal");request();});
   const activeScheme=()=>{const b=[...$("schemeSeg").querySelectorAll("button")].find(x=>x.getAttribute("aria-pressed")==="true");return b?b.dataset.scheme:"unknown";};
   const schemeLabel=()=>({idecoplus:"iDeCo+",corporate:"企業型DC",unknown:"わからない"}[activeScheme()]||"わからない");
   function applySchemeLimit(){
