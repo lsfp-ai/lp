@@ -647,6 +647,11 @@ function simulate(cfg){
   const moneyText=yen=>`${man(yen)}万`;
 
   const selectedCaseLabel=()=>`ケース${styleCase}（増え方${styleMu}%・値動き${styleSig}%）`;
+  function syncSelectedRangeCopy(){
+    const drawAge=+$("draw").value;
+    $("survAgeLbl").textContent=maxAge;
+    $("rAffordK").textContent=`${drawAge}歳から${maxAge}歳まで、仮に毎月均等に取り崩す月額の目安（${moneyView==="real"?"開始時の今の価値":"将来の額面"}）`;
+  }
   function applySelectionCopy(){
     const pPct=Math.round(pTarget*100),miss=100-pPct,other=pPct===80?90:80;
     $("maxLbl").textContent=maxAge;
@@ -656,6 +661,7 @@ function simulate(cfg){
       ?`80%を選択中です。試算100回のうち約80回で、残高が尽きずに${maxAge}歳まで取り崩せる月額です。残り約${miss}回では途中で尽きます。${other}%を選ぶと、月額は小さくなりますが、${maxAge}歳まで続く試算が増えます。`
       :`90%を選択中です。試算100回のうち約90回で、残高が尽きずに${maxAge}歳まで取り崩せる月額です。残り約${miss}回では途中で尽きます。${other}%を選ぶと、月額は大きくなりますが、途中で尽きる試算も増えます。`;
     $("affordMethodText").textContent=`${maxAge}歳まで残高が続く月額の目安は、同じ条件で1,000通りの試算を3回行い、結果の幅で表示します。残高グラフは2,000通りの試算です。いずれも将来を保証する数字ではありません。`;
+    syncSelectedRangeCopy();
   }
   function applyCaseText(){
     $("caseDetailName").textContent=`ケース${styleCase}：増え方${styleMu}%・値動き${styleSig}%`;
@@ -698,10 +704,10 @@ function simulate(cfg){
     $("rDesiredF").textContent=real
       ?`将来の額面は月${wanText(D.spend)}万円のままです。額面固定のため、今の価値は取り崩し開始後も少しずつ下がります。`
       :`${D.drawAge}歳から毎月同じ額面を取り崩す仮想設定です。税・社会保険料・手数料は差し引きません。開始時の今の価値は約${wanText(D.spendReal)}万円です。`;
-    $("rAffordK").textContent=`${D.drawAge}歳から${D.maxAge}歳まで、仮に毎月均等に取り崩す月額の目安（${real?"開始時の今の価値":"将来の額面"}）`;
+    syncSelectedRangeCopy();
     if(!D.ap){
       $("rAfford").innerHTML='…<small>計算中</small>';
-      $("rAffordF").textContent=`3組×${N_AFFORD_PER_SEED.toLocaleString()}通りで計算しています…`;
+      $("rAffordF").textContent=`3組×${N_AFFORD_PER_SEED.toLocaleString()}通りで計算しています。端末によっては10〜20秒ほどかかります。`;
     }else if(D.ap.feasible){
       const lo=real?D.affordRealLo:D.affordNomLo,hi=real?D.affordRealHi:D.affordNomHi;
       $("rAfford").innerHTML='約'+rangeText(lo,hi)+'<small>万/月</small>';
@@ -755,9 +761,10 @@ function simulate(cfg){
   }
   function showRecalculating(){
     fullResultReady=false;inputValid=true;setResultBusy(true);
+    syncSelectedRangeCopy();
     $("verdict").textContent="条件を変えました。計算が終わるまでお待ちください。";
     $("rAfford").innerHTML='…<small>計算中</small>';
-    $("rAffordF").textContent="選んだ条件で月額の目安を計算しています…";
+    $("rAffordF").textContent="選んだ条件で月額の目安を計算しています。端末によっては10〜20秒ほどかかります。";
     if($("rSurv").firstChild)$("rSurv").firstChild.textContent="…";
     setBadge("rSurvBadge","warn","計算中");
     $("rSurvF").textContent="選んだ条件で割合を計算しています…";
@@ -766,9 +773,10 @@ function simulate(cfg){
   }
   function showAffordRecalculating(){
     fullResultReady=false;inputValid=true;affordOnlyPending=true;setResultBusy(true);
+    syncSelectedRangeCopy();
     $("verdict").textContent="80%・90%の条件を変えました。月額の目安を計算しています。";
     $("rAfford").innerHTML='…<small>計算中</small>';
-    $("rAffordF").textContent=`${maxAge}歳まで残高が続く月額の目安を計算しています…`;
+    $("rAffordF").textContent=`${maxAge}歳まで残高が続く月額の目安を計算しています。端末によっては10〜20秒ほどかかります。`;
     setBadge("rSurvBadge","warn",`${Math.round(pTarget*100)}%で判定中`);
     $("rSurvF").textContent="希望月額で残高がもった割合と残高グラフは変わりません。月額の目安だけを計算しています。";
     $("memoText").value="80%・90%の条件を変えたため、月額の目安を再計算しています。確定後に相談メモを更新します。";
@@ -842,6 +850,9 @@ function simulate(cfg){
     moneyView=b.dataset.view==="real"?"real":"nominal";
     document.querySelectorAll("#moneyViewSeg button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
     applyMoneyView();
+    if(!fullResultReady&&inputValid){
+      if(affordOnlyPending)showAffordRecalculating();else showRecalculating();
+    }
     if($("chartFold").open&&lastFullS)draw(lastFullS);
     if(fullResultReady)updateMemo();
   });
