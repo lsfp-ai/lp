@@ -80,6 +80,8 @@
   .confirmbtn{width:100%;font:inherit;font-size:14px;font-weight:800;background:var(--teal);color:#fff;border:0;border-radius:10px;padding:11px 14px;margin-top:12px;cursor:pointer}
 
   /* 結果 */
+  .resultinvalid{margin:2px 0 0;padding:13px 14px;border:1px solid color-mix(in srgb,var(--crit) 45%,var(--line));border-radius:10px;background:color-mix(in srgb,var(--crit) 8%,var(--surface));color:var(--crit);font-size:13px;font-weight:700;line-height:1.6}
+  .result[data-invalid="true"]>:not(.eyebrow):not(.resultinvalid){display:none}
   .result .headline{font-size:17px;font-weight:800;margin:0 0 6px;line-height:1.5;letter-spacing:.01em}
   .result .headline b{color:var(--teal)}
   .moneytabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:4px;margin-top:12px}
@@ -320,6 +322,7 @@
   <!-- 結果 -->
   <div class="card result" id="resultCard" aria-busy="false">
     <p class="eyebrow"><span class="no">4</span>あなたの積立の見通し <span class="sample-chip" id="resultSample">サンプル</span></p>
+    <div class="resultinvalid" id="resultInvalid" role="status" hidden>上の入力を確認すると、試算結果を表示します。</div>
     <div class="moneytabs" id="moneyViewSeg" role="group" aria-label="金額の表示方法">
       <button type="button" data-view="nominal" aria-label="将来の金額、額面" aria-pressed="true">将来の金額<small>（額面）</small></button>
       <button type="button" data-view="real" aria-label="今の価値、インフレ反映" aria-pressed="false">今の価値<small>（インフレ反映）</small></button>
@@ -759,8 +762,21 @@ function simulate(cfg){
     $("resultCard").setAttribute("aria-busy",busy?"true":"false");
     $("memoText").setAttribute("aria-busy",busy?"true":"false");
   }
+  function clearResultInvalid(){
+    $("resultCard").removeAttribute("data-invalid");
+    $("resultInvalid").hidden=true;
+  }
+  function showInputError(message){
+    $("valMsg").textContent=message;
+    inputValid=false;fullResultReady=false;affordOnlyPending=false;setResultBusy(false);
+    $("resultCard").setAttribute("data-invalid","true");
+    $("resultInvalid").hidden=false;
+    $("memoText").value="入力を確認すると相談メモを作れます。";
+    refreshCopyState();
+  }
   function showRecalculating(){
     fullResultReady=false;inputValid=true;setResultBusy(true);
+    clearResultInvalid();
     syncSelectedRangeCopy();
     $("verdict").textContent="条件を変えました。計算が終わるまでお待ちください。";
     $("rAfford").innerHTML='…<small>計算中</small>';
@@ -773,6 +789,7 @@ function simulate(cfg){
   }
   function showAffordRecalculating(){
     fullResultReady=false;inputValid=true;affordOnlyPending=true;setResultBusy(true);
+    clearResultInvalid();
     syncSelectedRangeCopy();
     $("verdict").textContent="80%・90%の条件を変えました。月額の目安を計算しています。";
     $("rAfford").innerHTML='…<small>計算中</small>';
@@ -811,8 +828,12 @@ function simulate(cfg){
   const activeScheme=()=>{const b=[...$("schemeSeg").querySelectorAll("button")].find(x=>x.getAttribute("aria-pressed")==="true");return b?b.dataset.scheme:"unknown";};
   const schemeLabel=()=>({idecoplus:"iDeCo+",corporate:"企業型DC",unknown:"わからない"}[activeScheme()]||"わからない");
   function applySchemeLimit(){
-    const scheme=activeScheme(),mon=$("mon"),confirmed62=$("limit62").checked;
+    const scheme=activeScheme(),mon=$("mon"),confirmed62=$("limit62").checked,previousMon=+mon.value;
     activeMonLimit=confirmed62?6.2:(scheme==="idecoplus"?2.3:5.5);
+    mon.max=activeMonLimit.toFixed(1);
+    mon.setAttribute("aria-label",`これから積み立てる毎月の掛金合計（0万円から${activeMonLimit.toFixed(1)}万円）`);
+    const adjusted=Number.isFinite(previousMon)&&previousMon>activeMonLimit;
+    if(adjusted)mon.value=activeMonLimit.toFixed(1);
     $("monV").textContent=(+mon.value).toFixed(1);
     if(confirmed62){
       $("schemeHint").textContent=scheme==="unknown"?"※ 制度名が分からない状態で試算します。":"※ "+schemeLabel()+"として試算します。会社分と本人分の合計を入力してください。";
@@ -827,7 +848,7 @@ function simulate(cfg){
       $("schemeHint").textContent="※ 分からないままでも試算できます。相談メモに「わからない」と残せます。";
       $("monHint").textContent="※ 制度が分からないため、加入者サイトなどに載っている現在額を入力してください。この画面では月5.5万円を確認の目安にします。";
     }
-    if(+mon.value>activeMonLimit)$("monHint").textContent+=` 現在の入力は月${(+mon.value).toFixed(1)}万円です。金額は変更していません。月${activeMonLimit.toFixed(1)}万円以下を選び直してください。`;
+    if(adjusted)$("monHint").textContent+=` 上限の設定に合わせ、毎月の掛金を月${activeMonLimit.toFixed(1)}万円に戻しました。`;
   }
   function renderCachedOrRequest(cfg){
     if(fullResultReady&&cfg&&hasUiSimulation(cfg,2000)&&hasAffordResult(cfg,pTarget)){
@@ -993,21 +1014,20 @@ function simulate(cfg){
     showAffordRecalculating();
     _at=setTimeout(()=>{
       try{applyAffordOnlyResult(affordProbBand(lastFullCfg,pTarget,true));}
-      catch(e){$("valMsg").textContent="月額の目安を計算できませんでした。条件を確認して、もう一度お試しください。";inputValid=false;fullResultReady=false;affordOnlyPending=false;setResultBusy(false);refreshCopyState();}
+      catch(e){showInputError("月額の目安を計算できませんでした。条件を確認して、もう一度お試しください。");}
     },20);
   }
   function render(quick){
     setN(quick?600:2000);
     const age=+$("age").value,balRaw=$("bal").value.trim(),bal=Number(balRaw),mon=+$("mon").value,spend=+$("spend").value,infl=inflRate;
     if(balRaw===""||!Number.isFinite(bal)||bal<0){
-      $("valMsg").textContent="現在の運用残高を0以上の数字で入力してください。";inputValid=false;fullResultReady=false;
-      $("memoText").value="入力を確認すると相談メモを作れます。";setResultBusy(false);refreshCopyState();return;
+      showInputError("現在の運用残高を0以上の数字で入力してください。");return;
     }
     if(!Number.isFinite(mon)||mon<0||mon>6.2){
-      $("valMsg").textContent="毎月の掛金を0〜6.2万円の範囲で入力してください。";inputValid=false;fullResultReady=false;setResultBusy(false);refreshCopyState();return;
+      showInputError("毎月の掛金を0〜6.2万円の範囲で入力してください。");return;
     }
     if(mon>activeMonLimit){
-      $("valMsg").textContent=`現在の制度・上限枠の選択では、毎月の掛金は${activeMonLimit.toFixed(1)}万円以下にしてください。入力した${mon.toFixed(1)}万円は変更していません。`;inputValid=false;fullResultReady=false;setResultBusy(false);refreshCopyState();return;
+      showInputError(`現在の制度・上限枠の選択では、毎月の掛金は${activeMonLimit.toFixed(1)}万円以下にしてください。`);return;
     }
     // 老齢給付金の通常の選択範囲に合わせ、簡易年単位モデルでは現在年齢の翌年以降・74歳までとする。
     const drawEl=$("draw"),minDraw=Math.max(60,age+1),maxDraw=74;drawEl.min=minDraw;drawEl.max=maxDraw;
@@ -1015,20 +1035,21 @@ function simulate(cfg){
     if(+drawEl.value<minDraw)drawEl.value=minDraw;if(+drawEl.value>maxDraw)drawEl.value=maxDraw;
     const drawAge=+drawEl.value; $("drawV").textContent=drawAge;
     if(!(drawAge>=60&&drawAge<=74&&drawAge>age&&maxAge>drawAge)){
-      $("valMsg").textContent="取り崩し開始年齢を60〜74歳の範囲で確認してください。";inputValid=false;fullResultReady=false;setResultBusy(false);refreshCopyState();return;
+      showInputError("取り崩し開始年齢を60〜74歳の範囲で確認してください。");return;
     }
     $("valMsg").textContent="";
+    clearResultInvalid();
     const dY=drawAge-age;
     // 「毎月取り崩したい額」は開始年の将来の額面。実際のDC給付とは別の仮想試算で、以後も同じ額面とする。
     const cfg={startAge:age,drawAge,maxAge,retAge:drawAge,retAmt:0,retMu:0,retSig:0,
       wMon:spend,wRate:4,wMu:styleMu,wSig:styleSig,
       assets:[{name:"あなたの積立",start:bal,monthly:mon,endAge:drawAge,mu:styleMu,sig:styleSig,on:true}],
       draws:[],mode:"amount",mat:{age:50,amt:0,yrs:3,mu:0,sig:0},infl,spendMode:"flat"};
-    let S;try{S=simulateForUi(cfg);}catch(e){$("valMsg").textContent="入力をご確認ください。";inputValid=false;fullResultReady=false;setResultBusy(false);refreshCopyState();return;}
+    let S;try{S=simulateForUi(cfg);}catch(e){showInputError("入力をご確認ください。");return;}
     const RF=y=>S.rf(y*12), qn=Math.floor(0.4*N);
     $("spendStartAge").textContent=drawAge;
     // 主結果は乱数の異なる3組の幅で示し、単一seedを0.1万円単位の確定的な目安に見せない。
-    let ap;try{ap=affordProbBand(cfg,pTarget,!quick);}catch(e){$("valMsg").textContent="計算を完了できませんでした。条件を確認して、もう一度お試しください。";inputValid=false;fullResultReady=false;setResultBusy(false);refreshCopyState();return;}
+    let ap;try{ap=affordProbBand(cfg,pTarget,!quick);}catch(e){showInputError("計算を完了できませんでした。条件を確認して、もう一度お試しください。");return;}
     const pPct=Math.round(pTarget*100);
     let svLo=null,svHi=null;
     if(!ap){
