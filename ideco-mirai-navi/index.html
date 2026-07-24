@@ -272,7 +272,7 @@
     <div class="q">
       <div class="lab">この制度で現在運用している残高</div>
       <div class="hint" style="margin:4px 0 7px">「運用状況のお知らせ」や加入者サイトの合計額です。おおよそでも構いません。</div>
-      <div class="numrow"><input type="number" id="bal" value="500" min="0" step="10" inputmode="numeric" aria-label="この制度で現在運用している残高（万円）"><span class="u">万円</span></div>
+      <div class="numrow"><input type="number" id="bal" value="500" min="0" max="10000" step="10" inputmode="numeric" aria-label="この制度で現在運用している残高（万円）"><span class="u">万円</span></div>
     </div>
     <div class="q" id="monInput">
       <div class="lab">これから積み立てる毎月の掛金（会社分を含む） <span class="val"><span id="monV">2.0</span>万</span></div>
@@ -428,7 +428,7 @@
 
   <section class="memo consult" aria-labelledby="consultTitle">
     <h2 class="mk" id="consultTitle">💬 分からないところを、そのまま相談できます</h2>
-    <p class="mi">試算結果を相談用のメモにまとめます。「相談メモをコピーする」を押して、LINEやメールで担当者に送ってください。運用や掛金、受け取り方について相談できます。</p>
+    <p class="mi">試算結果を相談用のメモにまとめます。「相談メモをコピーする」を押して、LINEやメールで担当者に送ってください。担当者は再現コードを使い、同じ条件・同じ表示結果を確認できます。氏名や連絡先は自動では入りませんが、入力した年齢・残高・試算結果は含まれます。送る相手を確認してください。</p>
     <label class="memolab" for="memoText">担当者に送る相談メモ</label>
     <textarea id="memoText" readonly></textarea>
     <div class="mrow"><button class="cpy" id="copyMemoBtn" type="button" disabled>相談メモをコピーする</button><span class="cpymsg" id="copyMsg" role="status" aria-live="polite">制度・年齢・残高・毎月の掛金を確認するとコピーできます。</span></div>
@@ -454,6 +454,297 @@
   </footer>
 </div>
 
+<!-- MN1_MEMBER_ENCODER_BEGIN -->
+<script>
+(function exposeMN1MemberEncoder(root, factory) {
+  const api = factory();
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = api;
+  } else {
+    root.MN1MemberEncoder = api;
+  }
+})(typeof globalThis !== "undefined" ? globalThis : this, function buildMN1MemberEncoder() {
+  "use strict";
+
+  /*
+   * 加入者版は、画面で確定した入力と表示結果をMN1形式へ符号化するだけに限定する。
+   * DOM、保存、通信、アドバイザー向け再計算はこのモジュールへ入れない。
+   */
+
+  const CONTRACT = "MN1";
+  const ENGINE_VERSION = "v24";
+  const MAX_BALANCE_WAN = 10000;
+
+  const CASES = Object.freeze({
+    A: Object.freeze({ muPct: 4, sigmaPct: 8 }),
+    B: Object.freeze({ muPct: 7, sigmaPct: 15 }),
+    C: Object.freeze({ muPct: 9, sigmaPct: 20 }),
+  });
+
+  const ENVELOPE_KEYS = Object.freeze(["contract", "engine", "expected", "inputs"]);
+  const INPUT_KEYS = Object.freeze([
+    "age",
+    "balanceWan",
+    "caseId",
+    "desiredMonthlyWan",
+    "drawAge",
+    "inflationPct",
+    "limit62",
+    "maxAge",
+    "monthlyWan",
+    "muPct",
+    "scheme",
+    "sigmaPct",
+    "targetPct",
+  ]);
+  const EXPECTED_KEYS = Object.freeze([
+    "affordableNominalWanRange",
+    "affordableRealWanRange",
+    "desiredMonthlyRealWan",
+    "desiredSurvivalPctRange",
+    "feasibleAllSeeds",
+    "startBalanceNominalWan",
+    "startBalanceRealWan",
+    "totalNominalWan",
+    "totalRealWan",
+  ]);
+
+  function isPlainObject(value) {
+    if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+    const proto = Object.getPrototypeOf(value);
+    return proto === Object.prototype || proto === null;
+  }
+
+  function requireExactKeys(value, expectedKeys, name) {
+    if (!isPlainObject(value)) throw new Error(name);
+    const actual = Object.keys(value).sort();
+    const expected = [...expectedKeys].sort();
+    if (
+      actual.length !== expected.length ||
+      actual.some((key, index) => key !== expected[index])
+    ) {
+      throw new Error(`${name}.keys`);
+    }
+  }
+
+  function isStep(value, multiplier) {
+    return Math.abs(value * multiplier - Math.round(value * multiplier)) <= 1e-9;
+  }
+
+  function validateInputs(input) {
+    requireExactKeys(input, INPUT_KEYS, "inputs");
+    if (!["idecoplus", "corporate", "unknown"].includes(input.scheme)) {
+      throw new Error("inputs.scheme");
+    }
+    if (typeof input.limit62 !== "boolean") throw new Error("inputs.limit62");
+    if (!Number.isInteger(input.age) || input.age < 20 || input.age > 64) {
+      throw new Error("inputs.age");
+    }
+    if (
+      !Number.isInteger(input.drawAge) ||
+      input.drawAge < 60 ||
+      input.drawAge > 74 ||
+      input.drawAge <= input.age
+    ) {
+      throw new Error("inputs.drawAge");
+    }
+    if (![90, 95, 100].includes(input.maxAge) || input.maxAge <= input.drawAge) {
+      throw new Error("inputs.maxAge");
+    }
+    if (![1, 2, 3].includes(input.inflationPct)) throw new Error("inputs.inflationPct");
+    if (![80, 90].includes(input.targetPct)) throw new Error("inputs.targetPct");
+
+    if (!Object.prototype.hasOwnProperty.call(CASES, input.caseId)) {
+      throw new Error("inputs.caseId");
+    }
+    const selectedCase = CASES[input.caseId];
+    if (
+      input.muPct !== selectedCase.muPct ||
+      input.sigmaPct !== selectedCase.sigmaPct
+    ) {
+      throw new Error("inputs.caseValues");
+    }
+
+    const cap = input.limit62 ? 6.2 : input.scheme === "idecoplus" ? 2.3 : 5.5;
+    if (
+      !Number.isFinite(input.monthlyWan) ||
+      input.monthlyWan < 0 ||
+      input.monthlyWan > cap ||
+      !isStep(input.monthlyWan, 10)
+    ) {
+      throw new Error("inputs.monthlyWan");
+    }
+    if (
+      !Number.isFinite(input.balanceWan) ||
+      input.balanceWan < 0 ||
+      input.balanceWan > MAX_BALANCE_WAN
+    ) {
+      throw new Error("inputs.balanceWan");
+    }
+    if (
+      !Number.isFinite(input.desiredMonthlyWan) ||
+      input.desiredMonthlyWan < 0.5 ||
+      input.desiredMonthlyWan > 40 ||
+      !isStep(input.desiredMonthlyWan, 2)
+    ) {
+      throw new Error("inputs.desiredMonthlyWan");
+    }
+  }
+
+  function validateMoneyInteger(value, name) {
+    if (!Number.isSafeInteger(value) || value < 0) throw new Error(name);
+  }
+
+  function validateOneDecimal(value, name) {
+    if (
+      !Number.isFinite(value) ||
+      value < 0 ||
+      !isStep(value, 10) ||
+      !Number.isSafeInteger(Math.round(value * 10))
+    ) {
+      throw new Error(name);
+    }
+  }
+
+  function validateHalfWanRange(value, name) {
+    if (
+      !Array.isArray(value) ||
+      value.length !== 2 ||
+      !value.every(
+        (item) =>
+          Number.isFinite(item) &&
+          item >= 0 &&
+          isStep(item, 2) &&
+          Number.isSafeInteger(Math.round(item * 2))
+      ) ||
+      value[0] > value[1]
+    ) {
+      throw new Error(name);
+    }
+  }
+
+  function validatePercentageRange(value, name) {
+    if (
+      !Array.isArray(value) ||
+      value.length !== 2 ||
+      !value.every(
+        (item) =>
+          Number.isFinite(item) &&
+          item >= 0 &&
+          item <= 100 &&
+          isStep(item, 10)
+      ) ||
+      value[0] > value[1]
+    ) {
+      throw new Error(name);
+    }
+  }
+
+  function validateExpected(expected) {
+    requireExactKeys(expected, EXPECTED_KEYS, "expected");
+    validateMoneyInteger(expected.totalNominalWan, "expected.totalNominalWan");
+    validateMoneyInteger(expected.totalRealWan, "expected.totalRealWan");
+    validateMoneyInteger(expected.startBalanceNominalWan, "expected.startBalanceNominalWan");
+    validateMoneyInteger(expected.startBalanceRealWan, "expected.startBalanceRealWan");
+    validateOneDecimal(expected.desiredMonthlyRealWan, "expected.desiredMonthlyRealWan");
+    validateHalfWanRange(
+      expected.affordableNominalWanRange,
+      "expected.affordableNominalWanRange"
+    );
+    validateHalfWanRange(
+      expected.affordableRealWanRange,
+      "expected.affordableRealWanRange"
+    );
+    validatePercentageRange(
+      expected.desiredSurvivalPctRange,
+      "expected.desiredSurvivalPctRange"
+    );
+    if (typeof expected.feasibleAllSeeds !== "boolean") {
+      throw new Error("expected.feasibleAllSeeds");
+    }
+    return expected;
+  }
+
+  function validateEnvelope(envelope) {
+    requireExactKeys(envelope, ENVELOPE_KEYS, "envelope");
+    if (envelope.contract !== CONTRACT) throw new Error("envelope.contract");
+    if (envelope.engine !== ENGINE_VERSION) throw new Error("envelope.engine");
+    validateInputs(envelope.inputs);
+    validateExpected(envelope.expected);
+    if (envelope.expected.totalRealWan > envelope.expected.totalNominalWan) {
+      throw new Error("expected.totalRealWan");
+    }
+    if (
+      envelope.expected.startBalanceRealWan >
+      envelope.expected.startBalanceNominalWan
+    ) {
+      throw new Error("expected.startBalanceRealWan");
+    }
+    if (
+      envelope.expected.desiredMonthlyRealWan >
+      envelope.inputs.desiredMonthlyWan
+    ) {
+      throw new Error("expected.desiredMonthlyRealWan");
+    }
+    for (let index = 0; index < 2; index += 1) {
+      if (
+        envelope.expected.affordableRealWanRange[index] >
+        envelope.expected.affordableNominalWanRange[index]
+      ) {
+        throw new Error("expected.affordableRealWanRange");
+      }
+    }
+    return envelope;
+  }
+
+  function utf8Bytes(value) {
+    if (typeof TextEncoder !== "undefined") return new TextEncoder().encode(value);
+    if (typeof Buffer !== "undefined") {
+      return Uint8Array.from(Buffer.from(value, "utf8"));
+    }
+    throw new Error("utf8.encoder");
+  }
+
+  function bytesToBase64url(bytes) {
+    if (typeof Buffer !== "undefined") return Buffer.from(bytes).toString("base64url");
+    let binary = "";
+    for (let offset = 0; offset < bytes.length; offset += 0x8000) {
+      binary += String.fromCharCode(...bytes.subarray(offset, offset + 0x8000));
+    }
+    return btoa(binary)
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/u, "");
+  }
+
+  function crc32(value) {
+    const bytes = utf8Bytes(value);
+    let crc = 0xffffffff;
+    for (const byte of bytes) {
+      crc ^= byte;
+      for (let bit = 0; bit < 8; bit += 1) {
+        crc = (crc >>> 1) ^ (0xedb88320 & -(crc & 1));
+      }
+    }
+    return ((crc ^ 0xffffffff) >>> 0).toString(16).padStart(8, "0");
+  }
+
+  function encodeEnvelope(envelope) {
+    validateEnvelope(envelope);
+    const payload = bytesToBase64url(utf8Bytes(JSON.stringify(envelope)));
+    return `${CONTRACT}.${payload}.${crc32(payload)}`;
+  }
+
+  return Object.freeze({
+    CONTRACT,
+    ENGINE_VERSION,
+    crc32,
+    encodeEnvelope,
+    validateEnvelope,
+  });
+});
+</script>
+<!-- MN1_MEMBER_ENCODER_END -->
 <script>
 (function(){
   "use strict";
@@ -756,7 +1047,7 @@ function simulate(cfg){
 
   // 制度・主要3項目を本人が確認するまでは「サンプル」と明示し、相談メモをコピーさせない。
   const coreTouched={scheme:false,age:false,bal:false,mon:false};
-  let fullResultReady=false,inputValid=true,lastFullS=null,lastFullCfg=null,affordOnlyPending=false;
+  let fullResultReady=false,inputValid=true,lastFullS=null,lastFullCfg=null,affordOnlyPending=false,mn1TransferReady=false;
   const coreConfirmed=()=>Object.values(coreTouched).every(Boolean);
   function setResultBusy(busy){
     $("resultCard").setAttribute("aria-busy",busy?"true":"false");
@@ -768,14 +1059,14 @@ function simulate(cfg){
   }
   function showInputError(message){
     $("valMsg").textContent=message;
-    inputValid=false;fullResultReady=false;affordOnlyPending=false;setResultBusy(false);
+    inputValid=false;fullResultReady=false;affordOnlyPending=false;mn1TransferReady=false;setResultBusy(false);
     $("resultCard").setAttribute("data-invalid","true");
     $("resultInvalid").hidden=false;
     $("memoText").value="入力を確認すると相談メモを作れます。";
     refreshCopyState();
   }
   function showRecalculating(){
-    fullResultReady=false;inputValid=true;setResultBusy(true);
+    fullResultReady=false;inputValid=true;mn1TransferReady=false;setResultBusy(true);
     clearResultInvalid();
     syncSelectedRangeCopy();
     $("verdict").textContent="条件を変えました。計算が終わるまでお待ちください。";
@@ -788,7 +1079,7 @@ function simulate(cfg){
     refreshCopyState();
   }
   function showAffordRecalculating(){
-    fullResultReady=false;inputValid=true;affordOnlyPending=true;setResultBusy(true);
+    fullResultReady=false;inputValid=true;affordOnlyPending=true;mn1TransferReady=false;setResultBusy(true);
     clearResultInvalid();
     syncSelectedRangeCopy();
     $("verdict").textContent="80%・90%の条件を変えました。月額の目安を計算しています。";
@@ -800,11 +1091,12 @@ function simulate(cfg){
     refreshCopyState();
   }
   function refreshCopyState(){
-    const btn=$("copyMemoBtn"),msg=$("copyMsg"),ready=coreConfirmed()&&inputValid&&fullResultReady;
+    const btn=$("copyMemoBtn"),msg=$("copyMsg"),ready=coreConfirmed()&&inputValid&&fullResultReady&&mn1TransferReady;
     btn.disabled=!ready;
     msg.className="cpymsg";
     if(!inputValid)msg.textContent="入力を確認してください。";
     else if(!fullResultReady)msg.textContent="再計算が終わるとコピーできます。";
+    else if(!mn1TransferReady)msg.textContent="担当者用の再現コードを作れませんでした。もう一度計算してください。";
     else if(!coreConfirmed())msg.textContent="制度・年齢・残高・毎月の掛金を確認するとコピーできます。";
     else msg.textContent="";
   }
@@ -901,11 +1193,55 @@ function simulate(cfg){
     const b=[...$("styleSeg").querySelectorAll("button")].find(x=>x.getAttribute("aria-pressed")==="true");
     return b?`ケース${b.dataset.case}（増え方${b.dataset.mu}%・値動き${b.dataset.sig}%）`:"—";
   }
+  // MN1_MEMBER_TRANSFER_UI_BEGIN
+  const mn1IntegerWan=yen=>Math.round(yen/1e4);
+  const mn1OneDecimal=value=>Math.round(value*10)/10;
+  function buildMN1Envelope(D){
+    return {
+      contract:MN1MemberEncoder.CONTRACT,
+      engine:MN1MemberEncoder.ENGINE_VERSION,
+      inputs:{
+        scheme:activeScheme(),
+        limit62:$("limit62").checked,
+        age:D.age,
+        balanceWan:D.currentYen/1e4,
+        monthlyWan:+$("mon").value,
+        drawAge:D.drawAge,
+        maxAge:D.maxAge,
+        caseId:styleCase,
+        inflationPct:D.infl,
+        desiredMonthlyWan:D.spend,
+        targetPct:D.pPct,
+        muPct:styleMu,
+        sigmaPct:styleSig
+      },
+      expected:{
+        totalNominalWan:mn1IntegerWan(D.totalNomYen),
+        totalRealWan:mn1IntegerWan(D.totalRealYen),
+        startBalanceNominalWan:mn1IntegerWan(D.startNomYen),
+        startBalanceRealWan:mn1IntegerWan(D.startRealYen),
+        desiredMonthlyRealWan:mn1OneDecimal(D.spendReal),
+        affordableNominalWanRange:[D.affordNomLo,D.affordNomHi],
+        affordableRealWanRange:[D.affordRealLo,D.affordRealHi],
+        desiredSurvivalPctRange:[D.svLo,D.svHi],
+        feasibleAllSeeds:Boolean(D.ap&&D.ap.feasible)
+      }
+    };
+  }
   function updateMemo(){
     const D=lastMoneyData;if(!D)return;
     const surv=$("rSurv").firstChild?$("rSurv").firstChild.textContent.trim():"—";
     const affordNom=D.ap&&D.ap.feasible?`${rangeText(D.affordNomLo,D.affordNomHi)}万円/月`:"算出できず";
     const affordReal=D.ap&&D.ap.feasible?`${rangeText(D.affordRealLo,D.affordRealHi)}万円/月`:"算出できず";
+    let mn1Code;
+    try{
+      mn1Code=MN1MemberEncoder.encodeEnvelope(buildMN1Envelope(D));
+      mn1TransferReady=true;
+    }catch(error){
+      mn1TransferReady=false;
+      $("memoText").value="担当者用の再現コードを作れませんでした。条件を確認して、もう一度計算してください。";
+      return;
+    }
     $("memoText").value=[
       coreConfirmed()?"【iDeCo+・企業型DC 相談メモ】":"【サンプル値の相談メモ】",
       `制度：${schemeLabel()}`,
@@ -924,9 +1260,14 @@ function simulate(cfg){
       `希望月額で${D.maxAge}歳まで残高がもった割合（計算パターン3組）：${surv}`,
       `注意：毎月均等に取り崩す仮想試算で、実際のDC給付方法や手取り額とは異なる`,
       "",
-      "聞きたいこと：実際に受け取りを始められる年齢／一時金・年金・併用のどれを選べるか／制度上の掛金上限／いまの運用と受取後の運用はどのケースに近いか／税引後の受取額"
+      "聞きたいこと：実際に受け取りを始められる年齢／一時金・年金・併用のどれを選べるか／制度上の掛金上限／いまの運用と受取後の運用はどのケースに近いか／税引後の受取額",
+      "",
+      "【担当者用の再現コード】",
+      "下のコードは削除・変更せず、そのまま担当者へ送ってください。氏名や連絡先は自動では含みませんが、入力した年齢・残高・試算結果が含まれます。",
+      mn1Code
     ].join("\n");
   }
+  // MN1_MEMBER_TRANSFER_UI_END
   $("copyMemoBtn").addEventListener("click",async()=>{
     const msg=$("copyMsg"), text=$("memoText").value;
     if($("copyMemoBtn").disabled){refreshCopyState();return;}
@@ -1032,8 +1373,8 @@ function simulate(cfg){
   function render(quick){
     setN(quick?600:2000);
     const age=+$("age").value,balRaw=$("bal").value.trim(),bal=Number(balRaw),mon=+$("mon").value,spend=+$("spend").value,infl=inflRate;
-    if(balRaw===""||!Number.isFinite(bal)||bal<0){
-      showInputError("現在の運用残高を0以上の数字で入力してください。");return;
+    if(balRaw===""||!Number.isFinite(bal)||bal<0||bal>10000){
+      showInputError("現在の運用残高を0〜10,000万円の範囲で入力してください。");return;
     }
     if(!Number.isFinite(mon)||mon<0||mon>6.2){
       showInputError("毎月の掛金を0〜6.2万円の範囲で入力してください。");return;
