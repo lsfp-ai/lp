@@ -57,7 +57,7 @@ function randomEnvelope() {
 
   return {
     contract: "MN1",
-    engine: "v24",
+    engine: "v25",
     inputs: {
       scheme,
       limit62,
@@ -89,12 +89,12 @@ function randomEnvelope() {
 
 function invalidEnvelope(envelope, index) {
   const value = structuredClone(envelope);
-  switch (index % 10) {
+  switch (index % 14) {
     case 0:
       value.contract = "MN2";
       break;
     case 1:
-      value.engine = "v25";
+      value.engine = "v24";
       break;
     case 2:
       value.inputs.age = 19;
@@ -117,8 +117,20 @@ function invalidEnvelope(envelope, index) {
     case 8:
       value.expected.desiredSurvivalPctRange = [50, 49.9];
       break;
-    default:
+    case 9:
       value.extra = "reject";
+      break;
+    case 10:
+      value.engine = "v26";
+      break;
+    case 11:
+      value.engine = "V25";
+      break;
+    case 12:
+      value.engine = "v25 ";
+      break;
+    default:
+      value.engine = "";
       break;
   }
   return value;

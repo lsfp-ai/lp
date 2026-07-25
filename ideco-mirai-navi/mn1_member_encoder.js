@@ -14,7 +14,8 @@
    */
 
   const CONTRACT = "MN1";
-  const ENGINE_VERSION = "v24";
+  // v25: 固定MCドライバープロファイルを変更。計算式・CF規則はv24と同じだが、標本結果はv24と一致しない。
+  const ENGINE_VERSION = "v25";
   const MAX_BALANCE_WAN = 10000;
 
   const CASES = Object.freeze({

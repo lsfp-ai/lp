@@ -472,7 +472,8 @@
    */
 
   const CONTRACT = "MN1";
-  const ENGINE_VERSION = "v24";
+  // v25: 固定MCドライバープロファイルを変更。計算式・CF規則はv24と同じだが、標本結果はv24と一致しない。
+  const ENGINE_VERSION = "v25";
   const MAX_BALANCE_WAN = 10000;
 
   const CASES = Object.freeze({
@@ -801,7 +802,7 @@ function solveAffordable(S0,rM,n,inflR,keep,flows){
     return (lo+hi)/2; // 初期の月額（円）
   }
 function solveAffordableProb(cfg,targetProb){
-    // F2根治：「使える上限」を決定論の単一月利（実生存率≈50%）でなく、simulateと同一のMC（seed2027・同一CF機構）で解く。
+    // F2根治：「使える上限」を決定論の単一月利（実生存率≈50%）でなく、simulateと同一のMC（固定seed 19670701・同一CF機構）で解く。
     // 顧客価値の一文＝「想定寿命まで、試算のうち targetProb の割合で足りる見込みなら、毎月いくら使えるか」（確率の断定・保証はしない＝ラベルA）。
     // 取崩額wMonはRNGを消費しない（simulateの乱数消費列はwMon非依存）＝全候補が同一パス列を見る→survProbはwMonに単調非増加＝二分が正当。
     // 戻り: {wYen:取崩開始時点の初月取崩額(円/月・名目・spendMode=keepなら以降インフレ増額), survProb:その額での実測生存率, target, feasible}
@@ -835,7 +836,7 @@ function simulate(cfg){
     const matSeedM=Math.max(1,matM); // 満期年齢が現在以下でも初月に投入開始（消失防止）
     const matSplitEnd=matSeedM+(mat?mat.yrs:0)*12, matMove=matOn?matAmtY/(mat.yrs*12):0;
     const matMu=(mat?mat.mu:0)/100/12, matSig=(mat?mat.sig:0)/100/Math.sqrt(12);
-    const rng=mulberry32(cfg.seed==null?2027:cfg.seed>>>0),norm=makeNorm(rng); // 既定seed2027（bit不変）。cfg.seedは検証用の独立サンプリング注入口（fuzz §11）＝本番UIは未指定
+    const rng=mulberry32(cfg.seed==null?19670701:cfg.seed>>>0),norm=makeNorm(rng); // LSFP固定seed 19670701。cfg.seedは検証用の独立サンプリング注入口（fuzz §11）＝本番UIは未指定
     const yearTot=Array.from({length:years+1},()=>new Float64Array(N));
     const yearCum=Array.from({length:years+1},()=>new Float64Array(N)); // 累計受取（名目）
     const yearCumR=Array.from({length:years+1},()=>new Float64Array(N)); // 累計受取（実質＝今の価値）
@@ -902,7 +903,8 @@ function simulate(cfg){
   let pTarget=0.80; // 「毎月使える額」の目標生存確率（80%/90%・セレクタ連動）
   let moneyView="nominal",lastMoneyData=null;
   // 単一seedの見かけの精密さを避ける。計算核は変えず、皮側で乱数の異なる3組を同条件で比較する。
-  const AFFORD_SEEDS=[2027,1,2],N_AFFORD_PER_SEED=1000;
+  // 主シードは再現用の19670701。補助2本は連番を避け、決定論のまま標本を分散する。
+  const AFFORD_SEEDS=[19670701,2669371156,2227694790],N_AFFORD_PER_SEED=1000;
   const _uiSimCache=new Map(),_apCache=new Map(),_desiredSurvCache=new Map();
   const cachePut=(map,key,val,limit)=>{if(map.has(key))map.delete(key);map.set(key,val);while(map.size>limit)map.delete(map.keys().next().value);return val;};
   const normalizedFlatCfg=cfg=>cfg.spendMode==="flat"?Object.assign({},cfg,{infl:0}):cfg;
