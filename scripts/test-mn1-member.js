@@ -9,7 +9,7 @@ const encoder = require("../ideco-mirai-navi/mn1_member_encoder.js");
 
 const envelope = {
   contract: "MN1",
-  engine: "v24",
+  engine: "v25",
   inputs: {
     scheme: "unknown",
     limit62: false,
@@ -28,18 +28,18 @@ const envelope = {
   expected: {
     totalNominalWan: 980,
     totalRealWan: 896,
-    startBalanceNominalWan: 2224,
-    startBalanceRealWan: 1496,
+    startBalanceNominalWan: 2236,
+    startBalanceRealWan: 1505,
     desiredMonthlyRealWan: 10.1,
-    affordableNominalWanRange: [7.5, 8.5],
+    affordableNominalWanRange: [7.5, 8],
     affordableRealWanRange: [5, 5.5],
-    desiredSurvivalPctRange: [46.5, 49.4],
+    desiredSurvivalPctRange: [45, 50.3],
     feasibleAllSeeds: true,
   },
 };
 
 const golden =
-  "MN1.eyJjb250cmFjdCI6Ik1OMSIsImVuZ2luZSI6InYyNCIsImlucHV0cyI6eyJzY2hlbWUiOiJ1bmtub3duIiwibGltaXQ2MiI6ZmFsc2UsImFnZSI6NDUsImJhbGFuY2VXYW4iOjUwMCwibW9udGhseVdhbiI6MiwiZHJhd0FnZSI6NjUsIm1heEFnZSI6OTUsImNhc2VJZCI6IkIiLCJpbmZsYXRpb25QY3QiOjIsImRlc2lyZWRNb250aGx5V2FuIjoxNSwidGFyZ2V0UGN0Ijo4MCwibXVQY3QiOjcsInNpZ21hUGN0IjoxNX0sImV4cGVjdGVkIjp7InRvdGFsTm9taW5hbFdhbiI6OTgwLCJ0b3RhbFJlYWxXYW4iOjg5Niwic3RhcnRCYWxhbmNlTm9taW5hbFdhbiI6MjIyNCwic3RhcnRCYWxhbmNlUmVhbFdhbiI6MTQ5NiwiZGVzaXJlZE1vbnRobHlSZWFsV2FuIjoxMC4xLCJhZmZvcmRhYmxlTm9taW5hbFdhblJhbmdlIjpbNy41LDguNV0sImFmZm9yZGFibGVSZWFsV2FuUmFuZ2UiOls1LDUuNV0sImRlc2lyZWRTdXJ2aXZhbFBjdFJhbmdlIjpbNDYuNSw0OS40XSwiZmVhc2libGVBbGxTZWVkcyI6dHJ1ZX19.0b16a3f8";
+  "MN1.eyJjb250cmFjdCI6Ik1OMSIsImVuZ2luZSI6InYyNSIsImlucHV0cyI6eyJzY2hlbWUiOiJ1bmtub3duIiwibGltaXQ2MiI6ZmFsc2UsImFnZSI6NDUsImJhbGFuY2VXYW4iOjUwMCwibW9udGhseVdhbiI6MiwiZHJhd0FnZSI6NjUsIm1heEFnZSI6OTUsImNhc2VJZCI6IkIiLCJpbmZsYXRpb25QY3QiOjIsImRlc2lyZWRNb250aGx5V2FuIjoxNSwidGFyZ2V0UGN0Ijo4MCwibXVQY3QiOjcsInNpZ21hUGN0IjoxNX0sImV4cGVjdGVkIjp7InRvdGFsTm9taW5hbFdhbiI6OTgwLCJ0b3RhbFJlYWxXYW4iOjg5Niwic3RhcnRCYWxhbmNlTm9taW5hbFdhbiI6MjIzNiwic3RhcnRCYWxhbmNlUmVhbFdhbiI6MTUwNSwiZGVzaXJlZE1vbnRobHlSZWFsV2FuIjoxMC4xLCJhZmZvcmRhYmxlTm9taW5hbFdhblJhbmdlIjpbNy41LDhdLCJhZmZvcmRhYmxlUmVhbFdhblJhbmdlIjpbNSw1LjVdLCJkZXNpcmVkU3Vydml2YWxQY3RSYW5nZSI6WzQ1LDUwLjNdLCJmZWFzaWJsZUFsbFNlZWRzIjp0cnVlfX0.3a4097b5";
 
 assert.equal(encoder.encodeEnvelope(envelope), golden, "Node golden encode");
 assert.throws(
