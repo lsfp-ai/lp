@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja" data-app-version="v1.2.0" data-release-date="2026-07-27">
+<html lang="ja" data-app-version="v1.3.0" data-release-date="2026-07-28">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -285,7 +285,7 @@
 
   <details class="learnbar">
     <summary><b>📖 入力した積立の見通しを整理します。</b>この積立以外や公的年金などは含みません。<span class="more">くわしく</span></summary>
-    <div class="learnbody">iDeCo+・企業型DCの残高と今後の掛金から、受け取り開始時の残高を試算します。さらに、その残高を生活費として毎月取り崩し、月額を物価上昇率に合わせて毎年増やす仮想試算も表示します。実際のDCの給付方法や手取り額とは異なります。公的年金、退職金、生活費、住宅費などは含まれないため、老後生活全体が安心かどうかを判定する画面ではありません。気になる点を担当者へ相談するときにお使いください。</div>
+    <div class="learnbody">iDeCo+・企業型DCの残高と今後の掛金から、受け取り開始時の残高を試算します。さらに、その残高を、選んだ取り崩し方法で毎月取り崩す仮想試算も表示します。実際のDCの給付方法や手取り額とは異なります。公的年金、退職金、生活費、住宅費などは含まれないため、老後生活全体が安心かどうかを判定する画面ではありません。気になる点を担当者へ相談するときにお使いください。</div>
   </details>
 
   <div class="sbanner" id="sBanner"><span>🧪</span><span><b>サンプル値を入力済みです。</b>条件を変えても自動計算しません。確認後に「この条件で計算する」を押してください。</span></div>
@@ -328,7 +328,24 @@
     <div class="q">
       <div class="lab"><span>取崩開始時に毎月使いたい金額（将来の額面）</span><label class="directnum"><input type="number" id="spendN" min="0.5" max="40" value="15" step="0.5" inputmode="decimal" aria-label="取崩開始時に毎月使いたい金額を数字で入力"><span class="u">万円</span></label></div>
       <input type="range" id="spend" min="0.5" max="40" value="15" step="0.5" aria-label="取り崩し開始年にこの残高から毎月使いたい将来の額面（万円）" aria-describedby="spendHint">
-      <div class="hint" id="spendHint" style="margin-top:7px">※ <span id="spendStartAge">65</span>歳時点の<b>将来の額面</b>です。税・社会保険料・手数料は差し引きません。実際のDC給付とは別に、その後は物価上昇率に合わせて毎年増やす仮想試算です。結果で「将来の金額」と「今の価値」を切り替えられます。</div>
+      <div class="hint" id="spendHint" style="margin-top:7px">※ <span id="spendStartAge">65</span>歳時点の<b>将来の額面</b>です。税・社会保険料・手数料は差し引きません。その後の月額は、次の取り崩し方法で決めます。</div>
+    </div>
+    <div class="q" id="spendModeInput">
+      <div class="lab">その後の月額をどうするか</div>
+      <div class="moneytabs" id="spendModeSeg" role="group" aria-label="取り崩し開始後の月額">
+        <button type="button" data-spend-mode="flat" aria-pressed="false">同じ額面のまま<small>毎年同じ月額</small></button>
+        <button type="button" data-spend-mode="keep" aria-pressed="true">物価に合わせて毎年増やす<small>初期設定</small></button>
+      </div>
+      <div class="hint" id="spendModeHint" style="margin-top:7px">※ 取り崩し開始時の月額を、翌年から物価上昇率に合わせて毎年増やします。生活水準を保ちやすい一方、資産は早く減ります。</div>
+    </div>
+    <div class="q" id="inflInput">
+      <div class="lab">物価上昇率の仮定</div>
+      <div class="inflseg" id="inflSeg" role="group" aria-label="物価上昇率の仮定">
+        <button type="button" data-infl="1" aria-pressed="false">年1%</button>
+        <button type="button" data-infl="2" aria-pressed="true">年2%<small>初期設定</small></button>
+        <button type="button" data-infl="3" aria-pressed="false">年3%</button>
+      </div>
+      <div class="hint" id="inflHint">※ この率を、取り崩し額の増額と「今の価値」への換算に使います。将来予測ではありません。</div>
     </div>
 
     <p class="sliderhelp">スライダーでも数字入力でも変更できます。変更中は計算せず、最後に計算ボタンを押します。</p>
@@ -345,7 +362,7 @@
         <summary>選択中のケースの数字を確認<span class="more">ひらく</span></summary>
         <div class="notebody"><b id="caseDetailName">ケースB：増え方7%・値動き15%</b><br><span id="caseDetailBody">増え方7%は、長い期間で見た年平均の増え方を7%と仮定する意味で、毎年7%ずつ増える意味ではありません。値動き15%は、1年ごとの運用結果が上下にばらつく大きさで、15%下がると決まっている意味でも損失の上限でもありません。</span> いまの商品がどのケースに近いかは、担当者に確認してください。</div>
       </details>
-      <div class="hint" style="margin-top:8px">※ 残高を見る年齢は <b><span id="maxLbl">95</span>歳</b>まで、物価上昇は年<span id="inflInputVal">2</span>%と仮定します。取崩開始時の月額を、その後は物価上昇率に合わせて毎年増やします。
+      <div class="hint" style="margin-top:8px">※ 残高を見る年齢は <b><span id="maxLbl">95</span>歳</b>までです。
         <span class="agechoices" id="maxAgeSeg" role="group" aria-label="残高が続くか確認する年齢">
           <button type="button" class="theme mxbtn" data-m="90" aria-label="残高を見る年齢90歳" aria-pressed="false">90</button>
           <button type="button" class="theme mxbtn" data-m="95" aria-label="残高を見る年齢95歳" aria-pressed="true">95</button>
@@ -366,25 +383,13 @@
     <p class="eyebrow"><span class="no">4</span>積立から取り崩しまでの見通し <span class="sample-chip" id="resultSample">未計算</span></p>
     <div class="resultstale" id="resultStale" role="status">まだ計算していません。上の計算ボタンを押すと、ここに結果を表示します。</div>
     <div class="resultinvalid" id="resultInvalid" role="status" hidden>上の入力を確認すると、試算結果を表示します。</div>
-    <div class="moneytabs" id="moneyViewSeg" role="group" aria-label="金額の表示方法">
-      <button type="button" data-view="nominal" aria-label="将来の金額、額面" aria-pressed="true">将来の金額<small>（額面）</small></button>
-      <button type="button" data-view="real" aria-label="今の価値、インフレ反映" aria-pressed="false">今の価値<small>（インフレ反映）</small></button>
+    <div class="moneytabs" id="moneyViewSeg" role="group" aria-label="金額の見方">
+      <button type="button" data-view="nominal" aria-label="年ごとの額面、その年に受け取る想定額" aria-pressed="true">年ごとの額面<small>その年に受け取る想定額</small></button>
+      <button type="button" data-view="real" aria-label="今の価値、現在の生活感覚に換算" aria-pressed="false">今の価値<small>現在の生活感覚に換算</small></button>
     </div>
-    <p class="viewintro" id="viewIntro" aria-live="polite">将来、口座に表示される金額です。物価上昇は差し引いていません。</p>
-    <details class="note inflationcompare" id="inflationCompare" style="display:none">
-      <summary><span id="inflSummary">物価上昇率を変えて比べる（現在 年2%）</span><span class="more">ひらく</span></summary>
-      <div class="notebody">
-        <b>初期設定は年2%です。</b>日本銀行の2%目標を参考にしていますが、将来予測ではありません。物価上昇の仮定によって、取崩額の増え方、資産寿命、「今の価値」がどう変わるかを比べます。
-        <div class="inflseg" id="inflSeg" role="group" aria-label="物価上昇率の仮定">
-          <button type="button" data-infl="1" aria-pressed="false">年1%</button>
-          <button type="button" data-infl="2" aria-pressed="true">年2%<small>初期設定</small></button>
-          <button type="button" data-infl="3" aria-pressed="false">年3%</button>
-        </div>
-        <p class="inflnote">どれが正解という意味ではありません。物価上昇率を高くすると、取崩額がより早く増えるため、将来の残高（額面）と資産寿命も変わります。</p>
-      </div>
-    </details>
+    <p class="viewintro" id="viewIntro" aria-live="polite">その年に受け取ると仮定した額面です。</p>
+    <p class="viewintro"><b>表示だけを切り替えます。</b>上で選んだ取り崩し方法は変わりません。</p>
     <div class="resultassumption" id="resultAssumption">計算後に、使ったケースと条件を表示します。</div>
-    <div class="inflationaction" id="inflationAction" style="display:none"><b>次に試すこと：</b>物価上昇率を変えると、取崩額の増え方と資産寿命も変わります。<a href="#monInput">毎月の掛金を変える</a>、取り崩し開始年齢を遅らせる、希望月額を見直す場合を比べられます。</div>
 
     <div class="fundbox">
       <div class="fundhead">取り崩し開始まで</div>
@@ -397,8 +402,8 @@
     </div>
 
     <details class="note">
-      <summary>「将来の金額」と「今の価値」の違い<span class="more">ひらく</span></summary>
-      <div class="notebody"><b>将来の金額（額面）</b>は、将来の口座に表示される、そのままの金額です。<b>今の価値</b>は、物価上昇を年<span id="inflExplainVal">2</span>%と仮定し、将来のお金で今と同じくらい買えるものはどの程度かを示します。お金そのものが減る意味ではありません。同じ試算を2つの読み方で表示しています。</div>
+      <summary>「年ごとの額面」と「今の価値」の違い<span class="more">ひらく</span></summary>
+      <div class="notebody"><b>年ごとの額面</b>は、その年に受け取ると仮定した金額です。<b>今の価値</b>は、物価上昇を年<span id="inflExplainVal">2</span>%と仮定し、将来のお金で今と同じくらい買えるものはどの程度かを示します。お金そのものが減る意味ではありません。同じ試算を2つの読み方で表示しています。</div>
     </details>
 
     <p class="resultcap question first"><span class="qno">1</span>希望した月額で見る</p>
@@ -456,7 +461,7 @@
         <div class="hint" id="pTargetHint" style="margin-top:7px">80%を選択中です。試算100回のうち約80回で、残高が尽きずに95歳まで取り崩せる月額です。残り約20回では途中で尽きます。90%を選ぶと、月額は小さくなりますが、95歳まで続く試算が増えます。</div>
       </div>
     </div>
-    <p class="virtualnote">これは、残高を毎月取り崩し、月額を物価上昇率に合わせて毎年増やす仮想試算です。実際のDCの給付方法、受取回数、税金、手数料は制度や規約で変わります。</p>
+    <p class="virtualnote">これは、選んだ条件で残高を毎月取り崩す仮想試算です。実際のDCの給付方法、受取回数、税金、手数料は制度や規約で変わります。</p>
   </div>
 
   <div class="qex">
@@ -482,7 +487,7 @@
     <div class="disc-box">
       <h4><span class="ic">⚠</span>ご利用にあたって</h4>
       <ul class="disc-list">
-        <li>本ツールは、この残高を毎月取り崩し、月額を物価上昇率に合わせて毎年増やす<b>仮想試算</b>です。制度上の実際の給付額や受け取り方を示すものではありません。</li>
+        <li>本ツールは、この残高を毎月取り崩す<b>仮想試算</b>です。月額は、「同じ額面のまま」または「物価上昇率に合わせて毎年増やす」方法で計算します。制度上の実際の給付額や受け取り方を示すものではありません。</li>
         <li>結果は確率的な目安で、将来の成果・受取額・元本を<b>保証しません</b>。</li>
         <li>運用の<b>利回り・リスクは前提（仮定）</b>です。前提が変われば結果も変わります。</li>
         <li>試算は<b>税・社会保険料・手数料を含まない簡易計算</b>です。実際の手取りは異なります。<b>制度・税制・法令の改正</b>により、取り扱いや結果は変わることがあります。</li>
@@ -490,7 +495,7 @@
         <li>入力内容と試算結果は、<b>お使いのブラウザ内でのみ計算</b>し、このアプリには保存されません。</li>
       </ul>
       <p class="disc-provider">提供：<b>株式会社LSFP</b>。加入者向けに入力項目を絞っています。計算方法は、担当者が使う試算と同じです。現在は <b id="selectedCaseFooter">ケースB（増え方7%・値動き15%）</b> の前提です。</p>
-      <p class="releaseinfo">画面版 <b data-app-version-label></b>／再現 <b data-contract-version-label></b>／計算版 <b data-engine-version-label></b>／更新日 <b data-release-date-label></b><span class="reflected">利用者意見反映版</span><br>今回の反映：取崩開始時の月額を、その後は物価上昇率に合わせて毎年増やす計算へ統一しました。</p>
+      <p class="releaseinfo">画面版 <b data-app-version-label></b>／再現 <b data-contract-version-label></b>／計算版 <b data-engine-version-label></b>／更新日 <b data-release-date-label></b><span class="reflected">利用者意見反映版</span><br>今回の反映：取り崩し方法を明示選択できるようにし、物価上昇率を常に確認できる位置へ移しました。</p>
       <details class="note">
         <summary>試算方法を詳しく見る<span class="more">ひらく</span></summary>
         <div class="notebody" id="affordMethodText">95歳まで残高が続く月額の目安は、同じ条件で1,000通りの試算を3回行い、結果の幅で表示します。残高グラフは2,000通りの試算です。いずれも将来を保証する数字ではありません。</div>
@@ -512,13 +517,13 @@
   "use strict";
 
   /*
-   * 加入者版は、画面で確定した入力と表示結果を現行MN3形式へ符号化するだけに限定する。
+   * 加入者版は、画面で確定した入力と表示結果を現行MN4形式へ符号化するだけに限定する。
    * DOM、保存、通信、アドバイザー向け再計算はこのモジュールへ入れない。
    */
 
-  const CONTRACT = "MN3";
-  // v26: 希望月額を取崩開始時の額面とし、その後は物価上昇率に合わせて毎年増額する。
-  const ENGINE_VERSION = "v26";
+  const CONTRACT = "MN4";
+  // v27: 取崩開始後の月額を「額面固定」または「物価連動」から明示選択する。
+  const ENGINE_VERSION = "v27";
   const MAX_BALANCE_WAN = 10000;
 
   const CASES = Object.freeze({
@@ -581,7 +586,7 @@
 
   function validateInputs(input) {
     requireExactKeys(input, INPUT_KEYS, "inputs");
-    if (input.spendMode !== "keep") throw new Error("inputs.spendMode");
+    if (!["flat", "keep"].includes(input.spendMode)) throw new Error("inputs.spendMode");
     if (!["idecoplus", "corporate", "unknown"].includes(input.scheme)) {
       throw new Error("inputs.scheme");
     }
@@ -813,7 +818,7 @@
   document.querySelectorAll("[data-contract-version-label]").forEach(el=>{el.textContent=MN1MemberEncoder.CONTRACT;});
   document.querySelectorAll("[data-engine-version-label]").forEach(el=>{el.textContent=MN1MemberEncoder.ENGINE_VERSION;});
   document.querySelectorAll("[data-release-date-label]").forEach(el=>{el.textContent=APP_RELEASE_DATE;});
-  // ===== 加入者版計算核（MN3共有結果はアドバイザー版と別の出力parity検査で照合）=====
+  // ===== 加入者版計算核（MN4共有結果はアドバイザー版と別の出力parity検査で照合）=====
 const QS=[0.10,0.20,0.25,0.40,0.50,0.75,0.90];
 let N=2000;
 function setN(n){N=n;}
@@ -962,7 +967,7 @@ function simulate(cfg){
   // ===== 計算核ここまで =====
 
   const man=n=>Math.round(n/1e4).toLocaleString("ja-JP");
-  let styleCase="B",styleMu=7,styleSig=15,maxAge=95,activeMonLimit=5.5,inflRate=2;
+  let styleCase="B",styleMu=7,styleSig=15,maxAge=95,activeMonLimit=5.5,inflRate=2,spendMode="keep";
   let pTarget=0.80; // 「毎月使える額」の目標生存確率（80%/90%・セレクタ連動）
   let moneyView="nominal",lastMoneyData=null;
   // 単一seedの見かけの精密さを避ける。計算核は変えず、皮側で乱数の異なる3組を同条件で比較する。
@@ -1026,23 +1031,39 @@ function simulate(cfg){
     $("selectedCaseFooter").textContent=selectedCaseLabel();
   }
 
+  const spendModeLabel=mode=>mode==="flat"?"同じ額面のまま":"物価に合わせて毎年増やす";
+  function applySpendModeDraftCopy(){
+    document.querySelectorAll("#spendModeSeg button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.spendMode===spendMode?"true":"false"));
+    document.querySelectorAll("#inflSeg button").forEach(x=>x.setAttribute("aria-pressed",+x.dataset.infl===inflRate?"true":"false"));
+    const drawAge=$("drawN").value||$("draw").value;
+    const amount=wanText(Number($("spendN").value)||Number($("spend").value));
+    $("spendModeHint").textContent=spendMode==="flat"
+      ?`※ ${drawAge}歳から月${amount}万円の額面を、その後も変えません。物価が上がると、同じ金額で買えるものは少なくなります。`
+      :`※ ${drawAge}歳は月${amount}万円です。翌年から、物価上昇率に合わせて毎年増やします。生活水準を保ちやすい一方、資産は早く減ります。`;
+    $("inflHint").textContent=spendMode==="flat"
+      ?"※ 取り崩し額は増やしません。この率は「今の価値」への換算だけに使います。将来予測ではありません。"
+      :"※ この率を、取り崩し額の増額と「今の価値」への換算に使います。将来予測ではありません。";
+    if(!lastMoneyData){
+      $("survSpendView").textContent=spendMode==="flat"
+        ?`月${amount}万円の額面を固定`
+        :`開始時は月${amount}万円、以後は年${inflRate}%増額`;
+    }
+  }
+
   function applyMoneyView(){
     const D=lastMoneyData;if(!D)return;
     const real=moneyView==="real";
-    $("inflInputVal").textContent=inflRate;
     $("inflExplainVal").textContent=D.infl;
-    $("inflSummary").textContent=inputDirty&&D.infl!==inflRate
-      ?`物価上昇率を変えて比べる（表示中 年${D.infl}%／次の計算 年${inflRate}%）`
-      :`物価上昇率を変えて比べる（現在 年${D.infl}%）`;
     document.querySelectorAll("#inflSeg button").forEach(x=>x.setAttribute("aria-pressed",+x.dataset.infl===inflRate?"true":"false"));
     $("viewIntro").textContent=real
       ?`物価上昇を年${D.infl}%と仮定し、将来のお金を今の経済価値に直した金額です。`
-      :"将来、口座に表示される金額です。物価上昇は差し引いていません。";
+      :"その年に受け取ると仮定した額面です。物価上昇は差し引いていません。";
     applyResultSelectionCopy(D);
-    $("resultAssumption").textContent=`計算済み：${D.caseLabel}／${D.drawAge}歳は月${wanText(D.spend)}万円、以後は年${D.infl}%増やして仮に取り崩す`;
-    $("chartScenarioLbl").textContent=`開始時は月${wanText(D.spend)}万円、以後は年${D.infl}%増やす場合`;
-    $("inflationCompare").style.display=real?"block":"none";
-    $("inflationAction").style.display=real?"block":"none";
+    const modeText=spendModeLabel(D.spendMode);
+    $("resultAssumption").textContent=`計算済み：${D.caseLabel}／取り崩し方法：${modeText}／物価上昇率 年${D.infl}%`;
+    $("chartScenarioLbl").textContent=D.spendMode==="flat"
+      ?`月${wanText(D.spend)}万円の額面を変えない場合`
+      :`開始時は月${wanText(D.spend)}万円、以後は年${D.infl}%増やす場合`;
     $("fundCurrent").textContent=moneyText(D.currentYen);
     $("fundFutureK").textContent=real?"＋これからの掛金（各月を今の価値へ換算）":"＋これから積み立てる掛金";
     $("fundFuture").textContent=moneyText(real?D.futureRealYen:D.futureNomYen);
@@ -1057,9 +1078,13 @@ function simulate(cfg){
     const desired=real?D.spendReal:D.spend;
     $("rDesiredK").textContent=real?"取崩開始時の毎月額（今の価値）":"取崩開始時の毎月額（将来の額面）";
     $("rDesired").innerHTML=`${wanText(desired)}<small>万/月</small>`;
-    $("rDesiredF").textContent=real
-      ?`${D.drawAge}歳の額面は月${wanText(D.spend)}万円です。その後は年${D.infl}%ずつ増やし、今の価値でおおむね同じ生活水準を保つ仮想設定です。`
-      :`${D.drawAge}歳は月${wanText(D.spend)}万円、その後は物価上昇率の年${D.infl}%に合わせて毎年増やす仮想設定です。開始時の今の価値は約${wanText(D.spendReal)}万円です。`;
+    $("rDesiredF").textContent=D.spendMode==="flat"
+      ?(real
+        ?`${D.drawAge}歳の額面は月${wanText(D.spend)}万円で、その後も変えません。今の価値は年${D.infl}%の物価上昇により年々下がります。`
+        :`${D.drawAge}歳から月${wanText(D.spend)}万円の額面を、その後も変えない仮想設定です。開始時の今の価値は約${wanText(D.spendReal)}万円です。`)
+      :(real
+        ?`${D.drawAge}歳の額面は月${wanText(D.spend)}万円です。その後は年${D.infl}%ずつ増やし、今の価値でおおむね同じ生活水準を保つ仮想設定です。`
+        :`${D.drawAge}歳は月${wanText(D.spend)}万円、その後は物価上昇率の年${D.infl}%に合わせて毎年増やす仮想設定です。開始時の今の価値は約${wanText(D.spendReal)}万円です。`);
     if(D.depletionAge>D.maxAge){
       $("rDepletionAge").innerHTML=`${D.maxAge}<small>歳超</small>`;
       $("rDepletionAgeF").textContent=`やや少なめに見ても、${D.maxAge}歳時点で残高がある見込みです。2,000通りを早く尽きる順に並べ、小さいほうから40%の位置です。確定ではありません。`;
@@ -1081,16 +1106,24 @@ function simulate(cfg){
       $("rAffordF").textContent=`取崩額を0円としても、3組すべてでは${D.maxAge}歳まで残高が残る試算が${D.pPct}%に届きません。`;
     }
 
-    $("survSpendView").textContent=real
-      ?`開始時の月${wanText(D.spend)}万円（今の価値 約${wanText(D.spendReal)}万円）、以後は年${D.infl}%増額`
-      :`開始時の月${wanText(D.spend)}万円、以後は年${D.infl}%増額`;
+    $("survSpendView").textContent=D.spendMode==="flat"
+      ?(real
+        ?`月${wanText(D.spend)}万円の額面を固定（開始時の今の価値 約${wanText(D.spendReal)}万円）`
+        :`月${wanText(D.spend)}万円の額面を固定`)
+      :(real
+        ?`開始時の月${wanText(D.spend)}万円（今の価値 約${wanText(D.spendReal)}万円）、以後は年${D.infl}%増額`
+        :`開始時の月${wanText(D.spend)}万円、以後は年${D.infl}%増額`);
     if(!D.ap){
       $("verdict").textContent="条件を変えました。計算が終わるまでお待ちください。";
       $("rSurvF").textContent=`3組×${N_AFFORD_PER_SEED.toLocaleString()}通りで計算しています…`;
     }else{
-      const desiredLead=real
-        ?`開始時の月${wanText(D.spend)}万円は、${D.drawAge}歳時点の今の価値で約${wanText(D.spendReal)}万円です。その後は年${D.infl}%ずつ増やします。`
-        :`希望額は、${D.drawAge}歳の将来の額面で月${wanText(D.spend)}万円です。その後は年${D.infl}%ずつ増やします。`;
+      const desiredLead=D.spendMode==="flat"
+        ?(real
+          ?`月${wanText(D.spend)}万円の額面を変えない設定です。${D.drawAge}歳時点の今の価値は約${wanText(D.spendReal)}万円で、その後の今の価値は年々下がります。`
+          :`希望額は月${wanText(D.spend)}万円の額面で、${D.drawAge}歳以降も変えない設定です。`)
+        :(real
+          ?`開始時の月${wanText(D.spend)}万円は、${D.drawAge}歳時点の今の価値で約${wanText(D.spendReal)}万円です。その後は年${D.infl}%ずつ増やします。`
+          :`希望額は、${D.drawAge}歳の将来の額面で月${wanText(D.spend)}万円です。その後は年${D.infl}%ずつ増やします。`);
       const survText=D.svLo===D.svHi?`${D.svLo}%`:`${D.svLo}〜${D.svHi}%`;
       if(!D.ap.feasible)$("verdict").innerHTML=`${desiredLead}取崩額を0円としても、3組すべてでは${D.maxAge}歳まで残高が残る試算が${D.pPct}%に届かず、月額の目安を算出できませんでした。`;
       else if(D.targetMet)$("verdict").innerHTML=`${desiredLead}この金額を毎月取り崩した場合、${D.maxAge}歳まで残高がもった試算は、3組すべてで約<b>${D.pPct}%以上</b>でした。確定ではありません。`;
@@ -1098,18 +1131,23 @@ function simulate(cfg){
         const afford=real?rangeText(D.affordRealLo,D.affordRealHi):rangeText(D.affordNomLo,D.affordNomHi);
         $("verdict").innerHTML=`${desiredLead}この金額を毎月取り崩した場合、${D.maxAge}歳まで残高がもった試算は<b>${survText}</b>でした。約${D.pPct}%を目標にした月額は、${real?"開始時の今の価値":"将来の額面"}で<b>${afford}万円</b>です。`;
       }
-      $("rSurvF").textContent=real
-        ?`${D.drawAge}歳の額面月${wanText(D.spend)}万円を、その後は年${D.infl}%ずつ増やす仮想試算です。開始時の今の価値は約${wanText(D.spendReal)}万円です。各組${N_AFFORD_PER_SEED.toLocaleString()}通りです。`
-        :`${D.drawAge}歳は額面月${wanText(D.spend)}万円、その後は年${D.infl}%ずつ増やし、${D.maxAge}歳まで残高が尽きなかった割合です。各組${N_AFFORD_PER_SEED.toLocaleString()}通りです。`;
+      $("rSurvF").textContent=D.spendMode==="flat"
+        ?(real
+          ?`月${wanText(D.spend)}万円の額面を変えない仮想試算です。開始時の今の価値は約${wanText(D.spendReal)}万円です。各組${N_AFFORD_PER_SEED.toLocaleString()}通りです。`
+          :`月${wanText(D.spend)}万円の額面を変えず、${D.maxAge}歳まで残高が尽きなかった割合です。各組${N_AFFORD_PER_SEED.toLocaleString()}通りです。`)
+        :(real
+          ?`${D.drawAge}歳の額面月${wanText(D.spend)}万円を、その後は年${D.infl}%ずつ増やす仮想試算です。開始時の今の価値は約${wanText(D.spendReal)}万円です。各組${N_AFFORD_PER_SEED.toLocaleString()}通りです。`
+          :`${D.drawAge}歳は額面月${wanText(D.spend)}万円、その後は年${D.infl}%ずつ増やし、${D.maxAge}歳まで残高が尽きなかった割合です。各組${N_AFFORD_PER_SEED.toLocaleString()}通りです。`);
     }
 
     $("chartModeLbl").textContent=real?"今の価値":"将来の金額";
     $("chartBalK").textContent=`やや少なめに見た残高（${real?"今の価値":"将来の金額"}）`;
     $("chartMedianK").textContent=`中央値（2,000通りの真ん中・${real?"今の価値":"将来の金額"}）`;
     $("chartCumK").textContent=`やや少なめに見た、その年齢までの取崩累計（${real?"今の価値":"将来の金額"}）`;
-    $("chartDesc").textContent=real
-      ?`取崩開始時は月${wanText(D.spend)}万円、その後は年${D.infl}%ずつ増やした残高と取崩累計を、今の価値で表示しています。80%・90%の切替は、下の「${D.maxAge}歳まで残高が続く月額の目安」だけに反映され、このグラフは変わりません。緑の実線はやや少なめに見た残高、灰色の破線は2,000通りの真ん中です。帯の上側は一部省略しています。`
-      :`取崩開始時は月${wanText(D.spend)}万円、その後は年${D.infl}%ずつ増やした残高と取崩累計です。80%・90%の切替は、下の「${D.maxAge}歳まで残高が続く月額の目安」だけに反映され、このグラフは変わりません。緑の実線はやや少なめに見た残高、灰色の破線は2,000通りの真ん中です。帯の上側は一部省略しています。`;
+    const withdrawalDesc=D.spendMode==="flat"
+      ?`月${wanText(D.spend)}万円の額面を変えない`
+      :`取崩開始時は月${wanText(D.spend)}万円、その後は年${D.infl}%ずつ増やす`;
+    $("chartDesc").textContent=`${withdrawalDesc}仮想試算の残高と取崩累計を、${real?"今の価値":"年ごとの額面"}で表示しています。80%・90%の切替は、下の「${D.maxAge}歳まで残高が続く月額の目安」だけに反映され、このグラフは変わりません。緑の実線はやや少なめに見た残高、灰色の破線は2,000通りの真ん中です。帯の上側は一部省略しています。`;
     cv.setAttribute("aria-label",`積み立て期間と取り崩し開始後の残高の推移（${real?"今の価値":"将来の金額"}）。やや少なめに見た残高と中央値を表示します`);
   }
 
@@ -1143,6 +1181,7 @@ function simulate(cfg){
     return false;
   }
   function markInputsDirty(){
+    applySpendModeDraftCopy();
     inputDirty=true;fullResultReady=false;inputValid=true;mn1TransferReady=false;setResultBusy(false);
     clearResultInvalid();
     $("confirmInputs").disabled=false;
@@ -1322,14 +1361,18 @@ function simulate(cfg){
     if($("chartFold").open&&lastFullS)draw(lastFullS);
     if(!inputDirty&&fullResultReady)updateMemo();
   });
+  $("spendModeSeg").addEventListener("click",e=>{
+    const b=e.target.closest("button");if(!b)return;
+    const next=b.dataset.spendMode;if(!["flat","keep"].includes(next)||next===spendMode)return;
+    spendMode=next;
+    applySpendModeDraftCopy();
+    markInputsDirty();
+  });
   $("inflSeg").addEventListener("click",e=>{
     const b=e.target.closest("button");if(!b)return;
     const next=+b.dataset.infl;if(![1,2,3].includes(next)||next===inflRate)return;
     inflRate=next;
-    document.querySelectorAll("#inflSeg button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
-    $("inflSummary").textContent=lastMoneyData
-      ?`物価上昇率を変えて比べる（表示中 年${lastMoneyData.infl}%／次の計算 年${inflRate}%）`
-      :`物価上昇率を変えて比べる（次の計算 年${inflRate}%）`;
+    applySpendModeDraftCopy();
     markInputsDirty();
   });
   function activeCaseLabel(){
@@ -1354,7 +1397,7 @@ function simulate(cfg){
         caseId:styleCase,
         inflationPct:D.infl,
         desiredMonthlyWan:D.spend,
-        spendMode:"keep",
+        spendMode:D.spendMode,
         targetPct:D.pPct,
         muPct:styleMu,
         sigmaPct:styleSig
@@ -1402,13 +1445,14 @@ function simulate(cfg){
       `残高が続くか確認する年齢：${D.maxAge}歳`,
       `現在残高＋これからの掛金：額面${moneyText(D.totalNomYen)}／今の価値${moneyText(D.totalRealYen)}（運用益は含めない比較用合計）`,
       `試したケース：${activeCaseLabel()}（取り崩し開始時に掛金を止め、同じケースで残高を運用しながら取り崩す）`,
+      `取り崩し方法：${spendModeLabel(D.spendMode)}`,
       `物価上昇率の仮定：年${D.infl}%（初期設定は年2%。将来予測ではない）`,
       `取り崩し開始時の残高（やや少なめに見た値）：額面${moneyText(D.startNomYen)}／今の価値${moneyText(D.startRealYen)}`,
-      `毎月取り崩したい金額：${D.drawAge}歳の将来の額面${wanText(D.spend)}万円／開始時の今の価値約${wanText(D.spendReal)}万円（以後は物価上昇率の年${D.infl}%に合わせて毎年増額）`,
-      `約${Math.round(pTarget*100)}%を目標にした、${D.maxAge}歳まで残高が続く仮想の開始時月額目安（${D.drawAge}歳から・以後年${D.infl}%増額・計算パターン3組）：額面${affordNom}／開始時の今の価値${affordReal}`,
+      `毎月取り崩したい金額：${D.drawAge}歳の将来の額面${wanText(D.spend)}万円／開始時の今の価値約${wanText(D.spendReal)}万円（${D.spendMode==="flat"?"その後も額面を固定":`以後は年${D.infl}%増額`}）`,
+      `約${Math.round(pTarget*100)}%を目標にした、${D.maxAge}歳まで残高が続く仮想の開始時月額目安（${D.drawAge}歳から・${D.spendMode==="flat"?"額面固定":`以後年${D.infl}%増額`}・計算パターン3組）：額面${affordNom}／開始時の今の価値${affordReal}`,
       `希望月額で${D.maxAge}歳まで残高がもった割合（計算パターン3組）：${surv}`,
       `希望月額で資産が持つ年齢の目安（2,000通り・小さいほうから40%）：${depletionText}`,
-      `注意：毎月取り崩し、月額を物価上昇率に合わせて毎年増やす仮想試算で、実際のDC給付方法や手取り額とは異なる`,
+      `注意：毎月取り崩し、選んだ取り崩し方法で月額を計算する仮想試算で、実際のDC給付方法や手取り額とは異なる`,
       "",
       "聞きたいこと：実際に受け取りを始められる年齢／一時金・年金・併用のどれを選べるか／制度上の掛金上限／いまの運用と受取後の運用はどのケースに近いか／税引後の受取額",
       "",
@@ -1524,11 +1568,11 @@ function simulate(cfg){
     $("valMsg").textContent="";
     clearResultInvalid();
     const dY=drawAge-age;
-    // 「毎月取り崩したい額」は開始年の将来の額面。以後は物価上昇率に合わせて毎年増額する。
+    // 「毎月取り崩したい額」は開始年の将来の額面。その後は選んだ取り崩し方法で計算する。
     const cfg={startAge:age,drawAge,maxAge,retAge:drawAge,retAmt:0,retMu:0,retSig:0,
       wMon:spend,wRate:4,wMu:styleMu,wSig:styleSig,
       assets:[{name:"あなたの積立",start:bal,monthly:mon,endAge:drawAge,mu:styleMu,sig:styleSig,on:true}],
-      draws:[],mode:"amount",mat:{age:50,amt:0,yrs:3,mu:0,sig:0},infl,spendMode:"keep"};
+      draws:[],mode:"amount",mat:{age:50,amt:0,yrs:3,mu:0,sig:0},infl,spendMode};
     let S;try{S=simulateForUi(cfg);}catch(e){return showInputError("入力をご確認ください。");}
     const RF=y=>S.rf(y*12), qn=Math.floor(0.4*N),depletionAge=S.sDep[qn];
     $("spendStartAge").textContent=drawAge;
@@ -1550,7 +1594,7 @@ function simulate(cfg){
     $("survAgeLbl").textContent=maxAge;
     const currentYen=bal*1e4,futureNomYen=mon*1e4*dY*12;
     let futureRealYen=0;for(let m=1;m<=dY*12;m++)futureRealYen+=mon*1e4*S.rf(m);
-    lastMoneyData={age,drawAge,maxAge,infl,spend,spendReal:spend*RF(dY),pPct,ap,svLo,svHi,targetMet:ap?ap.survLo>=pTarget:false,
+    lastMoneyData={age,drawAge,maxAge,infl,spend,spendMode,spendReal:spend*RF(dY),pPct,ap,svLo,svHi,targetMet:ap?ap.survLo>=pTarget:false,
       caseId:styleCase,muPct:styleMu,sigmaPct:styleSig,caseLabel:selectedCaseLabel(),
       currentYen,futureNomYen,futureRealYen,totalNomYen:currentYen+futureNomYen,totalRealYen:currentYen+futureRealYen,
       startNomYen:S.sStart[qn],startRealYen:S.sStart[qn]*RF(dY),depletionAge,affordNomLo,affordNomHi,affordRealLo,affordRealHi};
@@ -1587,6 +1631,7 @@ function simulate(cfg){
   applyCaseText();
   applySchemeLimit();
   syncDraftAges();
+  applySpendModeDraftCopy();
   markInputsDirty();
 })();
 </script>

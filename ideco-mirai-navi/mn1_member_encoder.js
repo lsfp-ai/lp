@@ -9,13 +9,13 @@
   "use strict";
 
   /*
-   * 加入者版は、画面で確定した入力と表示結果を現行MN3形式へ符号化するだけに限定する。
+   * 加入者版は、画面で確定した入力と表示結果を現行MN4形式へ符号化するだけに限定する。
    * DOM、保存、通信、アドバイザー向け再計算はこのモジュールへ入れない。
    */
 
-  const CONTRACT = "MN3";
-  // v26: 希望月額を取崩開始時の額面とし、その後は物価上昇率に合わせて毎年増額する。
-  const ENGINE_VERSION = "v26";
+  const CONTRACT = "MN4";
+  // v27: 取崩開始後の月額を「額面固定」または「物価連動」から明示選択する。
+  const ENGINE_VERSION = "v27";
   const MAX_BALANCE_WAN = 10000;
 
   const CASES = Object.freeze({
@@ -78,7 +78,7 @@
 
   function validateInputs(input) {
     requireExactKeys(input, INPUT_KEYS, "inputs");
-    if (input.spendMode !== "keep") throw new Error("inputs.spendMode");
+    if (!["flat", "keep"].includes(input.spendMode)) throw new Error("inputs.spendMode");
     if (!["idecoplus", "corporate", "unknown"].includes(input.scheme)) {
       throw new Error("inputs.scheme");
     }
