@@ -83,13 +83,18 @@ assert.match(
   /条件を変更しました。計算ボタンを押すと、相談メモも新しい条件で作り直します。/u,
   "stale advisor memo and reproduction code must be scrubbed"
 );
-assert.match(encoder, /CONTRACT = "MN3"/u);
-assert.match(encoder, /ENGINE_VERSION = "v26"/u);
-assert.match(encoder, /input\.spendMode !== "keep"/u);
+assert.match(encoder, /CONTRACT = "MN4"/u);
+assert.match(encoder, /ENGINE_VERSION = "v27"/u);
+assert.match(encoder, /\["flat", "keep"\]\.includes\(input\.spendMode\)/u);
+assert.match(html, /id="spendModeSeg"/u);
+assert.match(html, /id="inflSeg"/u);
+assert.match(html, /表示だけを切り替えます。/u);
+assert.doesNotMatch(html, /inflationCompare/u);
+assert.doesNotMatch(html, /inflationAction/u);
 
 console.log("Member explicit calculation interaction contract: PASS");
 console.log("automaticHeavyCalculationPaths=0");
 console.log("explicitCalculationButtons=1");
 console.log("staleMemoCopyBlocked=true");
 console.log("busyDraftControlsLocked=true");
-console.log("transferContract=MN3/v26");
+console.log("transferContract=MN4/v27");

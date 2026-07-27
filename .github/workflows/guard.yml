@@ -27,7 +27,7 @@ jobs:
           chmod +x scripts/check-links-static.sh
           bash scripts/check-links-static.sh
 
-      - name: MN3再現契約と明示計算の検査
+      - name: MN4再現契約と明示計算の検査
         run: |
           node scripts/build-mn1-member.js
           git diff --exit-code -- ideco-mirai-navi/index.html
@@ -36,5 +36,5 @@ jobs:
           node scripts/test-member-feedback-v1-1.js
           node scripts/test-member-explicit-calculation.js
 
-      - name: MN3再現コードの総当たり検査
+      - name: MN4再現コードの総当たり検査
         run: node scripts/fuzz-mn1-member.js
