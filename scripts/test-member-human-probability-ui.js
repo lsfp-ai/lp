@@ -31,8 +31,8 @@ for (const required of [
   "グラフで推移を確認する",
   "グラフを閉じる",
   "積立期間から取り崩し後まで、2,000通りの計算をグラフで確認できます。",
-  "100回試すと約80回、",
-  "100回試すと約90回、",
+  "100回中約80回に相当：",
+  "100回中約90回に相当：",
   "歳まで資産が尽きない条件",
   "歳まで資産が尽きない慎重な条件",
   "実際には同じ条件で1,000通りの計算を3組行います。",
@@ -51,6 +51,8 @@ for (const forbidden of [
   "残高が続く月額",
   "残高がもった割合",
   "残高が続くか確認する年齢",
+  "100回試すと",
+  "1,000通りずつ計算した3組すべてで",
 ]) {
   assert.equal(html.includes(forbidden), false, `forbidden ambiguous copy: ${forbidden}`);
 }
@@ -61,6 +63,20 @@ assert.match(html, /\$\("survSummaryAge"\)\.textContent=D\.maxAge/u);
 assert.match(
   html,
   /次は\$\{maxAge\}歳まで資産が尽きない毎月額を計算します（表示中は前回の\$\{lastMoneyData\.maxAge\}歳結果）/u
+);
+assert.match(
+  html,
+  /const draftTargetChanged=inputDirty&&\(maxAge!==D\.maxAge\|\|Math\.round\(pTarget\*100\)!==D\.pPct\)/u
+);
+assert.match(
+  html,
+  /if\(draftTargetChanged\)\{\s*applyDraftSelectionCopy\(\);\s*applyTargetDraftHint\(\);\s*\}else\{\s*applyResultSelectionCopy\(D\);/u
+);
+assert.match(html, /const minGap=\(ctx\.measureText\(prevLabel\)\.width\+ctx\.measureText\(lastLabel\)\.width\)\/2\+8/u);
+assert.match(html, /cv\.dataset\.tickAges=tickYears\.map\(y=>S\.startAge\+y\)\.join\(","\)/u);
+assert.match(
+  html,
+  /乱数の異なる3組で、それぞれ100回中約\$\{D\.pPct\}回に相当し、\$\{D\.maxAge\}歳まで資産が尽きない月額を計算した結果の幅です。/u
 );
 assert.match(html, /data-p="80"/u);
 assert.match(html, /data-p="90"/u);

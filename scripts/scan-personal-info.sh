@@ -64,7 +64,7 @@ warn=0    # 氏名らしき語＝要目視（ブロックしない）
 for f in "${files[@]}"; do
   # 検査は「実際に表示されるテキスト」に対して行う（誤検出防止）。
   # <script>/<style>（画像アセットJSON等）・data URI・HTMLタグ・長いbase64を除去してから検査する。
-  sanitized=$(perl -0777 -pe 's{<script\b.*?</script>}{}gis; s{<style\b.*?</style>}{}gis; s{data:[a-zA-Z0-9.+/;=-]*base64,[A-Za-z0-9+/=]+}{}g; s{<[^>]+>}{ }g; s{("calculationCoreSha256"\s*:\s*")[A-Fa-f0-9]{64}(")}{$1$2}g; s{[A-Za-z0-9+/]{200,}={0,2}}{}g' "$f" 2>/dev/null)
+  sanitized=$(perl -0777 -pe 's{<script\b.*?</script>}{}gis; s{<style\b.*?</style>}{}gis; s{data:[a-zA-Z0-9.+/;=-]*base64,[A-Za-z0-9+/=]+}{}g; s{<[^>]+>}{ }g; s{("calculationCoreSha256"\s*:\s*")[A-Fa-f0-9]{64}(")}{$1$2}g; s{("previousBaselineCommit"\s*:\s*")[A-Fa-f0-9]{40}(")}{$1$2}g; s{[A-Za-z0-9+/]{200,}={0,2}}{}g' "$f" 2>/dev/null)
   [ -z "$sanitized" ] && sanitized=$(cat "$f")
 
   # --- ハード検出：確実な個人情報（検出したら公開ブロック・exit 1） ---

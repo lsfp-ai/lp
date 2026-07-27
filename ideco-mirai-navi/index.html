@@ -472,8 +472,8 @@
     <div class="bigrow single">
       <div class="big gold"><div class="k" id="rAffordK">仮に取り崩す開始時月額の目安</div><div class="v tabnum" id="rAfford">—</div><div class="f" id="rAffordF">—</div>
         <div class="pseg" id="pSeg" role="group" aria-label="指定した年齢まで資産が尽きない条件">
-          <button type="button" data-p="80" aria-pressed="true">100回試すと約80回、<span class="pTargetAge">95</span>歳まで資産が尽きない条件</button>
-          <button type="button" data-p="90" aria-pressed="false">100回試すと約90回、<span class="pTargetAge">95</span>歳まで資産が尽きない慎重な条件</button>
+          <button type="button" data-p="80" aria-pressed="true">100回中約80回に相当：<span class="pTargetAge">95</span>歳まで資産が尽きない条件</button>
+          <button type="button" data-p="90" aria-pressed="false">100回中約90回に相当：<span class="pTargetAge">95</span>歳まで資産が尽きない慎重な条件</button>
         </div>
         <div class="hint" id="pTargetHint" style="margin-top:9px">毎月取り崩しを続けた場合に、95歳になる前に資産残高が0円にならなかった計算の数です。実際には同じ条件で1,000通りの計算を3組行います。将来の結果を保証するものではありません。</div>
         <div class="localcalc">
@@ -1031,7 +1031,7 @@ function simulate(cfg){
     const a=Math.round(lo),b=Math.round(hi);
     return a===b?`${a}回`:`${a}〜${b}回`;
   };
-  const targetCountText=pPct=>`100回試すと約${pPct}回、${maxAge}歳まで資産が尽きない${pPct===90?"慎重な":""}条件`;
+  const targetCountText=pPct=>`100回中約${pPct}回に相当する、${maxAge}歳まで資産が尽きない${pPct===90?"慎重な":""}条件`;
   function applyTargetAgeCopy(){
     document.querySelectorAll(".pTargetAge").forEach(node=>{node.textContent=maxAge;});
   }
@@ -1095,7 +1095,13 @@ function simulate(cfg){
     $("viewIntro").textContent=real
       ?`物価上昇を年${D.infl}%と仮定し、将来のお金を今の経済価値に直した金額です。`
       :"その年に受け取ると仮定した額面です。物価上昇は差し引いていません。";
-    applyResultSelectionCopy(D);
+    const draftTargetChanged=inputDirty&&(maxAge!==D.maxAge||Math.round(pTarget*100)!==D.pPct);
+    if(draftTargetChanged){
+      applyDraftSelectionCopy();
+      applyTargetDraftHint();
+    }else{
+      applyResultSelectionCopy(D);
+    }
     const modeText=spendModeLabel(D.spendMode);
     $("resultAssumption").textContent=`計算済み：${D.caseLabel}／取り崩し方法：${modeText}／物価上昇率 年${D.infl}%`;
     $("chartScenarioLbl").textContent=D.spendMode==="flat"
@@ -1136,8 +1142,8 @@ function simulate(cfg){
       const lo=real?D.affordRealLo:D.affordNomLo,hi=real?D.affordRealHi:D.affordNomHi;
       $("rAfford").innerHTML='約'+rangeText(lo,hi)+'<small>万/月</small>';
       $("rAffordF").innerHTML=real
-        ?`取り崩し開始時の今の価値です。将来の額面では約 <b>${rangeText(D.affordNomLo,D.affordNomHi)}万/月</b>です。1,000通りずつ計算した3組すべてで、100回に置き換えると約${D.pPct}回、${D.maxAge}歳まで資産が尽きない月額の幅です。`
-        :`将来の額面です。1,000通りずつ計算した3組すべてで、100回に置き換えると約${D.pPct}回、${D.maxAge}歳まで資産が尽きない月額の幅です。表示額は0.5万円単位で切り下げています。`;
+        ?`取り崩し開始時の今の価値です。将来の額面では約 <b>${rangeText(D.affordNomLo,D.affordNomHi)}万/月</b>です。乱数の異なる3組で、それぞれ100回中約${D.pPct}回に相当し、${D.maxAge}歳まで資産が尽きない月額を計算した結果の幅です。`
+        :`将来の額面です。乱数の異なる3組で、それぞれ100回中約${D.pPct}回に相当し、${D.maxAge}歳まで資産が尽きない月額を計算した結果の幅です。表示額は0.5万円単位で切り下げています。`;
     }else{
       $("rAfford").innerHTML='目安を算出できませんでした';
       $("rAffordF").textContent=`取崩額を0円としても、3組すべてでは、100回に置き換えて約${D.pPct}回、${D.maxAge}歳まで資産が尽きない条件に届きません。`;
@@ -1498,7 +1504,7 @@ function simulate(cfg){
       `物価上昇率の仮定：年${D.infl}%（初期設定は年2%。将来予測ではない）`,
       `取り崩し開始時の残高（やや少なめに見た値）：額面${moneyText(D.startNomYen)}／今の価値${moneyText(D.startRealYen)}`,
       `毎月取り崩したい金額：${D.drawAge}歳の将来の額面${wanText(D.spend)}万円／開始時の今の価値約${wanText(D.spendReal)}万円（${D.spendMode==="flat"?"その後も額面を固定":`以後は年${D.infl}%増額`}）`,
-      `100回に置き換えると約${D.pPct}回、${D.maxAge}歳まで資産が尽きない条件で計算した仮想の開始時月額目安（${D.drawAge}歳から・${D.spendMode==="flat"?"額面固定":`以後年${D.infl}%増額`}・1,000通り×3組）：額面${affordNom}／開始時の今の価値${affordReal}`,
+      `乱数の異なる3組で、それぞれ100回中約${D.pPct}回に相当し、${D.maxAge}歳まで資産が尽きないよう計算した仮想の開始時月額の結果幅（${D.drawAge}歳から・${D.spendMode==="flat"?"額面固定":`以後年${D.infl}%増額`}・1,000通り×3組）：額面${affordNom}／開始時の今の価値${affordReal}`,
       `希望月額で${D.maxAge}歳まで資産が尽きなかった計算（100回に置換・1,000通り×3組）：約${surv}`,
       `希望月額で資産が持つ年齢の目安（2,000通り・小さいほうから40%）：${depletionText}`,
       `注意：毎月取り崩し、選んだ取り崩し方法で月額を計算する仮想試算で、実際のDC給付方法や手取り額とは異なる`,
@@ -1550,8 +1556,17 @@ function simulate(cfg){
     chartGeom={padL,pW,fromY,span};
     ctx.font="12px "+css("--sans");ctx.textBaseline="middle";
     for(let i=0;i<=4;i++){const v=maxV*i/4,yy=Y(v);ctx.strokeStyle=css("--line");ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(padL,yy);ctx.lineTo(W-padR,yy);ctx.stroke();ctx.fillStyle=css("--sub");ctx.textAlign="right";ctx.fillText(Math.round(v/1e4).toLocaleString()+"万",padL-6,yy);}
-    ctx.textAlign="center";ctx.textBaseline="top";const te=span>25?10:5;
-    for(let y=fromY;y<=yrs;y++){if(y!==fromY&&y!==yrs&&y%te!==0)continue;const age=S.startAge+y;ctx.fillStyle=css("--sub");ctx.fillText(age+"歳",X(y),padT+pH+6);}
+    ctx.textAlign="center";ctx.textBaseline="top";const te=span>25?10:5,tickYears=[];
+    for(let y=fromY;y<=yrs;y++){if(y===fromY||y%te===0)tickYears.push(y);}
+    if(tickYears[tickYears.length-1]!==yrs){
+      const prev=tickYears[tickYears.length-1];
+      const prevLabel=`${S.startAge+prev}歳`,lastLabel=`${S.startAge+yrs}歳`;
+      const minGap=(ctx.measureText(prevLabel).width+ctx.measureText(lastLabel).width)/2+8;
+      if(prev!==fromY&&X(yrs)-X(prev)<minGap)tickYears.pop();
+      tickYears.push(yrs);
+    }
+    cv.dataset.tickAges=tickYears.map(y=>S.startAge+y).join(",");
+    for(const y of tickYears){const age=S.startAge+y;ctx.fillStyle=css("--sub");ctx.fillText(age+"歳",X(y),padT+pH+6);}
     ctx.save();ctx.beginPath();ctx.rect(padL,padT,pW,pH);ctx.clip();
     if(drawY>0){ctx.fillStyle=css("--acc-fill");ctx.fillRect(X(0),padT,X(drawY)-X(0),pH);}
     const band=(lo,hi)=>{ctx.beginPath();for(let y=fromY;y<=yrs;y++)ctx.lineTo(X(y),Y(B(y,hi)));for(let y=yrs;y>=fromY;y--)ctx.lineTo(X(y),Y(B(y,lo)));ctx.closePath();};
