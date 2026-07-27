@@ -56,7 +56,7 @@ function randomEnvelope() {
   const startBalanceNominalWan = int(0, 100000);
 
   return {
-    contract: "MN1",
+    contract: "MN2",
     engine: "v25",
     inputs: {
       scheme,
@@ -78,6 +78,7 @@ function randomEnvelope() {
       totalRealWan: int(0, totalNominalWan),
       startBalanceNominalWan,
       startBalanceRealWan: int(0, startBalanceNominalWan),
+      depletionAgeP40: int(drawAge, maxAge + 1),
       desiredMonthlyRealWan: int(0, Math.round(desiredMonthlyWan * 10)) / 10,
       affordableNominalWanRange: [affordableLow, affordableHigh],
       affordableRealWanRange: [affordableRealLow, affordableRealHigh],
@@ -89,9 +90,9 @@ function randomEnvelope() {
 
 function invalidEnvelope(envelope, index) {
   const value = structuredClone(envelope);
-  switch (index % 14) {
+  switch (index % 16) {
     case 0:
-      value.contract = "MN2";
+      value.contract = "MN1";
       break;
     case 1:
       value.engine = "v24";
@@ -129,8 +130,14 @@ function invalidEnvelope(envelope, index) {
     case 12:
       value.engine = "v25 ";
       break;
-    default:
+    case 13:
       value.engine = "";
+      break;
+    case 14:
+      value.expected.depletionAgeP40 = value.inputs.drawAge - 1;
+      break;
+    default:
+      value.expected.depletionAgeP40 = value.inputs.maxAge + 2;
       break;
   }
   return value;
@@ -144,7 +151,7 @@ for (let index = 0; index < iterations; index += 1) {
   const code = encoder.encodeEnvelope(envelope);
   const parts = code.split(".");
   assert.equal(parts.length, 3);
-  assert.equal(parts[0], "MN1");
+  assert.equal(parts[0], "MN2");
   assert.equal(parts[2], referenceCrc32(parts[1]));
   independentCrcChecks += 1;
 
@@ -156,7 +163,7 @@ for (let index = 0; index < iterations; index += 1) {
   invalidRejects += 1;
 }
 
-console.log("MN1 member encoder fuzz: PASS");
+console.log("MN2 member encoder fuzz: PASS");
 console.log(`iterations=${iterations}`);
 console.log(`roundTrips=${roundTrips}`);
 console.log(`independentCrcChecks=${independentCrcChecks}`);
