@@ -18,7 +18,7 @@ const changelog = fs.readFileSync(
   "utf8"
 );
 
-assert.match(html, /data-app-version="v1\.3\.0"/u);
+assert.match(html, /data-app-version="v1\.3\.1"/u);
 assert.match(html, /data-release-date="2026-07-28"/u);
 assert.match(html, /querySelectorAll\("\[data-app-version-label\]"\)/u);
 assert.match(html, /querySelectorAll\("\[data-release-date-label\]"\)/u);
@@ -32,10 +32,10 @@ assert.equal(
   false,
   "the document root stores the release date and must never be replaced as a label"
 );
-assert.equal(manifest.uiVersion, "v1.3.0");
+assert.equal(manifest.uiVersion, "v1.3.1");
 assert.equal(manifest.calculationEngineVersion, "v27");
 assert.equal(manifest.transferContractVersion, "MN4");
-assert.equal(manifest.calculationChanged, true);
+assert.equal(manifest.calculationChanged, false);
 assert.equal(manifest.feedbackStatus, "reflected");
 const coreMarker = "// ===== 加入者版計算核（MN4共有結果はアドバイザー版と別の出力parity検査で照合）=====";
 const coreStart = html.indexOf(coreMarker);
@@ -52,6 +52,7 @@ assert.equal(
   manifest.calculationCoreSha256,
   "calculation core hash must match the version manifest"
 );
+assert.match(changelog, /画面版 v1\.3\.1／計算版 v27/u);
 assert.match(changelog, /画面版 v1\.3\.0／計算版 v27/u);
 assert.match(changelog, /画面版 v1\.1\.0/u);
 assert.match(changelog, /画面版 v1\.0\.0（改訂前の基準版）/u);
@@ -171,9 +172,9 @@ assert.match(html, /同じ額面のまま/u);
 assert.match(html, /物価に合わせて毎年増やす/u);
 assert.match(html, /この率は「今の価値」への換算だけに使います/u);
 assert.match(html, /表示だけを切り替えます。/u);
-assert.match(html, /今回の反映：取り崩し方法を明示選択できるようにし、物価上昇率を常に確認できる位置へ移しました。/u);
+assert.match(html, /今回の反映：資産残高のグラフを見つけやすくし、「何回の計算で、何歳まで資産が尽きなかったか」を明記しました。/u);
 
-console.log("Member v1.3.0 withdrawal-mode contract: PASS");
+console.log("Member v1.3.1 withdrawal-mode contract: PASS");
 console.log("directNumericInputs=4");
 console.log("automaticHeavyCalculationPaths=0");
 console.log("depletionAgeSource=2,000-path p40");

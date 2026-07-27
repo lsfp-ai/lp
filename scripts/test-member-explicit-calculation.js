@@ -18,6 +18,11 @@ assert.equal(
   1,
   "there must be exactly one primary calculation button"
 );
+assert.equal(
+  (html.match(/id="recalculateAfford"/gu) || []).length,
+  1,
+  "there must be exactly one nearby recalculation button"
+);
 
 const inputWiring = html.slice(
   html.indexOf("const coreTouched="),
@@ -52,12 +57,20 @@ const calculationWiring = html.slice(
 );
 assert.match(
   calculationWiring,
-  /\$\("confirmInputs"\)\.addEventListener\("click",async\(\)=>\{/u,
-  "heavy calculation must be owned by the calculation button"
+  /async function runExplicitCalculation\(\)\{/u,
+  "heavy calculation must have one explicit entry point"
 );
 assert.match(calculationWiring, /await new Promise\(resolve=>setTimeout\(resolve,20\)\)/u);
 assert.match(calculationWiring, /calculated=render\(\)/u);
 assert.match(calculationWiring, /if\(calculationBusy\)return/u);
+assert.match(
+  calculationWiring,
+  /\$\("confirmInputs"\)\.addEventListener\("click",runExplicitCalculation\)/u
+);
+assert.match(
+  calculationWiring,
+  /\$\("recalculateAfford"\)\.addEventListener\("click",runExplicitCalculation\)/u
+);
 assert.match(html, /setDraftControlsDisabled\(true\)/u);
 assert.match(calculationWiring, /setDraftControlsDisabled\(false\)/u);
 
@@ -71,7 +84,7 @@ assert.match(initialization, /markInputsDirty\(\)/u);
 
 assert.match(
   html,
-  /表示中の数字は前回の結果です。上の計算ボタンを押すと更新します。/u
+  /表示中の数字は前回の結果です。近くの再計算ボタンを押すと更新します。/u
 );
 assert.match(
   html,
@@ -94,7 +107,7 @@ assert.doesNotMatch(html, /inflationAction/u);
 
 console.log("Member explicit calculation interaction contract: PASS");
 console.log("automaticHeavyCalculationPaths=0");
-console.log("explicitCalculationButtons=1");
+console.log("explicitCalculationButtons=2");
 console.log("staleMemoCopyBlocked=true");
 console.log("busyDraftControlsLocked=true");
 console.log("transferContract=MN4/v27");

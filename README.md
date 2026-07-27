@@ -11,7 +11,7 @@
 
 | LP名 | パス | 公開URL（第1段階） | 状態 |
 |---|---|---|---|
-| iDeCo＋みらいナビ 加入者版 | `ideco-mirai-navi/` | https://lsfp-ai.github.io/lp/ideco-mirai-navi/ | 次期版（画面版 v1.3.0・再現 MN4・計算版 v27。取崩額は額面固定／物価連動を明示選択） |
+| iDeCo＋みらいナビ 加入者版 | `ideco-mirai-navi/` | https://lsfp-ai.github.io/lp/ideco-mirai-navi/ | 次期版（画面版 v1.3.1・再現 MN4・計算版 v27。グラフ導線と「何回中、何歳まで資産が尽きないか」の説明を改善） |
 | DC退職金の受け取り方 | `dc-taishoku/` | https://lsfp-ai.github.io/lp/dc-taishoku/ | 雛形（疎通確認用プレースホルダ） |
 | iDeCo+導入支援 | `idecoplus/` | https://lsfp-ai.github.io/lp/idecoplus/ | 公開中（LINE CTA接続済） |
 | DC退職コンサルサポート実務講座 | `dc-exit-course/` | https://lsfp-ai.github.io/lp/dc-exit-course/ | 公開中（LINE CTA接続済・軽量静的版） |
@@ -24,3 +24,4 @@
 
 - LPの追加手順：[PUBLISH.md](PUBLISH.md)
 - デプロイ確認：`scripts/check-deploy.sh <URL>`
+- 確率を人に伝える画面の共通基準：[DESIGN-PROBABILITY-EXPLANATION.md](DESIGN-PROBABILITY-EXPLANATION.md)
