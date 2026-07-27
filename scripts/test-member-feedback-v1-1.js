@@ -18,7 +18,7 @@ const changelog = fs.readFileSync(
   "utf8"
 );
 
-assert.match(html, /data-app-version="v1\.1\.0"/u);
+assert.match(html, /data-app-version="v1\.2\.0"/u);
 assert.match(html, /data-release-date="2026-07-27"/u);
 assert.match(html, /querySelectorAll\("\[data-app-version-label\]"\)/u);
 assert.match(html, /querySelectorAll\("\[data-release-date-label\]"\)/u);
@@ -32,12 +32,12 @@ assert.equal(
   false,
   "the document root stores the release date and must never be replaced as a label"
 );
-assert.equal(manifest.uiVersion, "v1.1.0");
-assert.equal(manifest.calculationEngineVersion, "v25");
-assert.equal(manifest.transferContractVersion, "MN2");
-assert.equal(manifest.calculationChanged, false);
+assert.equal(manifest.uiVersion, "v1.2.0");
+assert.equal(manifest.calculationEngineVersion, "v26");
+assert.equal(manifest.transferContractVersion, "MN3");
+assert.equal(manifest.calculationChanged, true);
 assert.equal(manifest.feedbackStatus, "reflected");
-const coreMarker = "// ===== 加入者版計算核（MN2共有結果はアドバイザー版と別の出力parity検査で照合）=====";
+const coreMarker = "// ===== 加入者版計算核（MN3共有結果はアドバイザー版と別の出力parity検査で照合）=====";
 const coreStart = html.indexOf(coreMarker);
 const coreEndMarker = "// ===== 計算核ここまで =====";
 const coreEnd = html.indexOf(coreEndMarker);
@@ -50,8 +50,9 @@ const calculationCore = html.slice(
 assert.equal(
   crypto.createHash("sha256").update(calculationCore).digest("hex"),
   manifest.calculationCoreSha256,
-  "calculation core must remain byte-identical to the v1.0.0 baseline"
+  "calculation core hash must match the version manifest"
 );
+assert.match(changelog, /画面版 v1\.2\.0／計算版 v26/u);
 assert.match(changelog, /画面版 v1\.1\.0/u);
 assert.match(changelog, /画面版 v1\.0\.0（改訂前の基準版）/u);
 assert.match(changelog, new RegExp(manifest.previousBaselineCommit, "u"));
@@ -163,11 +164,20 @@ assert.match(
   "calculated result must not keep showing the hidden 未計算 chip"
 );
 
-assert.match(html, /const ENGINE_VERSION = "v25"/u);
-assert.match(html, /今回の反映：数字の直接入力、案内文、資産が持つ年齢の目安。計算式は変更していません。/u);
+assert.match(html, /const ENGINE_VERSION = "v26"/u);
+assert.match(html, /spendMode:"keep"/u);
+assert.doesNotMatch(html, /const normalizedFlatCfg=/u);
+assert.match(html, /その後は物価上昇率に合わせて毎年増やす仮想試算/u);
+assert.match(html, /取崩額の増え方、資産寿命、「今の価値」がどう変わるか/u);
+assert.match(html, /将来の残高（額面）と資産寿命も変わります/u);
+assert.doesNotMatch(
+  html,
+  /将来の金額（額面）は変わらず、今の価値だけが変わります/u
+);
+assert.match(html, /今回の反映：取崩開始時の月額を、その後は物価上昇率に合わせて毎年増やす計算へ統一しました。/u);
 
-console.log("Member feedback v1.1.0 contract: PASS");
+console.log("Member v1.2.0 inflation-linked contract: PASS");
 console.log("directNumericInputs=4");
 console.log("automaticHeavyCalculationPaths=0");
 console.log("depletionAgeSource=2,000-path p40");
-console.log("calculationEngine=v25 unchanged");
+console.log("calculationEngine=v26/spendMode=keep");

@@ -1,7 +1,7 @@
 name: guard
 
 # 公開LPの機械ガード（サーバ側＝飛ばせない関門）。
-# push / PR のたびに個人情報スキャンと内部リンク検査を回し、
+# push / PR のたびに個人情報スキャン、内部リンク検査、再現契約検査を回し、
 # 引っかかれば失敗させて公開（main反映）をブロックする。
 
 on:
@@ -26,3 +26,15 @@ jobs:
         run: |
           chmod +x scripts/check-links-static.sh
           bash scripts/check-links-static.sh
+
+      - name: MN3再現契約と明示計算の検査
+        run: |
+          node scripts/build-mn1-member.js
+          git diff --exit-code -- ideco-mirai-navi/index.html
+          node scripts/verify-mn1-member.js
+          node scripts/test-mn1-member.js
+          node scripts/test-member-feedback-v1-1.js
+          node scripts/test-member-explicit-calculation.js
+
+      - name: MN3再現コードの総当たり検査
+        run: node scripts/fuzz-mn1-member.js

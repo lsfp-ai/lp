@@ -9,13 +9,13 @@
   "use strict";
 
   /*
-   * 加入者版は、画面で確定した入力と表示結果を現行MN2形式へ符号化するだけに限定する。
+   * 加入者版は、画面で確定した入力と表示結果を現行MN3形式へ符号化するだけに限定する。
    * DOM、保存、通信、アドバイザー向け再計算はこのモジュールへ入れない。
    */
 
-  const CONTRACT = "MN2";
-  // v25: 固定MCドライバープロファイルを変更。計算式・CF規則はv24と同じだが、標本結果はv24と一致しない。
-  const ENGINE_VERSION = "v25";
+  const CONTRACT = "MN3";
+  // v26: 希望月額を取崩開始時の額面とし、その後は物価上昇率に合わせて毎年増額する。
+  const ENGINE_VERSION = "v26";
   const MAX_BALANCE_WAN = 10000;
 
   const CASES = Object.freeze({
@@ -38,6 +38,7 @@
     "muPct",
     "scheme",
     "sigmaPct",
+    "spendMode",
     "targetPct",
   ]);
   const EXPECTED_KEYS = Object.freeze([
@@ -77,6 +78,7 @@
 
   function validateInputs(input) {
     requireExactKeys(input, INPUT_KEYS, "inputs");
+    if (input.spendMode !== "keep") throw new Error("inputs.spendMode");
     if (!["idecoplus", "corporate", "unknown"].includes(input.scheme)) {
       throw new Error("inputs.scheme");
     }

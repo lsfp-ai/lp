@@ -56,8 +56,8 @@ function randomEnvelope() {
   const startBalanceNominalWan = int(0, 100000);
 
   return {
-    contract: "MN2",
-    engine: "v25",
+    contract: "MN3",
+    engine: "v26",
     inputs: {
       scheme,
       limit62,
@@ -69,6 +69,7 @@ function randomEnvelope() {
       caseId,
       inflationPct: pick([1, 2, 3]),
       desiredMonthlyWan,
+      spendMode: "keep",
       targetPct: pick([80, 90]),
       muPct: caseValues[0],
       sigmaPct: caseValues[1],
@@ -90,7 +91,7 @@ function randomEnvelope() {
 
 function invalidEnvelope(envelope, index) {
   const value = structuredClone(envelope);
-  switch (index % 16) {
+  switch (index % 17) {
     case 0:
       value.contract = "MN1";
       break;
@@ -122,18 +123,21 @@ function invalidEnvelope(envelope, index) {
       value.extra = "reject";
       break;
     case 10:
-      value.engine = "v26";
+      value.engine = "v25";
       break;
     case 11:
-      value.engine = "V25";
+      value.engine = "V26";
       break;
     case 12:
-      value.engine = "v25 ";
+      value.engine = "v26 ";
       break;
     case 13:
       value.engine = "";
       break;
     case 14:
+      value.inputs.spendMode = "flat";
+      break;
+    case 15:
       value.expected.depletionAgeP40 = value.inputs.drawAge - 1;
       break;
     default:
@@ -151,7 +155,7 @@ for (let index = 0; index < iterations; index += 1) {
   const code = encoder.encodeEnvelope(envelope);
   const parts = code.split(".");
   assert.equal(parts.length, 3);
-  assert.equal(parts[0], "MN2");
+  assert.equal(parts[0], "MN3");
   assert.equal(parts[2], referenceCrc32(parts[1]));
   independentCrcChecks += 1;
 
@@ -163,7 +167,7 @@ for (let index = 0; index < iterations; index += 1) {
   invalidRejects += 1;
 }
 
-console.log("MN2 member encoder fuzz: PASS");
+console.log("MN3 member encoder fuzz: PASS");
 console.log(`iterations=${iterations}`);
 console.log(`roundTrips=${roundTrips}`);
 console.log(`independentCrcChecks=${independentCrcChecks}`);
