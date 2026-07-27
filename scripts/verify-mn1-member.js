@@ -49,7 +49,7 @@ for (const forbiddenHtmlSink of [".innerHTML", "insertAdjacentHTML", "document.w
   );
 }
 
-console.log("MN1 member integration verification: PASS");
+console.log("MN2 member integration verification: PASS");
 console.log("embeddedEncoderMatchesCanonical=true");
 console.log("memberTransferStorageOrNetworkSideEffects=0");
 console.log("memberTransferDynamicHtmlSinks=0");

@@ -9,11 +9,11 @@
   "use strict";
 
   /*
-   * 加入者版は、画面で確定した入力と表示結果をMN1形式へ符号化するだけに限定する。
+   * 加入者版は、画面で確定した入力と表示結果を現行MN2形式へ符号化するだけに限定する。
    * DOM、保存、通信、アドバイザー向け再計算はこのモジュールへ入れない。
    */
 
-  const CONTRACT = "MN1";
+  const CONTRACT = "MN2";
   // v25: 固定MCドライバープロファイルを変更。計算式・CF規則はv24と同じだが、標本結果はv24と一致しない。
   const ENGINE_VERSION = "v25";
   const MAX_BALANCE_WAN = 10000;
@@ -43,6 +43,7 @@
   const EXPECTED_KEYS = Object.freeze([
     "affordableNominalWanRange",
     "affordableRealWanRange",
+    "depletionAgeP40",
     "desiredMonthlyRealWan",
     "desiredSurvivalPctRange",
     "feasibleAllSeeds",
@@ -189,6 +190,9 @@
     validateMoneyInteger(expected.totalRealWan, "expected.totalRealWan");
     validateMoneyInteger(expected.startBalanceNominalWan, "expected.startBalanceNominalWan");
     validateMoneyInteger(expected.startBalanceRealWan, "expected.startBalanceRealWan");
+    if (!Number.isInteger(expected.depletionAgeP40)) {
+      throw new Error("expected.depletionAgeP40");
+    }
     validateOneDecimal(expected.desiredMonthlyRealWan, "expected.desiredMonthlyRealWan");
     validateHalfWanRange(
       expected.affordableNominalWanRange,
@@ -228,6 +232,12 @@
       envelope.inputs.desiredMonthlyWan
     ) {
       throw new Error("expected.desiredMonthlyRealWan");
+    }
+    if (
+      envelope.expected.depletionAgeP40 < envelope.inputs.drawAge ||
+      envelope.expected.depletionAgeP40 > envelope.inputs.maxAge + 1
+    ) {
+      throw new Error("expected.depletionAgeP40");
     }
     for (let index = 0; index < 2; index += 1) {
       if (

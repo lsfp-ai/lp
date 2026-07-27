@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" data-app-version="v1.1.0" data-release-date="2026-07-27">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,6 +22,7 @@
   :root[data-theme="light"]{--paper:#eef2f0;--surface:#fff;--ink:#15221e;--sub:#5a6a64;--line:#d8e2dd;--line2:#e6ede9;--teal:#0d7d6e;--navy:#1f3a4d;--navy-ink:#eaf1f5;--gold:#b8892b;--gold-soft:#b8892b18;--good:#2f8f5b;--warn:#b7791f;--crit:#c0453b;--band-out:#0d7d6e18;--band-in:#0d7d6e34;--median:#0a5f54;--midline:#71817b;--shadow:0 1px 2px #15221e0f,0 10px 26px #15221e0d}
   :root[data-theme="dark"]{--paper:#0d1512;--surface:#15211d;--ink:#e7eeeb;--sub:#93a49e;--line:#26332f;--line2:#1e2a26;--navy:#14303f;--navy-ink:#dbe8ef;--teal:#3fb9a8;--gold:#d6a94e;--gold-soft:#d6a94e1c;--good:#5cc081;--warn:#e0a94a;--crit:#e0736a;--band-out:#3fb9a81c;--band-in:#3fb9a83c;--median:#63d1c1;--midline:#9aaba5;--shadow:0 1px 2px #0006,0 12px 32px #0007}
   *{box-sizing:border-box}
+  [hidden]{display:none!important}
   body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
   .wrap{max-width:640px;margin:0 auto;padding:20px 18px 56px}
   .tabnum{font-variant-numeric:tabular-nums}
@@ -32,6 +33,7 @@
   h1{font-size:18px;margin:0;font-weight:800;letter-spacing:.01em;display:flex;align-items:center;gap:7px;flex-wrap:wrap;line-height:1.3}
   .appname{white-space:nowrap}
   .appedition{font-size:10.5px;line-height:1;border:1px solid color-mix(in srgb,var(--teal) 35%,var(--line));border-radius:999px;padding:4px 7px;color:var(--teal2);background:color-mix(in srgb,var(--teal) 7%,var(--surface));white-space:nowrap}
+  .appversion{font-size:10px;line-height:1;border-radius:999px;padding:4px 7px;color:var(--gold);background:var(--gold-soft);white-space:nowrap}
   .top .sub{font-size:12.5px;color:var(--sub);margin-top:1px}
   .top .sub span{display:block}
   .top .right{margin-left:auto;flex:0 0 auto}
@@ -83,6 +85,10 @@
   .numrow{display:flex;align-items:center;gap:8px}
   .numrow input[type=number]{width:110px;font:inherit;font-size:16px;font-weight:700;text-align:right;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink);font-variant-numeric:tabular-nums}
   .numrow .u{font-size:12.5px;color:var(--sub)}
+  .directnum{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+  .directnum input[type=number]{width:92px;font:inherit;font-size:16px;font-weight:800;text-align:right;padding:7px 8px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--teal);font-variant-numeric:tabular-nums}
+  .directnum .u{font-size:12.5px;color:var(--sub);font-weight:600}
+  .sliderhelp{font-size:11px;color:var(--sub);margin:-2px 0 13px;line-height:1.5}
   .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:4px}
   .seg button{font:inherit;font-size:12.5px;font-weight:700;border:0;border-radius:7px;padding:9px 4px;cursor:pointer;background:transparent;color:var(--sub);line-height:1.3}
   .seg button small{display:block;font-size:10px;font-weight:600;opacity:.8}
@@ -253,6 +259,9 @@
   .disc-list li::before{content:"—";position:absolute;left:0;color:var(--teal)}
   .disc-list li b{color:var(--ink);font-weight:600}
   .disc-provider{font-size:11.5px;color:var(--sub);margin-top:11px;padding-top:10px;border-top:1px solid var(--line2)}
+  .releaseinfo{font-size:11.5px;color:var(--sub);margin:11px 0 0;padding-top:10px;border-top:1px solid var(--line2);line-height:1.6}
+  .releaseinfo b{color:var(--ink);white-space:nowrap}
+  .releaseinfo .reflected{display:inline-block;margin-left:5px;padding:1px 7px;border-radius:999px;background:var(--gold-soft);color:var(--gold);font-size:10.5px;font-weight:800}
 </style>
 
 <div class="wrap">
@@ -265,7 +274,7 @@
         <path d="M8 35c14-5 25 4 37-4 6-4 9-8 13-12" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
       </svg>
     </div>
-    <div class="brandcopy"><h1><span class="appname">iDeCo＋みらいナビ</span><span class="appedition">加入者版</span></h1><div class="sub"><span>あなたの積立、将来いくら？</span><span>希望額と今の価値を確認</span></div></div>
+    <div class="brandcopy"><h1><span class="appname">iDeCo＋みらいナビ</span><span class="appedition">加入者版</span><span class="appversion">画面版 <span data-app-version-label></span></span></h1><div class="sub"><span>iDeCo＋・企業型DCの積立から取り崩しまで</span><span>希望額と今の価値を確認</span></div></div>
     <div class="right"><button class="theme" id="themeBtn" type="button" aria-label="表示テーマを切り替える"><span aria-hidden="true">🌗</span> <span class="themeText">表示</span></button></div>
   </header>
 
@@ -275,7 +284,7 @@
   </div>
 
   <details class="learnbar">
-    <summary><b>📖 この積立だけの見通しを整理します。</b>公的年金などは別です。<span class="more">くわしく</span></summary>
+    <summary><b>📖 入力した積立の見通しを整理します。</b>この積立以外や公的年金などは含みません。<span class="more">くわしく</span></summary>
     <div class="learnbody">iDeCo+・企業型DCの残高と今後の掛金から、受け取り開始時の残高を試算します。さらに、その残高を生活費として毎月均等に取り崩す仮想試算も表示します。実際のDCの給付方法や手取り額とは異なります。公的年金、退職金、生活費、住宅費などは含まれないため、老後生活全体が安心かどうかを判定する画面ではありません。気になる点を担当者へ相談するときにお使いください。</div>
   </details>
 
@@ -283,7 +292,7 @@
 
   <!-- 入力 -->
   <div class="card" id="inputCard">
-    <p class="eyebrow"><span class="no">1</span>あなたの積立（まず4項目）</p>
+    <p class="eyebrow"><span class="no">1</span>積立シミュレーション（まず4項目）</p>
     <div class="q">
       <div class="lab">加入している制度</div>
       <div class="seg scheme" id="schemeSeg" role="group" aria-label="加入している制度">
@@ -294,7 +303,7 @@
       <div class="hint" id="schemeHint" style="margin-top:7px">※ 分からないままでも試算できます。相談メモに「わからない」と残せます。</div>
     </div>
     <div class="q">
-      <div class="lab">いまの年齢 <span class="val"><span id="ageV">45</span>歳</span></div>
+      <div class="lab"><span>いまの年齢</span><label class="directnum"><input type="number" id="ageN" min="20" max="64" value="45" step="1" inputmode="numeric" aria-label="いまの年齢を数字で入力"><span class="u">歳</span></label></div>
       <input type="range" id="age" min="20" max="64" value="45" aria-label="いまの年齢（歳）">
     </div>
     <div class="q">
@@ -303,7 +312,7 @@
       <div class="numrow"><input type="number" id="bal" value="500" min="0" max="10000" step="10" inputmode="numeric" aria-label="この制度で現在運用している残高（万円）"><span class="u">万円</span></div>
     </div>
     <div class="q" id="monInput">
-      <div class="lab">これから積み立てる毎月の掛金（会社分を含む） <span class="val"><span id="monV">2.0</span>万</span></div>
+      <div class="lab"><span>これから積み立てる毎月の掛金（会社分を含む）</span><label class="directnum"><input type="number" id="monN" min="0" max="5.5" value="2.0" step="0.1" inputmode="decimal" aria-label="毎月の掛金を数字で入力"><span class="u">万円</span></label></div>
       <input type="range" id="mon" min="0" max="6.2" value="2" step="0.1" aria-label="これから積み立てる毎月の掛金合計（万円）" aria-describedby="monHint limit62Hint">
       <div class="hint" id="monHint" style="margin-top:7px">※ まず、加入者サイトや「運用状況のお知らせ」に載っている現在額を入れてください。増やした場合を試すときは、この金額を変えます。</div>
       <label class="limitcheck"><input type="checkbox" id="limit62" aria-describedby="limit62Hint"><span><b>2026年12月以降の上限枠（月6.2万円）</b>で試す</span></label>
@@ -312,17 +321,19 @@
 
     <p class="eyebrow" style="margin-top:20px"><span class="no">2</span>将来の使い方（仮想試算）</p>
     <div class="q">
-      <div class="lab">この残高の取り崩しを始める年齢 <span class="val"><span id="drawV">65</span>歳</span></div>
+      <div class="lab"><span>この残高の取り崩しを始める年齢</span><label class="directnum"><input type="number" id="drawN" min="60" max="74" value="65" step="1" inputmode="numeric" aria-label="取り崩し開始年齢を数字で入力"><span class="u">歳</span></label></div>
       <input type="range" id="draw" min="60" max="74" value="65" aria-label="この残高の取り崩しを始める年齢（60歳から74歳）">
-      <div class="hint" style="margin-top:7px">※ 65歳は<b>仮の値</b>です。実際にDCを受け取れる年齢や受け取り方は、加入期間や規約で変わります。この画面では、指定した年齢から毎月均等に取り崩すと仮定します。</div>
+      <div class="hint" style="margin-top:7px">※ ここで指定する年齢は<b>仮の値</b>です。実際にDCを受け取れる年齢や受け取り方は、加入期間や規約で変わります。この画面では、指定した年齢から毎月均等に取り崩すと仮定します。</div>
     </div>
     <div class="q">
-      <div class="lab">この残高から毎月使いたい金額（将来の額面） <span class="val"><span id="spendV">15</span>万</span></div>
+      <div class="lab"><span>この残高から毎月使いたい金額（将来の額面）</span><label class="directnum"><input type="number" id="spendN" min="0.5" max="40" value="15" step="0.5" inputmode="decimal" aria-label="毎月使いたい金額を数字で入力"><span class="u">万円</span></label></div>
       <input type="range" id="spend" min="0.5" max="40" value="15" step="0.5" aria-label="取り崩し開始年にこの残高から毎月使いたい将来の額面（万円）" aria-describedby="spendHint">
       <div class="hint" id="spendHint" style="margin-top:7px">※ <span id="spendStartAge">65</span>歳時点の<b>将来の額面</b>です。税・社会保険料・手数料は差し引きません。実際のDC給付とは別に、その後も同じ額面を毎月取り崩す仮想試算です。結果で「将来の金額」と「今の価値」を切り替えられます。</div>
     </div>
 
-    <p class="eyebrow" style="margin-top:20px"><span class="no">3</span>将来の増え方と値動きの3つの例</p>
+    <p class="sliderhelp">スライダーでも数字入力でも変更できます。変更中は計算せず、最後に計算ボタンを押します。</p>
+
+    <p class="eyebrow" style="margin-top:20px"><span class="no">3</span>増え方（リターン）と値動き（リスク）の3つの例</p>
     <div class="q">
       <div class="seg" id="styleSeg">
         <button type="button" data-case="A" data-mu="4" data-sig="8" aria-pressed="false">ケースA<small>増え方4%・値動き8%</small></button>
@@ -352,7 +363,7 @@
 
   <!-- 結果 -->
   <div class="card result" id="resultCard" aria-busy="false">
-    <p class="eyebrow"><span class="no">4</span>あなたの積立の見通し <span class="sample-chip" id="resultSample">未計算</span></p>
+    <p class="eyebrow"><span class="no">4</span>積立から取り崩しまでの見通し <span class="sample-chip" id="resultSample">未計算</span></p>
     <div class="resultstale" id="resultStale" role="status">まだ計算していません。上の計算ボタンを押すと、ここに結果を表示します。</div>
     <div class="resultinvalid" id="resultInvalid" role="status" hidden>上の入力を確認すると、試算結果を表示します。</div>
     <div class="moneytabs" id="moneyViewSeg" role="group" aria-label="金額の表示方法">
@@ -393,6 +404,7 @@
     <p class="resultcap question first"><span class="qno">1</span>希望した月額で見る</p>
     <div class="bigrow single">
       <div class="big"><div class="k" id="rDesiredK">設定した毎月の取崩額（将来の額面）</div><div class="v tabnum" id="rDesired">—</div><div class="f" id="rDesiredF">—</div></div>
+      <div class="big"><div class="k">希望した月額で、資産が持つ年齢の目安</div><div class="v tabnum" id="rDepletionAge">—</div><div class="f" id="rDepletionAgeF">2,000通りを早く尽きる順に並べ、小さいほうから40%の位置を表示します。確定ではありません。</div></div>
     </div>
 
     <p class="headline" id="verdict">—</p>
@@ -478,6 +490,7 @@
         <li>入力内容と試算結果は、<b>お使いのブラウザ内でのみ計算</b>し、このアプリには保存されません。</li>
       </ul>
       <p class="disc-provider">提供：<b>株式会社LSFP</b>。加入者向けに入力項目を絞っています。計算方法は、担当者が使う試算と同じです。現在は <b id="selectedCaseFooter">ケースB（増え方7%・値動き15%）</b> の前提です。</p>
+      <p class="releaseinfo">画面版 <b data-app-version-label></b>／再現 <b>MN2</b>／計算版 <b data-engine-version-label></b>／更新日 <b data-release-date-label></b><span class="reflected">利用者意見反映版</span><br>今回の反映：数字の直接入力、案内文、資産が持つ年齢の目安。計算式は変更していません。</p>
       <details class="note">
         <summary>試算方法を詳しく見る<span class="more">ひらく</span></summary>
         <div class="notebody" id="affordMethodText">95歳まで残高が続く月額の目安は、同じ条件で1,000通りの試算を3回行い、結果の幅で表示します。残高グラフは2,000通りの試算です。いずれも将来を保証する数字ではありません。</div>
@@ -499,11 +512,11 @@
   "use strict";
 
   /*
-   * 加入者版は、画面で確定した入力と表示結果をMN1形式へ符号化するだけに限定する。
+   * 加入者版は、画面で確定した入力と表示結果を現行MN2形式へ符号化するだけに限定する。
    * DOM、保存、通信、アドバイザー向け再計算はこのモジュールへ入れない。
    */
 
-  const CONTRACT = "MN1";
+  const CONTRACT = "MN2";
   // v25: 固定MCドライバープロファイルを変更。計算式・CF規則はv24と同じだが、標本結果はv24と一致しない。
   const ENGINE_VERSION = "v25";
   const MAX_BALANCE_WAN = 10000;
@@ -533,6 +546,7 @@
   const EXPECTED_KEYS = Object.freeze([
     "affordableNominalWanRange",
     "affordableRealWanRange",
+    "depletionAgeP40",
     "desiredMonthlyRealWan",
     "desiredSurvivalPctRange",
     "feasibleAllSeeds",
@@ -679,6 +693,9 @@
     validateMoneyInteger(expected.totalRealWan, "expected.totalRealWan");
     validateMoneyInteger(expected.startBalanceNominalWan, "expected.startBalanceNominalWan");
     validateMoneyInteger(expected.startBalanceRealWan, "expected.startBalanceRealWan");
+    if (!Number.isInteger(expected.depletionAgeP40)) {
+      throw new Error("expected.depletionAgeP40");
+    }
     validateOneDecimal(expected.desiredMonthlyRealWan, "expected.desiredMonthlyRealWan");
     validateHalfWanRange(
       expected.affordableNominalWanRange,
@@ -718,6 +735,12 @@
       envelope.inputs.desiredMonthlyWan
     ) {
       throw new Error("expected.desiredMonthlyRealWan");
+    }
+    if (
+      envelope.expected.depletionAgeP40 < envelope.inputs.drawAge ||
+      envelope.expected.depletionAgeP40 > envelope.inputs.maxAge + 1
+    ) {
+      throw new Error("expected.depletionAgeP40");
     }
     for (let index = 0; index < 2; index += 1) {
       if (
@@ -782,7 +805,12 @@
 (function(){
   "use strict";
   const $=id=>document.getElementById(id);
-  // ===== 計算核（アドバイザー版 engine.js と同一・verify_syncで一致を機械保証）=====
+  const APP_VERSION=document.documentElement.dataset.appVersion;
+  const APP_RELEASE_DATE=document.documentElement.dataset.releaseDate;
+  document.querySelectorAll("[data-app-version-label]").forEach(el=>{el.textContent=APP_VERSION;});
+  document.querySelectorAll("[data-engine-version-label]").forEach(el=>{el.textContent=MN1MemberEncoder.ENGINE_VERSION;});
+  document.querySelectorAll("[data-release-date-label]").forEach(el=>{el.textContent=APP_RELEASE_DATE;});
+  // ===== 加入者版計算核（MN2共有結果はアドバイザー版と別の出力parity検査で照合）=====
 const QS=[0.10,0.20,0.25,0.40,0.50,0.75,0.90];
 let N=2000;
 function setN(n){N=n;}
@@ -1030,6 +1058,13 @@ function simulate(cfg){
     $("rDesiredF").textContent=real
       ?`将来の額面は月${wanText(D.spend)}万円のままです。額面固定のため、今の価値は取り崩し開始後も少しずつ下がります。`
       :`${D.drawAge}歳から毎月同じ額面を取り崩す仮想設定です。税・社会保険料・手数料は差し引きません。開始時の今の価値は約${wanText(D.spendReal)}万円です。`;
+    if(D.depletionAge>D.maxAge){
+      $("rDepletionAge").innerHTML=`${D.maxAge}<small>歳超</small>`;
+      $("rDepletionAgeF").textContent=`やや少なめに見ても、${D.maxAge}歳時点で残高がある見込みです。2,000通りを早く尽きる順に並べ、小さいほうから40%の位置です。確定ではありません。`;
+    }else{
+      $("rDepletionAge").innerHTML=`約${D.depletionAge}<small>歳</small>`;
+      $("rDepletionAgeF").textContent=`やや少なめに見た場合、資産は${D.depletionAge}歳ごろまで持つ見込みです。2,000通りを早く尽きる順に並べ、小さいほうから40%の位置です。確定ではありません。`;
+    }
     if(!D.ap){
       $("rAfford").innerHTML='…<small>計算中</small>';
       $("rAffordF").textContent=`3組×${N_AFFORD_PER_SEED.toLocaleString()}通りで計算しています。端末によっては10〜20秒ほどかかります。`;
@@ -1176,21 +1211,53 @@ function simulate(cfg){
     refreshCopyState();
   }
   function syncDraftAges(){
-    const age=+$("age").value,drawEl=$("draw"),minDraw=Math.max(60,age+1),maxDraw=74;
+    const ageNumber=$("ageN"),ageValue=Number(ageNumber.value);
+    const age=Number.isInteger(ageValue)&&ageValue>=20&&ageValue<=64?ageValue:+$("age").value;
+    const drawEl=$("draw"),drawNumber=$("drawN"),minDraw=Math.max(60,age+1),maxDraw=74;
     drawEl.min=minDraw;drawEl.max=maxDraw;
+    drawNumber.min=minDraw;drawNumber.max=maxDraw;
     drawEl.setAttribute("aria-label",`この残高の取り崩しを始める年齢（${minDraw}歳から${maxDraw}歳）`);
-    if(+drawEl.value<minDraw)drawEl.value=minDraw;
-    if(+drawEl.value>maxDraw)drawEl.value=maxDraw;
-    $("drawV").textContent=drawEl.value;
-    $("spendStartAge").textContent=drawEl.value;
+    const drawValue=Number(drawNumber.value);
+    if(Number.isInteger(drawValue)){
+      if(drawValue<minDraw){drawNumber.value=String(minDraw);drawEl.value=String(minDraw);}
+      else if(drawValue>maxDraw){drawNumber.value=String(maxDraw);drawEl.value=String(maxDraw);}
+      else drawEl.value=String(drawValue);
+    }
+    $("spendStartAge").textContent=drawNumber.value||drawEl.value;
   }
-  const bind=(id,vid,fmt,isCore)=>{const el=$(id);const upd=()=>{
-    if(vid)$(vid).textContent=fmt?fmt(el.value):el.value;
-    if(id==="age"||id==="draw")syncDraftAges();
-    if(isCore)markCoreTouched(id);
-    markInputsDirty();
-  };el.addEventListener("input",upd);};
-  bind("age","ageV",null,true); bind("mon","monV",v=>(+v).toFixed(1),true); bind("draw","drawV"); bind("spend","spendV");
+  const bindRangeNumber=(rangeId,numberId,fmt,isCore)=>{
+    const range=$(rangeId),number=$(numberId);
+    const updateFromRange=()=>{
+      number.value=fmt?fmt(+range.value):range.value;
+      if(rangeId==="age"||rangeId==="draw")syncDraftAges();
+      if(isCore)markCoreTouched(rangeId);
+      markInputsDirty();
+    };
+    const updateFromNumber=()=>{
+      const raw=number.value.trim(),value=Number(raw),min=+range.min,max=+range.max,step=+(range.step||1);
+      const onStep=Number.isFinite(step)&&step>0?Math.abs((value-min)/step-Math.round((value-min)/step))<1e-8:true;
+      const valid=raw!==""&&Number.isFinite(value)&&value>=min&&value<=max&&onStep;
+      if(valid){
+        range.value=String(value);
+        if(rangeId==="age"||rangeId==="draw")syncDraftAges();
+      }
+      if(isCore)markCoreTouched(rangeId);
+      markInputsDirty();
+    };
+    range.addEventListener("input",updateFromRange);
+    number.addEventListener("input",updateFromNumber);
+    number.addEventListener("change",()=>{
+      const raw=number.value.trim(),value=Number(raw),min=+range.min,max=+range.max,step=+(range.step||1);
+      const onStep=Number.isFinite(step)&&step>0?Math.abs((value-min)/step-Math.round((value-min)/step))<1e-8:true;
+      if(raw!==""&&Number.isFinite(value)&&value>=min&&value<=max&&onStep){
+        number.value=fmt?fmt(value):String(value);
+      }
+    });
+  };
+  bindRangeNumber("age","ageN",null,true);
+  bindRangeNumber("mon","monN",v=>v.toFixed(1),true);
+  bindRangeNumber("draw","drawN");
+  bindRangeNumber("spend","spendN",v=>wanText(v));
   const balanceInput=$("bal");
   const balanceSampleValue=balanceInput.defaultValue;
   balanceInput.addEventListener("focus",()=>{
@@ -1207,13 +1274,15 @@ function simulate(cfg){
   const activeScheme=()=>{const b=[...$("schemeSeg").querySelectorAll("button")].find(x=>x.getAttribute("aria-pressed")==="true");return b?b.dataset.scheme:"unknown";};
   const schemeLabel=()=>({idecoplus:"iDeCo+",corporate:"企業型DC",unknown:"わからない"}[activeScheme()]||"わからない");
   function applySchemeLimit(){
-    const scheme=activeScheme(),mon=$("mon"),confirmed62=$("limit62").checked,previousMon=+mon.value;
+    const scheme=activeScheme(),mon=$("mon"),monNumber=$("monN"),confirmed62=$("limit62").checked;
+    const monRaw=monNumber.value.trim(),previousMon=monRaw===""?NaN:Number(monRaw);
     activeMonLimit=confirmed62?6.2:(scheme==="idecoplus"?2.3:5.5);
     mon.max=activeMonLimit.toFixed(1);
+    monNumber.max=activeMonLimit.toFixed(1);
     mon.setAttribute("aria-label",`これから積み立てる毎月の掛金合計（0万円から${activeMonLimit.toFixed(1)}万円）`);
     const adjusted=Number.isFinite(previousMon)&&previousMon>activeMonLimit;
-    if(adjusted)mon.value=activeMonLimit.toFixed(1);
-    $("monV").textContent=(+mon.value).toFixed(1);
+    if(adjusted){mon.value=activeMonLimit.toFixed(1);monNumber.value=activeMonLimit.toFixed(1);}
+    else if(Number.isFinite(previousMon)&&previousMon>=0)mon.value=String(previousMon);
     if(confirmed62){
       $("schemeHint").textContent=scheme==="unknown"?"※ 制度名が分からない状態で試算します。":"※ "+schemeLabel()+"として試算します。会社分と本人分の合計を入力してください。";
       $("monHint").textContent="※ 2026年12月以降の共通上限枠で試します。月6.2万円から会社の掛金やDBなどを差し引くため、本人が使える額は下がる場合があります。";
@@ -1292,6 +1361,7 @@ function simulate(cfg){
         totalRealWan:mn1IntegerWan(D.totalRealYen),
         startBalanceNominalWan:mn1IntegerWan(D.startNomYen),
         startBalanceRealWan:mn1IntegerWan(D.startRealYen),
+        depletionAgeP40:D.depletionAge,
         desiredMonthlyRealWan:mn1OneDecimal(D.spendReal),
         affordableNominalWanRange:[D.affordNomLo,D.affordNomHi],
         affordableRealWanRange:[D.affordRealLo,D.affordRealHi],
@@ -1305,6 +1375,9 @@ function simulate(cfg){
     const surv=$("rSurv").firstChild?$("rSurv").firstChild.textContent.trim():"—";
     const affordNom=D.ap&&D.ap.feasible?`${rangeText(D.affordNomLo,D.affordNomHi)}万円/月`:"算出できず";
     const affordReal=D.ap&&D.ap.feasible?`${rangeText(D.affordRealLo,D.affordRealHi)}万円/月`:"算出できず";
+    const depletionText=D.depletionAge>D.maxAge
+      ?`${D.maxAge}歳時点でも残高がある見込み`
+      :`約${D.depletionAge}歳まで持つ見込み`;
     let mn1Code;
     try{
       mn1Code=MN1MemberEncoder.encodeEnvelope(buildMN1Envelope(D));
@@ -1316,6 +1389,7 @@ function simulate(cfg){
     }
     $("memoText").value=[
       coreConfirmed()?"【iDeCo+・企業型DC 相談メモ】":"【サンプル値の相談メモ】",
+      `画面版：${APP_VERSION}（${APP_RELEASE_DATE}）／再現：${MN1MemberEncoder.CONTRACT}／計算版：${MN1MemberEncoder.ENGINE_VERSION}`,
       `制度：${schemeLabel()}`,
       `年齢：${$("age").value}歳`,
       `現在の運用残高：約${$("bal").value}万円`,
@@ -1330,6 +1404,7 @@ function simulate(cfg){
       `毎月取り崩したい金額：将来の額面${wanText(D.spend)}万円／開始時の今の価値約${wanText(D.spendReal)}万円（以後も同額面）`,
       `約${Math.round(pTarget*100)}%を目標にした、${D.maxAge}歳まで残高が続く仮想の月額目安（${D.drawAge}歳から・計算パターン3組）：額面${affordNom}／開始時の今の価値${affordReal}`,
       `希望月額で${D.maxAge}歳まで残高がもった割合（計算パターン3組）：${surv}`,
+      `希望月額で資産が持つ年齢の目安（2,000通り・小さいほうから40%）：${depletionText}`,
       `注意：毎月均等に取り崩す仮想試算で、実際のDC給付方法や手取り額とは異なる`,
       "",
       "聞きたいこと：実際に受け取りを始められる年齢／一時金・年金・併用のどれを選べるか／制度上の掛金上限／いまの運用と受取後の運用はどのケースに近いか／税引後の受取額",
@@ -1416,24 +1491,33 @@ function simulate(cfg){
   // 重い試算は計算ボタンを押した時だけ実行する。入力イベントでは表示値と未計算状態だけを更新する。
   function render(){
     setN(2000);
-    const age=+$("age").value,balRaw=$("bal").value.trim(),bal=Number(balRaw),mon=+$("mon").value,spend=+$("spend").value,infl=inflRate;
+    const ageRaw=$("ageN").value.trim(),age=Number(ageRaw);
+    const balRaw=$("bal").value.trim(),bal=Number(balRaw);
+    const monRaw=$("monN").value.trim(),mon=Number(monRaw);
+    const drawRaw=$("drawN").value.trim(),drawAge=Number(drawRaw);
+    const spendRaw=$("spendN").value.trim(),spend=Number(spendRaw),infl=inflRate;
+    if(ageRaw===""||!Number.isInteger(age)||age<20||age>64){
+      return showInputError("いまの年齢を20〜64歳の整数で入力してください。");
+    }
     if(balRaw===""||!Number.isFinite(bal)||bal<0||bal>10000){
       return showInputError("現在の運用残高を0〜10,000万円の範囲で入力してください。");
     }
-    if(!Number.isFinite(mon)||mon<0||mon>6.2){
-      return showInputError("毎月の掛金を0〜6.2万円の範囲で入力してください。");
+    if(monRaw===""||!Number.isFinite(mon)||mon<0||mon>6.2||Math.abs(mon*10-Math.round(mon*10))>1e-8){
+      return showInputError("毎月の掛金を0.1万円単位で入力してください。");
     }
     if(mon>activeMonLimit){
       return showInputError(`現在の制度・上限枠の選択では、毎月の掛金は${activeMonLimit.toFixed(1)}万円以下にしてください。`);
     }
-    // 老齢給付金の通常の選択範囲に合わせ、簡易年単位モデルでは現在年齢の翌年以降・74歳までとする。
-    const drawEl=$("draw"),minDraw=Math.max(60,age+1),maxDraw=74;drawEl.min=minDraw;drawEl.max=maxDraw;
-    drawEl.setAttribute("aria-label",`この残高の取り崩しを始める年齢（${minDraw}歳から${maxDraw}歳）`);
-    if(+drawEl.value<minDraw)drawEl.value=minDraw;if(+drawEl.value>maxDraw)drawEl.value=maxDraw;
-    const drawAge=+drawEl.value; $("drawV").textContent=drawAge;
-    if(!(drawAge>=60&&drawAge<=74&&drawAge>age&&maxAge>drawAge)){
-      return showInputError("取り崩し開始年齢を60〜74歳の範囲で確認してください。");
+    if(spendRaw===""||!Number.isFinite(spend)||spend<0.5||spend>40||Math.abs(spend*2-Math.round(spend*2))>1e-8){
+      return showInputError("毎月使いたい金額を0.5〜40万円の範囲で、0.5万円単位で入力してください。");
     }
+    // 老齢給付金の通常の選択範囲に合わせ、簡易年単位モデルでは現在年齢の翌年以降・74歳までとする。
+    const drawEl=$("draw"),drawNumber=$("drawN"),minDraw=Math.max(60,age+1),maxDraw=74;drawEl.min=minDraw;drawEl.max=maxDraw;drawNumber.min=minDraw;drawNumber.max=maxDraw;
+    drawEl.setAttribute("aria-label",`この残高の取り崩しを始める年齢（${minDraw}歳から${maxDraw}歳）`);
+    if(drawRaw===""||!Number.isInteger(drawAge)||drawAge<minDraw||drawAge>maxDraw||maxAge<=drawAge){
+      return showInputError(`取り崩し開始年齢を${minDraw}〜${maxDraw}歳の整数で入力してください。`);
+    }
+    $("age").value=String(age);$("mon").value=String(mon);$("draw").value=String(drawAge);$("spend").value=String(spend);
     $("valMsg").textContent="";
     clearResultInvalid();
     const dY=drawAge-age;
@@ -1443,7 +1527,7 @@ function simulate(cfg){
       assets:[{name:"あなたの積立",start:bal,monthly:mon,endAge:drawAge,mu:styleMu,sig:styleSig,on:true}],
       draws:[],mode:"amount",mat:{age:50,amt:0,yrs:3,mu:0,sig:0},infl,spendMode:"flat"};
     let S;try{S=simulateForUi(cfg);}catch(e){return showInputError("入力をご確認ください。");}
-    const RF=y=>S.rf(y*12), qn=Math.floor(0.4*N);
+    const RF=y=>S.rf(y*12), qn=Math.floor(0.4*N),depletionAge=S.sDep[qn];
     $("spendStartAge").textContent=drawAge;
     // 主結果は乱数の異なる3組の幅で示し、単一seedを0.1万円単位の確定的な目安に見せない。
     let ap;try{ap=affordProbBand(cfg,pTarget,true);}catch(e){return showInputError("計算を完了できませんでした。条件を確認して、もう一度お試しください。");}
@@ -1466,7 +1550,7 @@ function simulate(cfg){
     lastMoneyData={age,drawAge,maxAge,infl,spend,spendReal:spend*RF(dY),pPct,ap,svLo,svHi,targetMet:ap?ap.survLo>=pTarget:false,
       caseId:styleCase,muPct:styleMu,sigmaPct:styleSig,caseLabel:selectedCaseLabel(),
       currentYen,futureNomYen,futureRealYen,totalNomYen:currentYen+futureNomYen,totalRealYen:currentYen+futureRealYen,
-      startNomYen:S.sStart[qn],startRealYen:S.sStart[qn]*RF(dY),affordNomLo,affordNomHi,affordRealLo,affordRealHi};
+      startNomYen:S.sStart[qn],startRealYen:S.sStart[qn]*RF(dY),depletionAge,affordNomLo,affordNomHi,affordRealLo,affordRealHi};
     applyMoneyView();
     $("plain").innerHTML=`※ 取り崩し開始時の残高、グラフの緑の実線、取崩累計は、2,000通りから<b>それぞれ別に小さいほうから40%の位置を取り出した目安</b>です。グラフの灰色の破線は50%の位置、つまり中央値です。1本の将来経路ではないため、残高の差額と取崩累計を足し引きしても一致しません。月額の幅は別の計算パターン3組で確認しています。`;
     $("mcN").textContent=N.toLocaleString();

@@ -83,7 +83,7 @@ assert.match(
   /条件を変更しました。計算ボタンを押すと、相談メモも新しい条件で作り直します。/u,
   "stale advisor memo and reproduction code must be scrubbed"
 );
-assert.match(encoder, /CONTRACT = "MN1"/u);
+assert.match(encoder, /CONTRACT = "MN2"/u);
 assert.match(encoder, /ENGINE_VERSION = "v25"/u);
 
 console.log("Member explicit calculation interaction contract: PASS");
@@ -91,4 +91,4 @@ console.log("automaticHeavyCalculationPaths=0");
 console.log("explicitCalculationButtons=1");
 console.log("staleMemoCopyBlocked=true");
 console.log("busyDraftControlsLocked=true");
-console.log("mn1Contract=MN1/v25");
+console.log("transferContract=MN2/v25");

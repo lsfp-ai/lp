@@ -8,7 +8,7 @@ const { TextEncoder } = require("node:util");
 const encoder = require("../ideco-mirai-navi/mn1_member_encoder.js");
 
 const envelope = {
-  contract: "MN1",
+  contract: "MN2",
   engine: "v25",
   inputs: {
     scheme: "unknown",
@@ -30,6 +30,7 @@ const envelope = {
     totalRealWan: 896,
     startBalanceNominalWan: 2236,
     startBalanceRealWan: 1505,
+    depletionAgeP40: 84,
     desiredMonthlyRealWan: 10.1,
     affordableNominalWanRange: [7.5, 8],
     affordableRealWanRange: [5, 5.5],
@@ -39,8 +40,9 @@ const envelope = {
 };
 
 const golden =
-  "MN1.eyJjb250cmFjdCI6Ik1OMSIsImVuZ2luZSI6InYyNSIsImlucHV0cyI6eyJzY2hlbWUiOiJ1bmtub3duIiwibGltaXQ2MiI6ZmFsc2UsImFnZSI6NDUsImJhbGFuY2VXYW4iOjUwMCwibW9udGhseVdhbiI6MiwiZHJhd0FnZSI6NjUsIm1heEFnZSI6OTUsImNhc2VJZCI6IkIiLCJpbmZsYXRpb25QY3QiOjIsImRlc2lyZWRNb250aGx5V2FuIjoxNSwidGFyZ2V0UGN0Ijo4MCwibXVQY3QiOjcsInNpZ21hUGN0IjoxNX0sImV4cGVjdGVkIjp7InRvdGFsTm9taW5hbFdhbiI6OTgwLCJ0b3RhbFJlYWxXYW4iOjg5Niwic3RhcnRCYWxhbmNlTm9taW5hbFdhbiI6MjIzNiwic3RhcnRCYWxhbmNlUmVhbFdhbiI6MTUwNSwiZGVzaXJlZE1vbnRobHlSZWFsV2FuIjoxMC4xLCJhZmZvcmRhYmxlTm9taW5hbFdhblJhbmdlIjpbNy41LDhdLCJhZmZvcmRhYmxlUmVhbFdhblJhbmdlIjpbNSw1LjVdLCJkZXNpcmVkU3Vydml2YWxQY3RSYW5nZSI6WzQ1LDUwLjNdLCJmZWFzaWJsZUFsbFNlZWRzIjp0cnVlfX0.3a4097b5";
+  "MN2.eyJjb250cmFjdCI6Ik1OMiIsImVuZ2luZSI6InYyNSIsImlucHV0cyI6eyJzY2hlbWUiOiJ1bmtub3duIiwibGltaXQ2MiI6ZmFsc2UsImFnZSI6NDUsImJhbGFuY2VXYW4iOjUwMCwibW9udGhseVdhbiI6MiwiZHJhd0FnZSI6NjUsIm1heEFnZSI6OTUsImNhc2VJZCI6IkIiLCJpbmZsYXRpb25QY3QiOjIsImRlc2lyZWRNb250aGx5V2FuIjoxNSwidGFyZ2V0UGN0Ijo4MCwibXVQY3QiOjcsInNpZ21hUGN0IjoxNX0sImV4cGVjdGVkIjp7InRvdGFsTm9taW5hbFdhbiI6OTgwLCJ0b3RhbFJlYWxXYW4iOjg5Niwic3RhcnRCYWxhbmNlTm9taW5hbFdhbiI6MjIzNiwic3RhcnRCYWxhbmNlUmVhbFdhbiI6MTUwNSwiZGVwbGV0aW9uQWdlUDQwIjo4NCwiZGVzaXJlZE1vbnRobHlSZWFsV2FuIjoxMC4xLCJhZmZvcmRhYmxlTm9taW5hbFdhblJhbmdlIjpbNy41LDhdLCJhZmZvcmRhYmxlUmVhbFdhblJhbmdlIjpbNSw1LjVdLCJkZXNpcmVkU3Vydml2YWxQY3RSYW5nZSI6WzQ1LDUwLjNdLCJmZWFzaWJsZUFsbFNlZWRzIjp0cnVlfX0.8ee2b6c8";
 
+assert.match(golden, /^MN2\./u, "Node encode uses the MN2 transfer contract");
 assert.equal(encoder.encodeEnvelope(envelope), golden, "Node golden encode");
 assert.throws(
   () =>
@@ -84,6 +86,6 @@ assert.equal(
   "browser-like golden encode"
 );
 
-console.log("MN1 member encoder tests: PASS");
+console.log("MN2 member encoder tests: PASS");
 console.log("goldenCodes=1");
 console.log("runtime=node + browser-like no module/no Buffer");
