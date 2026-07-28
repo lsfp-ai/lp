@@ -65,7 +65,8 @@ vm.runInContext(
     `const hiChecks=AFFORD_SEEDS.map(seed=>({seed,surv:simulate({...${JSON.stringify(cfg)},seed,wMon:displayedHi/1e4}).survProb}));` +
     `globalThis.result={band,displayedHi,hiChecks};`,
   context,
-  { timeout: 30000 }
+  // GitHub Actions の共有 runner でも、実装と同じ 1,000 通り×3組を省略せず検査する。
+  { timeout: 120000 }
 );
 
 const { band, displayedHi, hiChecks } = context.result;
