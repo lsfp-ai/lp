@@ -17,7 +17,7 @@ const designRule = fs.readFileSync(
   "utf8"
 );
 
-assert.equal(manifest.uiVersion, "v1.3.1");
+assert.equal(manifest.uiVersion, "v1.3.2");
 assert.equal(manifest.calculationEngineVersion, "v27");
 assert.equal(manifest.transferContractVersion, "MN4");
 assert.equal(manifest.calculationChanged, false);
@@ -27,7 +27,7 @@ assert.equal(
 );
 assert.equal(
   manifest.previousBaselineCommit,
-  "108c08f8f73855fb662d0dc7d0068884a7c7a3df"
+  "99b2ab45df7956c015f32ea61bc470651f623c24"
 );
 
 for (const required of [

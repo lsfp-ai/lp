@@ -37,6 +37,7 @@ jobs:
           node scripts/test-member-explicit-calculation.js
           node scripts/test-member-human-probability-ui.js
           node scripts/test-member-affordability-band.js
+          node scripts/test-member-advisor-wording.js
 
       - name: MN4再現コードの総当たり検査
         run: node scripts/fuzz-mn1-member.js
