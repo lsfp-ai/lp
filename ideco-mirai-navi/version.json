@@ -1,7 +1,7 @@
 {
   "appName": "iDeCo＋みらいナビ",
   "edition": "加入者版",
-  "uiVersion": "v1.3.1",
+  "uiVersion": "v1.3.2",
   "calculationEngineVersion": "v27",
   "transferContractVersion": "MN4",
   "calculationCoreSha256": "2de196f567b6086bb7a740bcd8352282705ec2c73bc31d4d0a5012aa204bcd91",
@@ -9,6 +9,6 @@
   "feedbackStatus": "reflected",
   "calculationChanged": false,
   "previousTransferContractVersion": "MN4",
-  "previousUiVersion": "v1.3.0",
-  "previousBaselineCommit": "108c08f8f73855fb662d0dc7d0068884a7c7a3df"
+  "previousUiVersion": "v1.3.1",
+  "previousBaselineCommit": "99b2ab45df7956c015f32ea61bc470651f623c24"
 }
