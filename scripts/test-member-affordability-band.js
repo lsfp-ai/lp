@@ -62,14 +62,19 @@ vm.runInContext(
   `${core}\n${bandCode}\n` +
     `const band=affordProbBand(${JSON.stringify(cfg)},0.8,true);` +
     `const displayedHi=Math.floor((band.hiYen/1e4)*2+1e-9)/2*1e4;` +
-    `const hiChecks=AFFORD_SEEDS.map(seed=>({seed,surv:simulate({...${JSON.stringify(cfg)},seed,wMon:displayedHi/1e4}).survProb}));` +
-    `globalThis.result={band,displayedHi,hiChecks};`,
+    `const originalN=N;let hiChecks;` +
+    `try{setN(N_AFFORD_PER_SEED);` +
+    `hiChecks=AFFORD_SEEDS.map(seed=>({seed,surv:simulate({...${JSON.stringify(cfg)},seed,wMon:displayedHi/1e4}).survProb}));` +
+    `}finally{setN(originalN);}` +
+    `globalThis.result={band,displayedHi,hiChecks,verificationN:N_AFFORD_PER_SEED,restoredN:N};`,
   context,
   // GitHub Actions の共有 runner でも、実装と同じ 1,000 通り×3組を省略せず検査する。
   { timeout: 120000 }
 );
 
-const { band, displayedHi, hiChecks } = context.result;
+const { band, displayedHi, hiChecks, verificationN, restoredN } = context.result;
+assert.equal(verificationN, 1000, "the endpoint check must use the UI calculation size");
+assert.equal(restoredN, 2000, "the graph calculation size must be restored");
 assert.equal(band.rows.length, 3);
 for (const row of band.rows) {
   assert.equal(row.afford.feasible, true);
@@ -98,6 +103,8 @@ assert.match(
 );
 
 console.log("Member affordability band semantics: PASS");
+console.log(`verificationPathsPerSeed=${verificationN}`);
+console.log(`restoredGraphPaths=${restoredN}`);
 console.log(`seedSpecificSolutions=${band.rows.length}`);
 console.log(`displayedHighWan=${displayedHi / 1e4}`);
 console.log(
