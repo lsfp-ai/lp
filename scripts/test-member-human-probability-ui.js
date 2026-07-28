@@ -25,6 +25,10 @@ assert.equal(
   manifest.calculationCoreSha256,
   "2de196f567b6086bb7a740bcd8352282705ec2c73bc31d4d0a5012aa204bcd91"
 );
+assert.equal(
+  manifest.previousBaselineCommit,
+  "108c08f8f73855fb662d0dc7d0068884a7c7a3df"
+);
 
 for (const required of [
   "積立から取り崩しまでの資産残高の推移",
