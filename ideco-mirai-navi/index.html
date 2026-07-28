@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja" data-app-version="v1.3.0" data-release-date="2026-07-28">
+<html lang="ja" data-app-version="v1.3.1" data-release-date="2026-07-28">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -162,9 +162,12 @@
   .big .v small{font-size:13px;font-weight:600;color:var(--sub);margin-left:2px}
   .big.gold .v{color:var(--gold)}
   .big .f{font-size:11.5px;color:var(--sub);margin-top:6px;line-height:1.5}
-  .pseg{display:flex;gap:4px;margin-top:10px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:3px;width:fit-content}
-  .pseg button{font:inherit;font-size:11.5px;font-weight:700;border:0;border-radius:6px;padding:6px 10px;cursor:pointer;background:transparent;color:var(--sub)}
-  .pseg button[aria-pressed="true"]{background:var(--gold);color:#fff}
+  .pseg{display:grid;grid-template-columns:1fr;gap:7px;margin-top:12px}
+  .pseg button{width:100%;font:inherit;font-size:12.5px;font-weight:750;text-align:left;line-height:1.55;border:1px solid var(--line);border-radius:10px;padding:11px 13px;cursor:pointer;background:var(--surface);color:var(--ink)}
+  .pseg button[aria-pressed="true"]{border-color:var(--gold);background:var(--gold-soft);box-shadow:inset 4px 0 0 var(--gold)}
+  .pseg button[aria-pressed="true"]::after{content:"選択中";float:right;margin-left:8px;color:var(--gold);font-size:10.5px;font-weight:800}
+  .localcalc{margin-top:12px;padding:11px 12px;border:1px solid color-mix(in srgb,var(--teal) 35%,var(--line));border-radius:10px;background:color-mix(in srgb,var(--teal) 5%,var(--surface))}
+  .localcalc .calcstatus{margin-bottom:8px}
   .badge{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:6px;vertical-align:middle}
   .bg-good{background:color-mix(in srgb,var(--good) 16%,transparent);color:var(--good)}
   .bg-warn{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
@@ -178,13 +181,20 @@
   .sample-note{font-size:11.5px;color:var(--sub);margin:-4px 0 12px;line-height:1.5}
   .sample-note[data-touched="1"]{display:none}
 
-  /* グラフ折りたたみ（スマホは既定で閉じる） */
-  .chartfold{margin-top:14px;border-top:1px solid var(--line2);padding-top:10px}
-  .chartfold summary{cursor:pointer;list-style:none;font-size:12.5px;font-weight:700;color:var(--teal);display:flex;align-items:center;gap:6px}
+  /* グラフは結果の重要機能として大きく見せ、初期状態では閉じる */
+  .chartfold{margin-top:16px;border:1px solid color-mix(in srgb,var(--teal) 38%,var(--line));border-radius:12px;background:color-mix(in srgb,var(--teal) 5%,var(--surface));overflow:hidden}
+  .chartfold summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:auto 1fr;gap:3px 10px;align-items:center;padding:14px;color:var(--ink)}
   .chartfold summary::-webkit-details-marker{display:none}
-  .chartfold summary::after{content:"▾";font-size:11px;color:var(--sub);margin-left:auto}
-  .chartfold[open] summary::after{content:"▴"}
-  .chartfold>.eyebrow{display:block;letter-spacing:.04em;line-height:1.55}
+  .chartcta-icon{grid-row:1/3;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--teal);color:#fff;font-size:17px}
+  .chartcta-title{font-size:15px;font-weight:850;line-height:1.45}
+  .chartcta-sub{font-size:11.5px;color:var(--sub);line-height:1.5}
+  .chartcta-action{grid-column:1/-1;margin-top:7px;border-radius:9px;background:var(--teal);color:#fff;text-align:center;padding:9px 12px;font-size:13px;font-weight:800}
+  .chart-close-label{display:none}
+  .chartfold[open] .chart-open-label{display:none}
+  .chartfold[open] .chart-close-label{display:inline}
+  .chartfold[open] summary{border-bottom:1px solid var(--line2)}
+  .chartcontent{padding:0 14px 14px}
+  .chartcontent>.eyebrow{display:block;letter-spacing:.04em;line-height:1.55}
   .chartbox{position:relative;margin-top:8px}
   canvas{width:100%;height:auto;display:block;touch-action:pan-y;cursor:crosshair}
   .charttip{position:absolute;z-index:2;transform:translate(-50%,-100%);background:var(--navy);color:var(--navy-ink);border-radius:7px;padding:5px 8px;font-size:11px;font-weight:700;line-height:1.35;white-space:pre-line;text-align:center;max-width:240px;pointer-events:none;box-shadow:var(--shadow)}
@@ -362,11 +372,11 @@
         <summary>選択中のケースの数字を確認<span class="more">ひらく</span></summary>
         <div class="notebody"><b id="caseDetailName">ケースB：増え方7%・値動き15%</b><br><span id="caseDetailBody">増え方7%は、長い期間で見た年平均の増え方を7%と仮定する意味で、毎年7%ずつ増える意味ではありません。値動き15%は、1年ごとの運用結果が上下にばらつく大きさで、15%下がると決まっている意味でも損失の上限でもありません。</span> いまの商品がどのケースに近いかは、担当者に確認してください。</div>
       </details>
-      <div class="hint" style="margin-top:8px">※ 残高を見る年齢は <b><span id="maxLbl">95</span>歳</b>までです。
-        <span class="agechoices" id="maxAgeSeg" role="group" aria-label="残高が続くか確認する年齢">
-          <button type="button" class="theme mxbtn" data-m="90" aria-label="残高を見る年齢90歳" aria-pressed="false">90</button>
-          <button type="button" class="theme mxbtn" data-m="95" aria-label="残高を見る年齢95歳" aria-pressed="true">95</button>
-          <button type="button" class="theme mxbtn" data-m="100" aria-label="残高を見る年齢100歳" aria-pressed="false">100</button>
+      <div class="hint" style="margin-top:8px">※ 資産が尽きないか確認する年齢は <b><span id="maxLbl">95</span>歳</b>までです。
+        <span class="agechoices" id="maxAgeSeg" role="group" aria-label="資産が尽きないか確認する年齢">
+          <button type="button" class="theme mxbtn" data-m="90" aria-label="資産が尽きないか確認する年齢90歳" aria-pressed="false">90</button>
+          <button type="button" class="theme mxbtn" data-m="95" aria-label="資産が尽きないか確認する年齢95歳" aria-pressed="true">95</button>
+          <button type="button" class="theme mxbtn" data-m="100" aria-label="資産が尽きないか確認する年齢100歳" aria-pressed="false">100</button>
         </span>
       </div>
       <div class="hint" style="margin-top:7px">※ 掛金は取り崩し開始時に止めます。その後は、残った残高を選んだケースと同じ増え方・値動きで運用しながら取り崩す前提です。実際の給付方法や受取後の商品は制度・規約で変わるため、担当者に確認してください。</div>
@@ -415,34 +425,41 @@
     <p class="headline" id="verdict">—</p>
 
     <details class="note survfold">
-      <summary><span id="survSpendView">開始時の月15万円を、その後は物価に合わせて増額</span>した場合の割合を見る<span class="more">ひらく</span></summary>
+      <summary><span id="survSpendView">開始時の月15万円を、その後は物価に合わせて増額</span>した場合に、<span id="survSummaryAge">95</span>歳まで資産が尽きなかった計算を見る<span class="more">ひらく</span></summary>
       <div class="notebody">
-        <div class="big"><div class="k">計算パターンを3組に分けて、残高が尽きずに<span id="survAgeLbl">95</span>歳まで取り崩しを続けられた割合</div><div class="v tabnum" id="rSurv">—<span id="rSurvBadge"></span></div><div class="f" id="rSurvF">—</div></div>
+        <div class="big"><div class="k">毎月取り崩しても、<span id="survAgeLbl">95</span>歳まで資産が尽きなかった計算</div><div class="v tabnum" id="rSurv">—<span id="rSurvBadge"></span></div><div class="f" id="rSurvF">—</div></div>
       </div>
     </details>
 
     <details class="chartfold" id="chartFold">
-      <summary>希望した月額での残高を見る</summary>
-      <p class="eyebrow" style="margin-top:14px"><span id="chartScenarioLbl">月15万円を仮に取り崩す場合</span><br>積み立てから取り崩しまでの残高（<span id="mcN">2,000</span>通り・<span id="chartModeLbl">将来の金額</span>）</p>
-      <div class="chartbox">
-        <canvas id="chart" width="600" height="260" aria-label="積み立て期間と取り崩し開始後の残高の推移。やや少なめに見た残高と中央値を表示します"></canvas>
-        <div class="charttip" id="chartTip" aria-hidden="true"></div>
-      </div>
-      <div class="chartpick">
-        <div class="lab"><span>確認する年齢</span><b><span id="chartAgeV">—</span>歳</b></div>
-        <input type="range" id="chartAge" min="65" max="95" value="80" step="1" aria-label="やや少なめに見た残高を確認する年齢">
-      </div>
-      <div class="chartread" id="chartReadout" role="status" aria-live="polite">
-        <div class="chartmetric balance"><div class="k" id="chartBalK">やや少なめに見た残高（将来の金額）</div><div class="v" id="chartBalV">—</div></div>
-        <div class="chartmetric median"><div class="k" id="chartMedianK">中央値（2,000通りの真ん中・将来の金額）</div><div class="v" id="chartMedianV">—</div></div>
-        <div class="chartmetric cumulative"><div class="k" id="chartCumK">やや少なめに見た、その年齢までの取崩累計（将来の金額）</div><div class="v" id="chartCumV">—</div></div>
-      </div>
-      <p class="chartdesc" id="chartDesc">取崩開始時は月15万円、その後は物価上昇率に合わせて毎年増やした残高と取崩累計です。80%・90%の切替は、下の「95歳まで残高が続く月額の目安」だけに反映され、このグラフは変わりません。緑の実線はやや少なめに見た残高、灰色の破線は2,000通りの真ん中です。帯の上側は一部省略しています。</p>
-      <div class="legend">
-        <span><i class="sw" style="background:var(--band-out)"></i>試算の幅（上側は一部省略）</span>
-        <span><i class="sw" style="background:var(--median);height:3px"></i>やや少なめに見た残高（小さいほうから40%）</span>
-        <span><i class="sw" style="background:transparent;height:0;border-top:2px dashed var(--midline)"></i>中央値（2,000通りの真ん中）</span>
-        <span><i class="sw" style="background:var(--warn);height:0;border-top:2px dashed var(--warn)"></i>取り崩し開始</span>
+      <summary>
+        <span class="chartcta-icon" aria-hidden="true">↗</span>
+        <span class="chartcta-title">積立から取り崩しまでの資産残高の推移</span>
+        <span class="chartcta-sub">積立期間から取り崩し後まで、2,000通りの計算をグラフで確認できます。</span>
+        <span class="chartcta-action"><span class="chart-open-label">グラフで推移を確認する</span><span class="chart-close-label">グラフを閉じる</span></span>
+      </summary>
+      <div class="chartcontent">
+        <p class="eyebrow" style="margin-top:14px"><span id="chartScenarioLbl">月15万円を仮に取り崩す場合</span><br>積立から取り崩しまでの資産残高（<span id="mcN">2,000</span>通り・<span id="chartModeLbl">将来の金額</span>）</p>
+        <div class="chartbox">
+          <canvas id="chart" width="600" height="260" aria-label="積立期間と取り崩し開始後の資産残高の推移。やや少なめに見た残高と中央値を表示します"></canvas>
+          <div class="charttip" id="chartTip" aria-hidden="true"></div>
+        </div>
+        <div class="chartpick">
+          <div class="lab"><span>確認する年齢</span><b><span id="chartAgeV">—</span>歳</b></div>
+          <input type="range" id="chartAge" min="65" max="95" value="80" step="1" aria-label="やや少なめに見た残高を確認する年齢">
+        </div>
+        <div class="chartread" id="chartReadout" role="status" aria-live="polite">
+          <div class="chartmetric balance"><div class="k" id="chartBalK">やや少なめに見た残高（将来の金額）</div><div class="v" id="chartBalV">—</div></div>
+          <div class="chartmetric median"><div class="k" id="chartMedianK">中央値（2,000通りの真ん中・将来の金額）</div><div class="v" id="chartMedianV">—</div></div>
+          <div class="chartmetric cumulative"><div class="k" id="chartCumK">やや少なめに見た、その年齢までの取崩累計（将来の金額）</div><div class="v" id="chartCumV">—</div></div>
+        </div>
+        <p class="chartdesc" id="chartDesc">取崩開始時は月15万円、その後は物価上昇率に合わせて毎年増やした資産残高と取崩累計です。下の「指定年齢まで資産が尽きない毎月額」の条件を変えても、このグラフは変わりません。緑の実線はやや少なめに見た残高、灰色の破線は2,000通りの真ん中です。帯の上側は一部省略しています。</p>
+        <div class="legend">
+          <span><i class="sw" style="background:var(--band-out)"></i>計算結果の幅（上側は一部省略）</span>
+          <span><i class="sw" style="background:var(--median);height:3px"></i>やや少なめに見た残高（小さいほうから40%）</span>
+          <span><i class="sw" style="background:transparent;height:0;border-top:2px dashed var(--midline)"></i>中央値（2,000通りの真ん中）</span>
+          <span><i class="sw" style="background:var(--warn);height:0;border-top:2px dashed var(--warn)"></i>取り崩し開始</span>
+        </div>
       </div>
     </details>
 
@@ -451,14 +468,18 @@
       <div class="notebody" id="plain">—</div>
     </details>
 
-    <p class="resultcap question"><span class="qno">2</span><span id="affordSectionTitle">95歳まで残高が続く月額の目安を見る</span></p>
+    <p class="resultcap question"><span class="qno">2</span><span id="affordSectionTitle">95歳まで資産が尽きない毎月額を計算します</span></p>
     <div class="bigrow single">
       <div class="big gold"><div class="k" id="rAffordK">仮に取り崩す開始時月額の目安</div><div class="v tabnum" id="rAfford">—</div><div class="f" id="rAffordF">—</div>
-        <div class="pseg" id="pSeg" role="group" aria-label="残高が尽きない割合の目標">
-          <button type="button" data-p="80" aria-pressed="true">80%でみる</button>
-          <button type="button" data-p="90" aria-pressed="false">90%でみる</button>
+        <div class="pseg" id="pSeg" role="group" aria-label="指定した年齢まで資産が尽きない条件">
+          <button type="button" data-p="80" aria-pressed="true">100回中約80回に相当：<span class="pTargetAge">95</span>歳まで資産が尽きない条件</button>
+          <button type="button" data-p="90" aria-pressed="false">100回中約90回に相当：<span class="pTargetAge">95</span>歳まで資産が尽きない慎重な条件</button>
         </div>
-        <div class="hint" id="pTargetHint" style="margin-top:7px">80%を選択中です。試算100回のうち約80回で、残高が尽きずに95歳まで取り崩せる月額です。残り約20回では途中で尽きます。90%を選ぶと、月額は小さくなりますが、95歳まで続く試算が増えます。</div>
+        <div class="hint" id="pTargetHint" style="margin-top:9px">毎月取り崩しを続けた場合に、95歳になる前に資産残高が0円にならなかった計算の数です。実際には同じ条件で1,000通りの計算を3組行います。将来の結果を保証するものではありません。</div>
+        <div class="localcalc">
+          <span class="calcstatus" id="localCalcStatus" role="status" aria-live="polite" data-state="stale">条件を確認して、下のボタンを押してください。</span>
+          <button type="button" class="confirmbtn" id="recalculateAfford">この条件で計算する</button>
+        </div>
       </div>
     </div>
     <p class="virtualnote">これは、選んだ条件で残高を毎月取り崩す仮想試算です。実際のDCの給付方法、受取回数、税金、手数料は制度や規約で変わります。</p>
@@ -495,10 +516,10 @@
         <li>入力内容と試算結果は、<b>お使いのブラウザ内でのみ計算</b>し、このアプリには保存されません。</li>
       </ul>
       <p class="disc-provider">提供：<b>株式会社LSFP</b>。加入者向けに入力項目を絞っています。計算方法は、担当者が使う試算と同じです。現在は <b id="selectedCaseFooter">ケースB（増え方7%・値動き15%）</b> の前提です。</p>
-      <p class="releaseinfo">画面版 <b data-app-version-label></b>／再現 <b data-contract-version-label></b>／計算版 <b data-engine-version-label></b>／更新日 <b data-release-date-label></b><span class="reflected">利用者意見反映版</span><br>今回の反映：取り崩し方法を明示選択できるようにし、物価上昇率を常に確認できる位置へ移しました。</p>
+      <p class="releaseinfo">画面版 <b data-app-version-label></b>／再現 <b data-contract-version-label></b>／計算版 <b data-engine-version-label></b>／更新日 <b data-release-date-label></b><span class="reflected">利用者意見反映版</span><br>今回の反映：資産残高のグラフを見つけやすくし、「何回の計算で、何歳まで資産が尽きなかったか」を明記しました。</p>
       <details class="note">
         <summary>試算方法を詳しく見る<span class="more">ひらく</span></summary>
-        <div class="notebody" id="affordMethodText">95歳まで残高が続く月額の目安は、同じ条件で1,000通りの試算を3回行い、結果の幅で表示します。残高グラフは2,000通りの試算です。いずれも将来を保証する数字ではありません。</div>
+        <div class="notebody" id="affordMethodText">95歳まで資産が尽きない毎月額の目安は、同じ条件で1,000通りの計算を3組行い、結果の幅で表示します。加入者画面では分かりやすく100回に置き換えて説明します。資産残高グラフは2,000通りの計算です。いずれも将来を保証する数字ではありません。</div>
       </details>
     </div>
   </footer>
@@ -1006,23 +1027,39 @@ function simulate(cfg){
   const rangeText=(lo,hi)=>lo===hi?lo.toLocaleString("ja-JP"):`${lo.toLocaleString("ja-JP")}〜${hi.toLocaleString("ja-JP")}`;
   const wanText=n=>(Math.round(n*10)/10).toLocaleString("ja-JP",{maximumFractionDigits:1});
   const moneyText=yen=>`${man(yen)}万`;
+  const countRangeText=(lo,hi)=>{
+    const a=Math.round(lo),b=Math.round(hi);
+    return a===b?`${a}回`:`${a}〜${b}回`;
+  };
+  const targetCountText=pPct=>`100回中約${pPct}回に相当する、${maxAge}歳まで資産が尽きない${pPct===90?"慎重な":""}条件`;
+  function applyTargetAgeCopy(){
+    document.querySelectorAll(".pTargetAge").forEach(node=>{node.textContent=maxAge;});
+  }
+  function applyTargetDraftHint(){
+    const pPct=Math.round(pTarget*100);
+    $("pTargetHint").textContent=lastMoneyData
+      ?`次の計算では、${targetCountText(pPct)}を使います。下の「この条件で再計算する」を押してください。表示中の数字は前回の結果です。`
+      :`${targetCountText(pPct)}を使います。下の「この条件で計算する」を押してください。`;
+  }
 
   const caseLabel=(caseId,mu,sig)=>`ケース${caseId}（増え方${mu}%・値動き${sig}%）`;
   const selectedCaseLabel=()=>caseLabel(styleCase,styleMu,styleSig);
   function applyDraftSelectionCopy(){
     $("maxLbl").textContent=maxAge;
     document.querySelectorAll(".mxbtn").forEach(x=>x.setAttribute("aria-pressed",+x.dataset.m===maxAge?"true":"false"));
-    if(!lastMoneyData)$("affordSectionTitle").textContent=`${maxAge}歳まで残高が続く月額の目安を見る`;
+    applyTargetAgeCopy();
+    $("affordSectionTitle").textContent=lastMoneyData&&maxAge!==lastMoneyData.maxAge
+      ?`次は${maxAge}歳まで資産が尽きない毎月額を計算します（表示中は前回の${lastMoneyData.maxAge}歳結果）`
+      :`${maxAge}歳まで資産が尽きない毎月額を計算します`;
   }
   function applyResultSelectionCopy(D){
     if(!D)return;
-    const pPct=D.pPct,miss=100-pPct,other=pPct===80?90:80;
+    const pPct=D.pPct,miss=100-pPct;
     $("survAgeLbl").textContent=D.maxAge;
-    $("affordSectionTitle").textContent=`${D.maxAge}歳まで残高が続く月額の目安を見る`;
-    $("pTargetHint").textContent=pPct===80
-      ?`80%で計算した結果です。試算100回のうち約80回で、残高が尽きずに${D.maxAge}歳まで取り崩せる月額です。残り約${miss}回では途中で尽きます。${other}%を選ぶと、月額は小さくなりますが、${D.maxAge}歳まで続く試算が増えます。`
-      :`90%で計算した結果です。試算100回のうち約90回で、残高が尽きずに${D.maxAge}歳まで取り崩せる月額です。残り約${miss}回では途中で尽きます。${other}%を選ぶと、月額は大きくなりますが、途中で尽きる試算も増えます。`;
-    $("affordMethodText").textContent=`${D.maxAge}歳まで残高が続く月額の目安は、同じ条件で1,000通りの試算を3回行い、結果の幅で表示します。残高グラフは2,000通りの試算です。いずれも将来を保証する数字ではありません。`;
+    $("survSummaryAge").textContent=D.maxAge;
+    $("affordSectionTitle").textContent=`${D.maxAge}歳まで資産が尽きない毎月額を計算します`;
+    $("pTargetHint").textContent=`毎月取り崩しを続けても、100回に置き換えると約${pPct}回、${D.maxAge}歳になる前に資産残高が0円にならない条件で計算しました。残り約${miss}回では途中で資産が尽きます。実際には同じ条件で1,000通りの計算を3組行います。将来の結果を保証するものではありません。`;
+    $("affordMethodText").textContent=`${D.maxAge}歳まで資産が尽きない毎月額の目安は、同じ条件で1,000通りの計算を3組行い、結果の幅で表示します。加入者画面では分かりやすく100回に置き換えて説明します。資産残高グラフは2,000通りの計算です。いずれも将来を保証する数字ではありません。`;
     $("rAffordK").textContent=`${D.drawAge}歳から${D.maxAge}歳まで、仮に取り崩す開始時月額の目安（${moneyView==="real"?"開始時の今の価値":"将来の額面"}）`;
   }
   function applyCaseText(){
@@ -1058,7 +1095,13 @@ function simulate(cfg){
     $("viewIntro").textContent=real
       ?`物価上昇を年${D.infl}%と仮定し、将来のお金を今の経済価値に直した金額です。`
       :"その年に受け取ると仮定した額面です。物価上昇は差し引いていません。";
-    applyResultSelectionCopy(D);
+    const draftTargetChanged=inputDirty&&(maxAge!==D.maxAge||Math.round(pTarget*100)!==D.pPct);
+    if(draftTargetChanged){
+      applyDraftSelectionCopy();
+      applyTargetDraftHint();
+    }else{
+      applyResultSelectionCopy(D);
+    }
     const modeText=spendModeLabel(D.spendMode);
     $("resultAssumption").textContent=`計算済み：${D.caseLabel}／取り崩し方法：${modeText}／物価上昇率 年${D.infl}%`;
     $("chartScenarioLbl").textContent=D.spendMode==="flat"
@@ -1099,11 +1142,11 @@ function simulate(cfg){
       const lo=real?D.affordRealLo:D.affordNomLo,hi=real?D.affordRealHi:D.affordNomHi;
       $("rAfford").innerHTML='約'+rangeText(lo,hi)+'<small>万/月</small>';
       $("rAffordF").innerHTML=real
-        ?`取り崩し開始時の今の価値です。将来の額面では約 <b>${rangeText(D.affordNomLo,D.affordNomHi)}万/月</b>です。3組の試算で、${D.maxAge}歳まで残高がもった割合が約${D.pPct}%になる月額の幅です。`
-        :`将来の額面です。3組の試算で、${D.maxAge}歳まで残高がもった割合が約${D.pPct}%になる月額の幅です。表示額は0.5万円単位で切り下げています。`;
+        ?`取り崩し開始時の今の価値です。将来の額面では約 <b>${rangeText(D.affordNomLo,D.affordNomHi)}万/月</b>です。乱数の異なる3組で、それぞれ100回中約${D.pPct}回に相当し、${D.maxAge}歳まで資産が尽きない月額を計算した結果の幅です。`
+        :`将来の額面です。乱数の異なる3組で、それぞれ100回中約${D.pPct}回に相当し、${D.maxAge}歳まで資産が尽きない月額を計算した結果の幅です。表示額は0.5万円単位で切り下げています。`;
     }else{
       $("rAfford").innerHTML='目安を算出できませんでした';
-      $("rAffordF").textContent=`取崩額を0円としても、3組すべてでは${D.maxAge}歳まで残高が残る試算が${D.pPct}%に届きません。`;
+      $("rAffordF").textContent=`取崩額を0円としても、3組すべてでは、100回に置き換えて約${D.pPct}回、${D.maxAge}歳まで資産が尽きない条件に届きません。`;
     }
 
     $("survSpendView").textContent=D.spendMode==="flat"
@@ -1124,20 +1167,20 @@ function simulate(cfg){
         :(real
           ?`開始時の月${wanText(D.spend)}万円は、${D.drawAge}歳時点の今の価値で約${wanText(D.spendReal)}万円です。その後は年${D.infl}%ずつ増やします。`
           :`希望額は、${D.drawAge}歳の将来の額面で月${wanText(D.spend)}万円です。その後は年${D.infl}%ずつ増やします。`);
-      const survText=D.svLo===D.svHi?`${D.svLo}%`:`${D.svLo}〜${D.svHi}%`;
-      if(!D.ap.feasible)$("verdict").innerHTML=`${desiredLead}取崩額を0円としても、3組すべてでは${D.maxAge}歳まで残高が残る試算が${D.pPct}%に届かず、月額の目安を算出できませんでした。`;
-      else if(D.targetMet)$("verdict").innerHTML=`${desiredLead}この金額を毎月取り崩した場合、${D.maxAge}歳まで残高がもった試算は、3組すべてで約<b>${D.pPct}%以上</b>でした。確定ではありません。`;
+      const survText=countRangeText(D.svLo,D.svHi);
+      if(!D.ap.feasible)$("verdict").innerHTML=`${desiredLead}取崩額を0円としても、3組すべてでは、100回に置き換えて約${D.pPct}回、${D.maxAge}歳まで資産が尽きない条件に届かず、月額の目安を算出できませんでした。`;
+      else if(D.targetMet)$("verdict").innerHTML=`${desiredLead}この金額を毎月取り崩した場合、100回に置き換えると、3組すべてで約<b>${D.pPct}回以上</b>、${D.maxAge}歳まで資産が尽きませんでした。確定ではありません。`;
       else{
         const afford=real?rangeText(D.affordRealLo,D.affordRealHi):rangeText(D.affordNomLo,D.affordNomHi);
-        $("verdict").innerHTML=`${desiredLead}この金額を毎月取り崩した場合、${D.maxAge}歳まで残高がもった試算は<b>${survText}</b>でした。約${D.pPct}%を目標にした月額は、${real?"開始時の今の価値":"将来の額面"}で<b>${afford}万円</b>です。`;
+        $("verdict").innerHTML=`${desiredLead}この金額を毎月取り崩した場合、100回に置き換えると約<b>${survText}</b>、${D.maxAge}歳まで資産が尽きませんでした。約${D.pPct}回まで増やす条件の月額は、${real?"開始時の今の価値":"将来の額面"}で<b>${afford}万円</b>です。`;
       }
       $("rSurvF").textContent=D.spendMode==="flat"
         ?(real
-          ?`月${wanText(D.spend)}万円の額面を変えない仮想試算です。開始時の今の価値は約${wanText(D.spendReal)}万円です。各組${N_AFFORD_PER_SEED.toLocaleString()}通りです。`
-          :`月${wanText(D.spend)}万円の額面を変えず、${D.maxAge}歳まで残高が尽きなかった割合です。各組${N_AFFORD_PER_SEED.toLocaleString()}通りです。`)
+          ?`月${wanText(D.spend)}万円の額面を変えない仮想計算です。開始時の今の価値は約${wanText(D.spendReal)}万円です。各組${N_AFFORD_PER_SEED.toLocaleString()}通りを、100回に置き換えて表示しています。`
+          :`月${wanText(D.spend)}万円の額面を変えず、${D.maxAge}歳まで資産が尽きなかった計算の数です。各組${N_AFFORD_PER_SEED.toLocaleString()}通りを、100回に置き換えて表示しています。`)
         :(real
-          ?`${D.drawAge}歳の額面月${wanText(D.spend)}万円を、その後は年${D.infl}%ずつ増やす仮想試算です。開始時の今の価値は約${wanText(D.spendReal)}万円です。各組${N_AFFORD_PER_SEED.toLocaleString()}通りです。`
-          :`${D.drawAge}歳は額面月${wanText(D.spend)}万円、その後は年${D.infl}%ずつ増やし、${D.maxAge}歳まで残高が尽きなかった割合です。各組${N_AFFORD_PER_SEED.toLocaleString()}通りです。`);
+          ?`${D.drawAge}歳の額面月${wanText(D.spend)}万円を、その後は年${D.infl}%ずつ増やす仮想計算です。開始時の今の価値は約${wanText(D.spendReal)}万円です。各組${N_AFFORD_PER_SEED.toLocaleString()}通りを、100回に置き換えて表示しています。`
+          :`${D.drawAge}歳は額面月${wanText(D.spend)}万円、その後は年${D.infl}%ずつ増やし、${D.maxAge}歳まで資産が尽きなかった計算の数です。各組${N_AFFORD_PER_SEED.toLocaleString()}通りを、100回に置き換えて表示しています。`);
     }
 
     $("chartModeLbl").textContent=real?"今の価値":"将来の金額";
@@ -1147,8 +1190,8 @@ function simulate(cfg){
     const withdrawalDesc=D.spendMode==="flat"
       ?`月${wanText(D.spend)}万円の額面を変えない`
       :`取崩開始時は月${wanText(D.spend)}万円、その後は年${D.infl}%ずつ増やす`;
-    $("chartDesc").textContent=`${withdrawalDesc}仮想試算の残高と取崩累計を、${real?"今の価値":"年ごとの額面"}で表示しています。80%・90%の切替は、下の「${D.maxAge}歳まで残高が続く月額の目安」だけに反映され、このグラフは変わりません。緑の実線はやや少なめに見た残高、灰色の破線は2,000通りの真ん中です。帯の上側は一部省略しています。`;
-    cv.setAttribute("aria-label",`積み立て期間と取り崩し開始後の残高の推移（${real?"今の価値":"将来の金額"}）。やや少なめに見た残高と中央値を表示します`);
+    $("chartDesc").textContent=`${withdrawalDesc}仮想計算の資産残高と取崩累計を、${real?"今の価値":"年ごとの額面"}で表示しています。下の「${D.maxAge}歳まで資産が尽きない毎月額」の条件を変えても、このグラフは変わりません。緑の実線はやや少なめに見た残高、灰色の破線は2,000通りの真ん中です。帯の上側は一部省略しています。`;
+    cv.setAttribute("aria-label",`積立期間と取り崩し開始後の資産残高の推移（${real?"今の価値":"将来の金額"}）。やや少なめに見た残高と中央値を表示します`);
   }
 
   // 制度・主要3項目を本人が確認するまでは「サンプル」と明示し、相談メモをコピーさせない。
@@ -1162,6 +1205,10 @@ function simulate(cfg){
   function setCalculationStatus(state,message){
     $("calcStatus").dataset.state=state;
     $("calcStatus").textContent=message;
+  }
+  function setLocalCalculationStatus(state,message){
+    $("localCalcStatus").dataset.state=state;
+    $("localCalcStatus").textContent=message;
   }
   function clearResultInvalid(){
     $("resultCard").removeAttribute("data-invalid");
@@ -1177,6 +1224,7 @@ function simulate(cfg){
     $("resultInvalid").hidden=false;
     $("memoText").value="入力を確認すると相談メモを作れます。";
     setCalculationStatus("invalid",message+" 前回結果は更新していません。");
+    setLocalCalculationStatus("invalid",message+" 前回結果は更新していません。");
     refreshCopyState();
     return false;
   }
@@ -1186,25 +1234,29 @@ function simulate(cfg){
     clearResultInvalid();
     $("confirmInputs").disabled=false;
     $("confirmInputs").textContent="この条件で計算する";
+    $("recalculateAfford").disabled=false;
+    $("recalculateAfford").textContent=lastMoneyData?"この条件で再計算する":"この条件で計算する";
     $("resultCard").setAttribute("data-stale","true");
     $("resultStale").hidden=false;
     if(lastMoneyData){
       $("resultSample").hidden=false;
       $("resultSample").textContent="前回結果";
-      $("resultStale").textContent="条件が変わりました。表示中の数字は前回の結果です。上の計算ボタンを押すと更新します。";
+      $("resultStale").textContent="条件が変わりました。表示中の数字は前回の結果です。近くの再計算ボタンを押すと更新します。";
       $("memoText").value="条件を変更しました。計算ボタンを押すと、相談メモも新しい条件で作り直します。";
       setCalculationStatus("stale","条件が変わりました。表示中の数字は前回の結果です。計算ボタンを押してください。");
+      setLocalCalculationStatus("stale","条件が変わりました。表示中の数字は前回の結果です。");
     }else{
       $("resultSample").hidden=false;
       $("resultSample").textContent="未計算";
-      $("resultStale").textContent="まだ計算していません。上の計算ボタンを押すと、ここに結果を表示します。";
+      $("resultStale").textContent="まだ計算していません。計算ボタンを押すと、ここに結果を表示します。";
       $("memoText").value="試算後に、担当者へ送れる相談メモを作ります。";
       setCalculationStatus("stale","入力中は計算しません。条件を確認して、計算ボタンを押してください。");
+      setLocalCalculationStatus("stale","条件を確認して、下のボタンを押してください。");
     }
     refreshCopyState();
   }
   function setDraftControlsDisabled(disabled){
-    document.querySelectorAll("#inputCard input,#inputCard button,#pSeg button,#inflSeg button").forEach(control=>{
+    document.querySelectorAll("#inputCard input,#inputCard button,#pSeg button,#inflSeg button,#recalculateAfford").forEach(control=>{
       control.disabled=disabled;
     });
   }
@@ -1213,6 +1265,7 @@ function simulate(cfg){
     clearResultInvalid();
     setDraftControlsDisabled(true);
     $("confirmInputs").textContent="計算中…";
+    $("recalculateAfford").textContent="計算中…";
     $("resultCard").setAttribute("data-stale","true");
     $("resultStale").hidden=false;
     $("resultStale").textContent=lastMoneyData
@@ -1220,6 +1273,7 @@ function simulate(cfg){
       :"新しい条件で計算中です。結果が出るまで少しお待ちください。";
     $("memoText").value="計算中です。確定後に相談メモを作ります。";
     setCalculationStatus("busy","2,000通りと月額の目安を計算しています。端末によっては10〜20秒ほどかかります。");
+    setLocalCalculationStatus("busy","資産が尽きない毎月額を計算しています。");
     refreshCopyState();
   }
   function markInputsCalculated(){
@@ -1230,7 +1284,10 @@ function simulate(cfg){
     $("resultSample").hidden=true;
     $("confirmInputs").disabled=true;
     $("confirmInputs").textContent="この条件で計算済み";
+    $("recalculateAfford").disabled=true;
+    $("recalculateAfford").textContent="この条件で計算済み";
     setCalculationStatus("calculated","この条件で計算済みです。条件を変えると、次の計算までは前回結果として表示します。");
+    setLocalCalculationStatus("calculated","この条件で計算済みです。");
     refreshCopyState();
   }
   function refreshCopyState(){
@@ -1342,16 +1399,14 @@ function simulate(cfg){
   $("schemeSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;[...$("schemeSeg").children].forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");markCoreTouched("scheme");applySchemeLimit();markInputsDirty();});
   $("limit62").addEventListener("change",()=>{applySchemeLimit();markInputsDirty();});
   $("styleSeg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;[...$("styleSeg").children].forEach(x=>x.setAttribute("aria-pressed","false"));b.setAttribute("aria-pressed","true");styleCase=b.dataset.case;styleMu=+b.dataset.mu;styleSig=+b.dataset.sig;applyCaseText();markInputsDirty();});
-  document.querySelectorAll(".mxbtn").forEach(b=>b.addEventListener("click",()=>{const next=+b.dataset.m;if(next===maxAge)return;maxAge=next;applyDraftSelectionCopy();markInputsDirty();}));
+  document.querySelectorAll(".mxbtn").forEach(b=>b.addEventListener("click",()=>{const next=+b.dataset.m;if(next===maxAge)return;maxAge=next;applyDraftSelectionCopy();markInputsDirty();applyTargetDraftHint();}));
   $("themeBtn").addEventListener("click",()=>{const r=document.documentElement;const cur=r.dataset.theme|| (matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");r.dataset.theme=cur==="dark"?"light":"dark";});
   $("pSeg").addEventListener("click",e=>{
     const b=e.target.closest("button");if(!b)return;
     const next=+b.dataset.p/100;if(next===pTarget)return;pTarget=next;
     document.querySelectorAll("#pSeg button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));
-    $("pTargetHint").textContent=lastMoneyData
-      ?`${Math.round(pTarget*100)}%を次の試算に使います。上の「この条件で計算する」を押してください。表示中の数字は前回の結果です。`
-      :`${Math.round(pTarget*100)}%を使って試算します。上の「この条件で計算する」を押してください。`;
     markInputsDirty();
+    applyTargetDraftHint();
   });
   $("moneyViewSeg").addEventListener("click",e=>{
     const b=e.target.closest("button");if(!b)return;
@@ -1418,7 +1473,7 @@ function simulate(cfg){
   }
   function updateMemo(){
     const D=lastMoneyData;if(!D)return;
-    const surv=$("rSurv").firstChild?$("rSurv").firstChild.textContent.trim():"—";
+    const surv=countRangeText(D.svLo,D.svHi);
     const affordNom=D.ap&&D.ap.feasible?`${rangeText(D.affordNomLo,D.affordNomHi)}万円/月`:"算出できず";
     const affordReal=D.ap&&D.ap.feasible?`${rangeText(D.affordRealLo,D.affordRealHi)}万円/月`:"算出できず";
     const depletionText=D.depletionAge>D.maxAge
@@ -1442,15 +1497,15 @@ function simulate(cfg){
       `これから積み立てる毎月の掛金（会社分を含む）：${(+$("mon").value).toFixed(1)}万円`,
       `2026年12月以降の月6.2万円共通上限枠：${$("limit62").checked?"使って試算":"使わず試算"}`,
       `取り崩し開始の仮定：${$("draw").value}歳`,
-      `残高が続くか確認する年齢：${D.maxAge}歳`,
+      `資産が尽きないか確認する年齢：${D.maxAge}歳`,
       `現在残高＋これからの掛金：額面${moneyText(D.totalNomYen)}／今の価値${moneyText(D.totalRealYen)}（運用益は含めない比較用合計）`,
       `試したケース：${activeCaseLabel()}（取り崩し開始時に掛金を止め、同じケースで残高を運用しながら取り崩す）`,
       `取り崩し方法：${spendModeLabel(D.spendMode)}`,
       `物価上昇率の仮定：年${D.infl}%（初期設定は年2%。将来予測ではない）`,
       `取り崩し開始時の残高（やや少なめに見た値）：額面${moneyText(D.startNomYen)}／今の価値${moneyText(D.startRealYen)}`,
       `毎月取り崩したい金額：${D.drawAge}歳の将来の額面${wanText(D.spend)}万円／開始時の今の価値約${wanText(D.spendReal)}万円（${D.spendMode==="flat"?"その後も額面を固定":`以後は年${D.infl}%増額`}）`,
-      `約${Math.round(pTarget*100)}%を目標にした、${D.maxAge}歳まで残高が続く仮想の開始時月額目安（${D.drawAge}歳から・${D.spendMode==="flat"?"額面固定":`以後年${D.infl}%増額`}・計算パターン3組）：額面${affordNom}／開始時の今の価値${affordReal}`,
-      `希望月額で${D.maxAge}歳まで残高がもった割合（計算パターン3組）：${surv}`,
+      `乱数の異なる3組で、それぞれ100回中約${D.pPct}回に相当し、${D.maxAge}歳まで資産が尽きないよう計算した仮想の開始時月額の結果幅（${D.drawAge}歳から・${D.spendMode==="flat"?"額面固定":`以後年${D.infl}%増額`}・1,000通り×3組）：額面${affordNom}／開始時の今の価値${affordReal}`,
+      `希望月額で${D.maxAge}歳まで資産が尽きなかった計算（100回に置換・1,000通り×3組）：約${surv}`,
       `希望月額で資産が持つ年齢の目安（2,000通り・小さいほうから40%）：${depletionText}`,
       `注意：毎月取り崩し、選んだ取り崩し方法で月額を計算する仮想試算で、実際のDC給付方法や手取り額とは異なる`,
       "",
@@ -1501,8 +1556,17 @@ function simulate(cfg){
     chartGeom={padL,pW,fromY,span};
     ctx.font="12px "+css("--sans");ctx.textBaseline="middle";
     for(let i=0;i<=4;i++){const v=maxV*i/4,yy=Y(v);ctx.strokeStyle=css("--line");ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(padL,yy);ctx.lineTo(W-padR,yy);ctx.stroke();ctx.fillStyle=css("--sub");ctx.textAlign="right";ctx.fillText(Math.round(v/1e4).toLocaleString()+"万",padL-6,yy);}
-    ctx.textAlign="center";ctx.textBaseline="top";const te=span>25?10:5;
-    for(let y=fromY;y<=yrs;y++){if(y!==fromY&&y!==yrs&&y%te!==0)continue;const age=S.startAge+y;ctx.fillStyle=css("--sub");ctx.fillText(age+"歳",X(y),padT+pH+6);}
+    ctx.textAlign="center";ctx.textBaseline="top";const te=span>25?10:5,tickYears=[];
+    for(let y=fromY;y<=yrs;y++){if(y===fromY||y%te===0)tickYears.push(y);}
+    if(tickYears[tickYears.length-1]!==yrs){
+      const prev=tickYears[tickYears.length-1];
+      const prevLabel=`${S.startAge+prev}歳`,lastLabel=`${S.startAge+yrs}歳`;
+      const minGap=(ctx.measureText(prevLabel).width+ctx.measureText(lastLabel).width)/2+8;
+      if(prev!==fromY&&X(yrs)-X(prev)<minGap)tickYears.pop();
+      tickYears.push(yrs);
+    }
+    cv.dataset.tickAges=tickYears.map(y=>S.startAge+y).join(",");
+    for(const y of tickYears){const age=S.startAge+y;ctx.fillStyle=css("--sub");ctx.fillText(age+"歳",X(y),padT+pH+6);}
     ctx.save();ctx.beginPath();ctx.rect(padL,padT,pW,pH);ctx.clip();
     if(drawY>0){ctx.fillStyle=css("--acc-fill");ctx.fillRect(X(0),padT,X(drawY)-X(0),pH);}
     const band=(lo,hi)=>{ctx.beginPath();for(let y=fromY;y<=yrs;y++)ctx.lineTo(X(y),Y(B(y,hi)));for(let y=yrs;y>=fromY;y--)ctx.lineTo(X(y),Y(B(y,lo)));ctx.closePath();};
@@ -1582,9 +1646,9 @@ function simulate(cfg){
     let svLo=null,svHi=null;
     if(ap){
       svLo=Math.round(ap.survLo*1000)/10;svHi=Math.round(ap.survHi*1000)/10;
-      $("rSurv").firstChild.textContent=(svLo===svHi?`${svLo}%`:`${svLo}〜${svHi}%`);
+      $("rSurv").innerHTML=`約${countRangeText(svLo,svHi)}<small>／100回</small><span id="rSurvBadge"></span>`;
       const targetMet=ap.survLo>=pTarget;
-      setBadge("rSurvBadge",targetMet?"good":svLo>=50?"warn":"crit",targetMet?`${pPct}%目標以上`:`${pPct}%目標未達`);
+      setBadge("rSurvBadge",targetMet?"good":svLo>=50?"warn":"crit",targetMet?`100回中約${pPct}回以上`:`100回中約${pPct}回未満`);
     }
     let affordNomLo=null,affordNomHi=null,affordRealLo=null,affordRealHi=null;
     if(ap){
@@ -1607,7 +1671,7 @@ function simulate(cfg){
     return true;
   }
 
-  $("confirmInputs").addEventListener("click",async()=>{
+  async function runExplicitCalculation(){
     if(calculationBusy)return;
     Object.keys(coreTouched).forEach(k=>{coreTouched[k]=true;});
     $("sBanner").dataset.touched="1";
@@ -1622,9 +1686,15 @@ function simulate(cfg){
       setDraftControlsDisabled(false);
       $("confirmInputs").textContent=calculated?"この条件で計算済み":"この条件で計算する";
       if(calculated)markInputsCalculated();
-      else $("confirmInputs").disabled=false;
+      else{
+        $("confirmInputs").disabled=false;
+        $("recalculateAfford").disabled=false;
+        $("recalculateAfford").textContent=lastMoneyData?"この条件で再計算する":"この条件で計算する";
+      }
     }
-  });
+  }
+  $("confirmInputs").addEventListener("click",runExplicitCalculation);
+  $("recalculateAfford").addEventListener("click",runExplicitCalculation);
 
   // 初期化
   applyDraftSelectionCopy();
