@@ -3,19 +3,35 @@ name: guard
 # 公開LPの機械ガード（サーバ側＝飛ばせない関門）。
 # push / PR のたびに個人情報スキャン、内部リンク検査、再現契約検査を回し、
 # 引っかかれば失敗させて公開（main反映）をブロックする。
+# claude-code-rules#210: GitHub-hosted runnerをMac mini self-hostedへ移行。
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: guard-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   guard:
-    runs-on: ubuntu-latest
+    if: >-
+      github.event_name != 'pull_request' ||
+      (github.event.pull_request.draft == false &&
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: [self-hosted, macOS, ARM64, lsfp-macmini]
+    timeout-minutes: 15
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
 
       - name: 個人情報スキャン（顧客名・個人情報の混入を弾く）
         run: |
