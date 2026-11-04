@@ -9,13 +9,23 @@
   "use strict";
 
   /*
-   * 加入者版は、画面で確定した入力と表示結果を現行MN4形式へ符号化するだけに限定する。
+   * 加入者版は、画面で確定した入力と表示結果を現行MN5形式へ符号化するだけに限定する。
    * DOM、保存、通信、アドバイザー向け再計算はこのモジュールへ入れない。
    */
 
-  const CONTRACT = "MN4";
-  // v27: 取崩開始後の月額を「額面固定」または「物価連動」から明示選択する。
-  const ENGINE_VERSION = "v27";
+  const CONTRACT = "MN5";
+  // v28: 掛金を加入可能年齢（CONTRIBUTION_AGE_LIMIT未満）までで止める。計算核は不変。
+  // v27（MN4）: 取崩開始後の月額を「額面固定」または「物価連動」から明示選択する。
+  const ENGINE_VERSION = "v28";
+  // 掛金を積み立てられる年齢の上限（この年齢「未満」まで積み立てる）。
+  // 2025年改正後のiDeCo加入可能年齢（70歳未満）に合わせる。施行日は未確認（検索要約では2026-12-01）。
+  // アドバイザー版 contract/mn1_contract.js の同名定数と同じ値にする。
+  const CONTRIBUTION_AGE_LIMIT = 70;
+
+  // 掛金を払うのは「取崩開始年齢」と「上限年齢」の早いほうまで。
+  function contributionEndAge(drawAge) {
+    return Math.min(drawAge, CONTRIBUTION_AGE_LIMIT);
+  }
   const MAX_BALANCE_WAN = 10000;
 
   const CASES = Object.freeze({
@@ -293,6 +303,8 @@
   return Object.freeze({
     CONTRACT,
     ENGINE_VERSION,
+    CONTRIBUTION_AGE_LIMIT,
+    contributionEndAge,
     crc32,
     encodeEnvelope,
     validateEnvelope,

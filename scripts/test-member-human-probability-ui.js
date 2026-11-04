@@ -17,17 +17,17 @@ const designRule = fs.readFileSync(
   "utf8"
 );
 
-assert.equal(manifest.uiVersion, "v1.3.2");
-assert.equal(manifest.calculationEngineVersion, "v27");
-assert.equal(manifest.transferContractVersion, "MN4");
-assert.equal(manifest.calculationChanged, false);
+assert.equal(manifest.uiVersion, "v1.4.0");
+assert.equal(manifest.calculationEngineVersion, "v28");
+assert.equal(manifest.transferContractVersion, "MN5");
+assert.equal(manifest.calculationChanged, true); // v28: 掛金を70歳未満で止める（計算核は不変）
 assert.equal(
   manifest.calculationCoreSha256,
   "2de196f567b6086bb7a740bcd8352282705ec2c73bc31d4d0a5012aa204bcd91"
 );
 assert.equal(
   manifest.previousBaselineCommit,
-  "99b2ab45df7956c015f32ea61bc470651f623c24"
+  "3f6b69af21cc2447031a9e1feb52539ba9af01dc"
 );
 
 for (const required of [
@@ -94,8 +94,8 @@ assert.doesNotMatch(
 
 assert.match(html, /cfg\.seed==null\?19670701:cfg\.seed>>>0/u);
 assert.match(html, /const AFFORD_SEEDS=\[19670701,2669371156,2227694790\]/u);
-assert.match(html, /const ENGINE_VERSION = "v27"/u);
-assert.match(html, /const CONTRACT = "MN4"/u);
+assert.match(html, /const ENGINE_VERSION = "v28"/u);
+assert.match(html, /const CONTRACT = "MN5"/u);
 assert.match(designRule, /何をするか/u);
 assert.match(designRule, /100回換算は説明方法です。計算方法ではありません。/u);
 assert.match(designRule, /条件と結果を混ぜない/u);

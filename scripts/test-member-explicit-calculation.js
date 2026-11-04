@@ -96,8 +96,8 @@ assert.match(
   /条件を変更しました。計算ボタンを押すと、相談メモも新しい条件で作り直します。/u,
   "stale advisor memo and reproduction code must be scrubbed"
 );
-assert.match(encoder, /CONTRACT = "MN4"/u);
-assert.match(encoder, /ENGINE_VERSION = "v27"/u);
+assert.match(encoder, /CONTRACT = "MN5"/u);
+assert.match(encoder, /ENGINE_VERSION = "v28"/u);
 assert.match(encoder, /\["flat", "keep"\]\.includes\(input\.spendMode\)/u);
 assert.match(html, /id="spendModeSeg"/u);
 assert.match(html, /id="inflSeg"/u);
@@ -110,4 +110,4 @@ console.log("automaticHeavyCalculationPaths=0");
 console.log("explicitCalculationButtons=2");
 console.log("staleMemoCopyBlocked=true");
 console.log("busyDraftControlsLocked=true");
-console.log("transferContract=MN4/v27");
+console.log("transferContract=MN5/v28");

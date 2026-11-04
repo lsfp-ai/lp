@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja" data-app-version="v1.3.2" data-release-date="2026-07-28">
+<html lang="ja" data-app-version="v1.4.0" data-release-date="2026-11-04">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -538,13 +538,23 @@
   "use strict";
 
   /*
-   * 加入者版は、画面で確定した入力と表示結果を現行MN4形式へ符号化するだけに限定する。
+   * 加入者版は、画面で確定した入力と表示結果を現行MN5形式へ符号化するだけに限定する。
    * DOM、保存、通信、アドバイザー向け再計算はこのモジュールへ入れない。
    */
 
-  const CONTRACT = "MN4";
-  // v27: 取崩開始後の月額を「額面固定」または「物価連動」から明示選択する。
-  const ENGINE_VERSION = "v27";
+  const CONTRACT = "MN5";
+  // v28: 掛金を加入可能年齢（CONTRIBUTION_AGE_LIMIT未満）までで止める。計算核は不変。
+  // v27（MN4）: 取崩開始後の月額を「額面固定」または「物価連動」から明示選択する。
+  const ENGINE_VERSION = "v28";
+  // 掛金を積み立てられる年齢の上限（この年齢「未満」まで積み立てる）。
+  // 2025年改正後のiDeCo加入可能年齢（70歳未満）に合わせる。施行日は未確認（検索要約では2026-12-01）。
+  // アドバイザー版 contract/mn1_contract.js の同名定数と同じ値にする。
+  const CONTRIBUTION_AGE_LIMIT = 70;
+
+  // 掛金を払うのは「取崩開始年齢」と「上限年齢」の早いほうまで。
+  function contributionEndAge(drawAge) {
+    return Math.min(drawAge, CONTRIBUTION_AGE_LIMIT);
+  }
   const MAX_BALANCE_WAN = 10000;
 
   const CASES = Object.freeze({
@@ -822,6 +832,8 @@
   return Object.freeze({
     CONTRACT,
     ENGINE_VERSION,
+    CONTRIBUTION_AGE_LIMIT,
+    contributionEndAge,
     crc32,
     encodeEnvelope,
     validateEnvelope,
@@ -1117,6 +1129,9 @@ function simulate(cfg){
     $("fundNote").textContent=real
       ?"※ これからの掛金は、積み立てる各月の金額を今の価値に直して合計しています。現在残高は今ある金額を使います。この合計は過去の掛金元本ではありません。"
       :"※ 現在残高と今後の掛金を足した比較用の数字です。過去に払った掛金の総額ではありません。現在残高には、これまでの運用結果も含まれています。";
+    if(D.drawAge>MN1MemberEncoder.CONTRIBUTION_AGE_LIMIT){
+      $("fundNote").textContent+=`掛金は${MN1MemberEncoder.CONTRIBUTION_AGE_LIMIT}歳になるまで（iDeCoに加入できる年齢まで）として計算し、${MN1MemberEncoder.CONTRIBUTION_AGE_LIMIT}歳から取り崩し開始までは運用だけを続けます。`;
+    }
 
     const desired=real?D.spendReal:D.spend;
     $("rDesiredK").textContent=real?"取崩開始時の毎月額（今の価値）":"取崩開始時の毎月額（将来の額面）";
@@ -1635,7 +1650,7 @@ function simulate(cfg){
     // 「毎月取り崩したい額」は開始年の将来の額面。その後は選んだ取り崩し方法で計算する。
     const cfg={startAge:age,drawAge,maxAge,retAge:drawAge,retAmt:0,retMu:0,retSig:0,
       wMon:spend,wRate:4,wMu:styleMu,wSig:styleSig,
-      assets:[{name:"あなたの積立",start:bal,monthly:mon,endAge:drawAge,mu:styleMu,sig:styleSig,on:true}],
+      assets:[{name:"あなたの積立",start:bal,monthly:mon,endAge:MN1MemberEncoder.contributionEndAge(drawAge),mu:styleMu,sig:styleSig,on:true}],
       draws:[],mode:"amount",mat:{age:50,amt:0,yrs:3,mu:0,sig:0},infl,spendMode};
     let S;try{S=simulateForUi(cfg);}catch(e){return showInputError("入力をご確認ください。");}
     const RF=y=>S.rf(y*12), qn=Math.floor(0.4*N),depletionAge=S.sDep[qn];
@@ -1656,8 +1671,10 @@ function simulate(cfg){
       [affordRealLo,affordRealHi]=rangeRounded(ap.loYen,ap.hiYen,RF(dY));
     }
     $("survAgeLbl").textContent=maxAge;
-    const currentYen=bal*1e4,futureNomYen=mon*1e4*dY*12;
-    let futureRealYen=0;for(let m=1;m<=dY*12;m++)futureRealYen+=mon*1e4*S.rf(m);
+    // 今後の掛金は、掛金を払う月数（取崩開始と70歳の早いほうまで）で数える。
+    const contribMonths=Math.max(0,(MN1MemberEncoder.contributionEndAge(drawAge)-age)*12);
+    const currentYen=bal*1e4,futureNomYen=mon*1e4*contribMonths;
+    let futureRealYen=0;for(let m=1;m<=contribMonths;m++)futureRealYen+=mon*1e4*S.rf(m);
     lastMoneyData={age,drawAge,maxAge,infl,spend,spendMode,spendReal:spend*RF(dY),pPct,ap,svLo,svHi,targetMet:ap?ap.survLo>=pTarget:false,
       caseId:styleCase,muPct:styleMu,sigmaPct:styleSig,caseLabel:selectedCaseLabel(),
       currentYen,futureNomYen,futureRealYen,totalNomYen:currentYen+futureNomYen,totalRealYen:currentYen+futureRealYen,

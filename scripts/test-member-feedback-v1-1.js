@@ -18,8 +18,8 @@ const changelog = fs.readFileSync(
   "utf8"
 );
 
-assert.match(html, /data-app-version="v1\.3\.2"/u);
-assert.match(html, /data-release-date="2026-07-28"/u);
+assert.match(html, /data-app-version="v1\.4\.0"/u);
+assert.match(html, /data-release-date="2026-11-04"/u);
 assert.match(html, /querySelectorAll\("\[data-app-version-label\]"\)/u);
 assert.match(html, /querySelectorAll\("\[data-release-date-label\]"\)/u);
 assert.equal(
@@ -32,10 +32,10 @@ assert.equal(
   false,
   "the document root stores the release date and must never be replaced as a label"
 );
-assert.equal(manifest.uiVersion, "v1.3.2");
-assert.equal(manifest.calculationEngineVersion, "v27");
-assert.equal(manifest.transferContractVersion, "MN4");
-assert.equal(manifest.calculationChanged, false);
+assert.equal(manifest.uiVersion, "v1.4.0");
+assert.equal(manifest.calculationEngineVersion, "v28");
+assert.equal(manifest.transferContractVersion, "MN5");
+assert.equal(manifest.calculationChanged, true); // v28: 掛金を70歳未満で止める（計算核は不変）
 assert.equal(manifest.feedbackStatus, "reflected");
 const coreMarker = "// ===== 加入者版計算核（MN4共有結果はアドバイザー版と別の出力parity検査で照合）=====";
 const coreStart = html.indexOf(coreMarker);
@@ -52,6 +52,7 @@ assert.equal(
   manifest.calculationCoreSha256,
   "calculation core hash must match the version manifest"
 );
+assert.match(changelog, /画面版 v1\.4\.0／計算版 v28／再現 MN5/u);
 assert.match(changelog, /画面版 v1\.3\.2／計算版 v27/u);
 assert.match(changelog, /画面版 v1\.3\.0／計算版 v27/u);
 assert.match(changelog, /画面版 v1\.1\.0/u);
@@ -165,7 +166,7 @@ assert.match(
   "calculated result must not keep showing the hidden 未計算 chip"
 );
 
-assert.match(html, /const ENGINE_VERSION = "v27"/u);
+assert.match(html, /const ENGINE_VERSION = "v28"/u);
 assert.match(html, /spendMode\};/u);
 assert.doesNotMatch(html, /const normalizedFlatCfg=/u);
 assert.match(html, /同じ額面のまま/u);
@@ -174,8 +175,8 @@ assert.match(html, /この率は「今の価値」への換算だけに使いま
 assert.match(html, /表示だけを切り替えます。/u);
 assert.match(html, /今回の反映：運用判断の相談先を、担当の金融アドバイザーなどの専門家へ明確化しました。/u);
 
-console.log("Member v1.3.2 withdrawal-mode contract: PASS");
+console.log("Member v1.4.0 withdrawal-mode contract: PASS");
 console.log("directNumericInputs=4");
 console.log("automaticHeavyCalculationPaths=0");
 console.log("depletionAgeSource=2,000-path p40");
-console.log("calculationEngine=v27/spendMode=flat|keep");
+console.log("calculationEngine=v28/spendMode=flat|keep");
