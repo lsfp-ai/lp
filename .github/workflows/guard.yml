@@ -40,6 +40,7 @@ jobs:
           node scripts/test-member-advisor-wording.js
           node scripts/test-member-contribution-age-limit.js
           node scripts/test-member-return-wording.js
+          node scripts/test-member-scope-wording.js
 
       - name: MN5再現コードの総当たり検査
         run: node scripts/fuzz-mn1-member.js
