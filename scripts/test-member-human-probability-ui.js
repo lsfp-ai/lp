@@ -17,17 +17,17 @@ const designRule = fs.readFileSync(
   "utf8"
 );
 
-assert.equal(manifest.uiVersion, "v1.4.0");
+assert.equal(manifest.uiVersion, "v1.4.1");
 assert.equal(manifest.calculationEngineVersion, "v28");
 assert.equal(manifest.transferContractVersion, "MN5");
-assert.equal(manifest.calculationChanged, true); // v28: 掛金を70歳未満で止める（計算核は不変）
+assert.equal(manifest.calculationChanged, false); // v1.4.1は表示だけの改訂（計算版v28・再現MN5は不変）
 assert.equal(
   manifest.calculationCoreSha256,
   "2de196f567b6086bb7a740bcd8352282705ec2c73bc31d4d0a5012aa204bcd91"
 );
 assert.equal(
   manifest.previousBaselineCommit,
-  "3f6b69af21cc2447031a9e1feb52539ba9af01dc"
+  "55802bfc9c980e5848d45b4e77b718e4c1e6004b"
 );
 
 for (const required of [
