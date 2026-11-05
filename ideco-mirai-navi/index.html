@@ -331,8 +331,8 @@
 
     <p class="eyebrow" style="margin-top:20px"><span class="no">2</span>将来の使い方（仮想試算）</p>
     <div class="q">
-      <div class="lab"><span>この残高の取り崩しを始める年齢</span><label class="directnum"><input type="number" id="drawN" min="60" max="74" value="65" step="1" inputmode="numeric" aria-label="取り崩し開始年齢を数字で入力"><span class="u">歳</span></label></div>
-      <input type="range" id="draw" min="60" max="74" value="65" aria-label="この残高の取り崩しを始める年齢（60歳から74歳）">
+      <div class="lab"><span>この残高の取り崩しを始める年齢</span><label class="directnum"><input type="number" id="drawN" min="60" max="75" value="65" step="1" inputmode="numeric" aria-label="取り崩し開始年齢を数字で入力"><span class="u">歳</span></label></div>
+      <input type="range" id="draw" min="60" max="75" value="65" aria-label="この残高の取り崩しを始める年齢（60歳から75歳）">
       <div class="hint" style="margin-top:7px">※ ここで指定する年齢は<b>仮の値</b>です。実際にDCを受け取れる年齢や受け取り方は、加入期間や規約で変わります。この画面では、指定した年齢から毎月取り崩すと仮定します。</div>
     </div>
     <div class="q">
@@ -550,6 +550,9 @@
   // 2025年改正後のiDeCo加入可能年齢（70歳未満）に合わせる。施行日は未確認（検索要約では2026-12-01）。
   // アドバイザー版 contract/mn1_contract.js の同名定数と同じ値にする。
   const CONTRIBUTION_AGE_LIMIT = 70;
+  // 取り崩し開始の上限年齢。iDeCoの老齢給付金は75歳まで受け取りを始められる（未確認：検索要約による・監査L-1）。
+  // アドバイザー版 contract/mn1_contract.js の MAX_DRAW_AGE（MN5）と同じ値にする。
+  const MAX_DRAW_AGE = 75;
 
   // 掛金を払うのは「取崩開始年齢」と「上限年齢」の早いほうまで。
   function contributionEndAge(drawAge) {
@@ -628,7 +631,7 @@
     if (
       !Number.isInteger(input.drawAge) ||
       input.drawAge < 60 ||
-      input.drawAge > 74 ||
+      input.drawAge > MAX_DRAW_AGE ||
       input.drawAge <= input.age
     ) {
       throw new Error("inputs.drawAge");
@@ -833,6 +836,7 @@
     CONTRACT,
     ENGINE_VERSION,
     CONTRIBUTION_AGE_LIMIT,
+    MAX_DRAW_AGE,
     contributionEndAge,
     crc32,
     encodeEnvelope,
@@ -1328,7 +1332,7 @@ function simulate(cfg){
   function syncDraftAges(){
     const ageNumber=$("ageN"),ageValue=Number(ageNumber.value);
     const age=Number.isInteger(ageValue)&&ageValue>=20&&ageValue<=64?ageValue:+$("age").value;
-    const drawEl=$("draw"),drawNumber=$("drawN"),minDraw=Math.max(60,age+1),maxDraw=74;
+    const drawEl=$("draw"),drawNumber=$("drawN"),minDraw=Math.max(60,age+1),maxDraw=MN1MemberEncoder.MAX_DRAW_AGE;
     drawEl.min=minDraw;drawEl.max=maxDraw;
     drawNumber.min=minDraw;drawNumber.max=maxDraw;
     drawEl.setAttribute("aria-label",`この残高の取り崩しを始める年齢（${minDraw}歳から${maxDraw}歳）`);
@@ -1639,8 +1643,8 @@ function simulate(cfg){
     if(spendRaw===""||!Number.isFinite(spend)||spend<0.5||spend>40||Math.abs(spend*2-Math.round(spend*2))>1e-8){
       return showInputError("毎月使いたい金額を0.5〜40万円の範囲で、0.5万円単位で入力してください。");
     }
-    // 老齢給付金の通常の選択範囲に合わせ、簡易年単位モデルでは現在年齢の翌年以降・74歳までとする。
-    const drawEl=$("draw"),drawNumber=$("drawN"),minDraw=Math.max(60,age+1),maxDraw=74;drawEl.min=minDraw;drawEl.max=maxDraw;drawNumber.min=minDraw;drawNumber.max=maxDraw;
+    // 老齢給付金の受け取り開始（60〜75歳）に合わせ、簡易年単位モデルでは現在年齢の翌年以降・75歳までとする（監査L-1）。
+    const drawEl=$("draw"),drawNumber=$("drawN"),minDraw=Math.max(60,age+1),maxDraw=MN1MemberEncoder.MAX_DRAW_AGE;drawEl.min=minDraw;drawEl.max=maxDraw;drawNumber.min=minDraw;drawNumber.max=maxDraw;
     drawEl.setAttribute("aria-label",`この残高の取り崩しを始める年齢（${minDraw}歳から${maxDraw}歳）`);
     if(drawRaw===""||!Number.isInteger(drawAge)||drawAge<minDraw||drawAge>maxDraw||maxAge<=drawAge){
       return showInputError(`取り崩し開始年齢を${minDraw}〜${maxDraw}歳の整数で入力してください。`);

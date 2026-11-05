@@ -39,7 +39,7 @@ function randomEnvelope() {
   const scheme = pick(["idecoplus", "corporate", "unknown"]);
   const limit62 = random() < 0.25;
   const age = int(20, 64);
-  const drawAge = int(Math.max(60, age + 1), 74);
+  const drawAge = int(Math.max(60, age + 1), 75);
   const maxAge = pick([90, 95, 100]);
   const caseId = pick(["A", "B", "C"]);
   const caseValues = { A: [4, 8], B: [7, 15], C: [9, 20] }[caseId];
