@@ -370,7 +370,7 @@
       <div class="hint" style="margin-top:7px">※ 増え方と値動きの<b>仮の3ケース</b>です。数字が大きいケースほど値動きも大きくなる想定です。いまの運用がどれに近いかは、選んでいる商品で変わります。値動き8%・15%・20%は下落率そのものではありません。</div>
       <details class="note">
         <summary>選択中のケースの数字を確認<span class="more">ひらく</span></summary>
-        <div class="notebody"><b id="caseDetailName">ケースB：増え方7%・値動き15%</b><br><span id="caseDetailBody">増え方7%は、長い期間で見た年平均の増え方を7%と仮定する意味で、毎年7%ずつ増える意味ではありません。値動き15%は、1年ごとの運用結果が上下にばらつく大きさで、15%下がると決まっている意味でも損失の上限でもありません。</span> いまの商品がどのケースに近いかは、担当者に確認してください。</div>
+        <div class="notebody"><b id="caseDetailName">ケースB：増え方7%・値動き15%</b><br><span id="caseDetailBody">増え方7%は計算上の設定値で、毎年7%ずつ増える意味ではありません。1年あたりの平均の増え方は約7.3%、2,000通りの真ん中の結果を年平均に直すと約6.1%です（値動きがある分、真ん中は平均より低くなります）。値動き15%は、1年ごとの運用結果が上下にばらつく大きさで、15%下がると決まっている意味でも損失の上限でもありません。</span> いまの商品がどのケースに近いかは、担当者に確認してください。</div>
       </details>
       <div class="hint" style="margin-top:8px">※ 資産が尽きないか確認する年齢は <b><span id="maxLbl">95</span>歳</b>までです。
         <span class="agechoices" id="maxAgeSeg" role="group" aria-label="資産が尽きないか確認する年齢">
@@ -1076,7 +1076,9 @@ function simulate(cfg){
   }
   function applyCaseText(){
     $("caseDetailName").textContent=`ケース${styleCase}：増え方${styleMu}%・値動き${styleSig}%`;
-    $("caseDetailBody").textContent=`増え方${styleMu}%は、長い期間で見た年平均の増え方を${styleMu}%と仮定する意味で、毎年${styleMu}%ずつ増える意味ではありません。値動き${styleSig}%は、1年ごとの運用結果が上下にばらつく大きさで、${styleSig}%下がると決まっている意味でも損失の上限でもありません。`;
+    // 月次の対数正規モデル：1年あたりの平均の増え方＝e^μ−1、真ん中の結果の年平均＝e^(μ−σ²/2)−1（2026-11-04 監査M-2）
+    const meanPct=((Math.exp(styleMu/100)-1)*100).toFixed(1),medianPct=((Math.exp(styleMu/100-Math.pow(styleSig/100,2)/2)-1)*100).toFixed(1);
+    $("caseDetailBody").textContent=`増え方${styleMu}%は計算上の設定値で、毎年${styleMu}%ずつ増える意味ではありません。1年あたりの平均の増え方は約${meanPct}%、2,000通りの真ん中の結果を年平均に直すと約${medianPct}%です（値動きがある分、真ん中は平均より低くなります）。値動き${styleSig}%は、1年ごとの運用結果が上下にばらつく大きさで、${styleSig}%下がると決まっている意味でも損失の上限でもありません。`;
     $("selectedCaseFooter").textContent=selectedCaseLabel();
   }
 
