@@ -18,8 +18,8 @@ const changelog = fs.readFileSync(
   "utf8"
 );
 
-assert.match(html, /data-app-version="v1\.4\.0"/u);
-assert.match(html, /data-release-date="2026-11-04"/u);
+assert.match(html, /data-app-version="v1\.4\.1"/u);
+assert.match(html, /data-release-date="2026-11-05"/u);
 assert.match(html, /querySelectorAll\("\[data-app-version-label\]"\)/u);
 assert.match(html, /querySelectorAll\("\[data-release-date-label\]"\)/u);
 assert.equal(
@@ -32,10 +32,10 @@ assert.equal(
   false,
   "the document root stores the release date and must never be replaced as a label"
 );
-assert.equal(manifest.uiVersion, "v1.4.0");
+assert.equal(manifest.uiVersion, "v1.4.1");
 assert.equal(manifest.calculationEngineVersion, "v28");
 assert.equal(manifest.transferContractVersion, "MN5");
-assert.equal(manifest.calculationChanged, true); // v28: 掛金を70歳未満で止める（計算核は不変）
+assert.equal(manifest.calculationChanged, false); // v1.4.1は表示だけの改訂（計算版v28・再現MN5は不変）
 assert.equal(manifest.feedbackStatus, "reflected");
 const coreMarker = "// ===== 加入者版計算核（MN4共有結果はアドバイザー版と別の出力parity検査で照合）=====";
 const coreStart = html.indexOf(coreMarker);
@@ -52,6 +52,7 @@ assert.equal(
   manifest.calculationCoreSha256,
   "calculation core hash must match the version manifest"
 );
+assert.match(changelog, /画面版 v1\.4\.1／計算版 v28／再現 MN5/u);
 assert.match(changelog, /画面版 v1\.4\.0／計算版 v28／再現 MN5/u);
 assert.match(changelog, /画面版 v1\.3\.2／計算版 v27/u);
 assert.match(changelog, /画面版 v1\.3\.0／計算版 v27/u);

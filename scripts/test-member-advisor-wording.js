@@ -16,7 +16,7 @@ const manifest = JSON.parse(
   )
 );
 
-assert.equal(manifest.uiVersion, "v1.4.0");
+assert.equal(manifest.uiVersion, "v1.4.1");
 assert.match(
   html,
   /運用に関するご判断は、担当の金融アドバイザーなどの専門家にご相談ください。/u
