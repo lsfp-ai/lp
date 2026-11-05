@@ -21,6 +21,9 @@
   // 2025年改正後のiDeCo加入可能年齢（70歳未満）に合わせる。施行日は未確認（検索要約では2026-12-01）。
   // アドバイザー版 contract/mn1_contract.js の同名定数と同じ値にする。
   const CONTRIBUTION_AGE_LIMIT = 70;
+  // 取り崩し開始の上限年齢。iDeCoの老齢給付金は75歳まで受け取りを始められる（未確認：検索要約による・監査L-1）。
+  // アドバイザー版 contract/mn1_contract.js の MAX_DRAW_AGE（MN5）と同じ値にする。
+  const MAX_DRAW_AGE = 75;
 
   // 掛金を払うのは「取崩開始年齢」と「上限年齢」の早いほうまで。
   function contributionEndAge(drawAge) {
@@ -99,7 +102,7 @@
     if (
       !Number.isInteger(input.drawAge) ||
       input.drawAge < 60 ||
-      input.drawAge > 74 ||
+      input.drawAge > MAX_DRAW_AGE ||
       input.drawAge <= input.age
     ) {
       throw new Error("inputs.drawAge");
@@ -304,6 +307,7 @@
     CONTRACT,
     ENGINE_VERSION,
     CONTRIBUTION_AGE_LIMIT,
+    MAX_DRAW_AGE,
     contributionEndAge,
     crc32,
     encodeEnvelope,

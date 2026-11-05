@@ -9,7 +9,7 @@ const html = fs.readFileSync(path.join(__dirname, "../ideco-mirai-navi/index.htm
 assert.equal(encoder.CONTRACT, "MN5");
 assert.equal(encoder.ENGINE_VERSION, "v28");
 assert.equal(encoder.CONTRIBUTION_AGE_LIMIT, 70);
-for (const [drawAge, endAge] of [[60, 60], [65, 65], [70, 70], [71, 70], [74, 70]]) {
+for (const [drawAge, endAge] of [[60, 60], [65, 65], [70, 70], [71, 70], [74, 70], [75, 70]]) {
   assert.equal(encoder.contributionEndAge(drawAge), endAge, `drawAge ${drawAge}`);
 }
 // 画面の計算設定と「これからの掛金」が同じ規則を使う（取崩開始年齢をそのまま積立終了にしない）
