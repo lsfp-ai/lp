@@ -20,5 +20,5 @@ const after = html.slice(html.indexOf(end));
 const output = `${before}\n<script>\n${source}\n</script>\n${after}`;
 fs.writeFileSync(htmlPath, output);
 
-console.log("MN4 member HTML build: PASS");
+console.log("MN5 member HTML build: PASS");
 console.log("target=ideco-mirai-navi/index.html");

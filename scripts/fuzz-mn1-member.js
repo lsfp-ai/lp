@@ -56,8 +56,8 @@ function randomEnvelope() {
   const startBalanceNominalWan = int(0, 100000);
 
   return {
-    contract: "MN4",
-    engine: "v27",
+    contract: "MN5",
+    engine: "v28",
     inputs: {
       scheme,
       limit62,
@@ -129,7 +129,7 @@ function invalidEnvelope(envelope, index) {
       value.engine = "V27";
       break;
     case 12:
-      value.engine = "v27 ";
+      value.engine = "v28 ";
       break;
     case 13:
       value.engine = "";
@@ -155,7 +155,7 @@ for (let index = 0; index < iterations; index += 1) {
   const code = encoder.encodeEnvelope(envelope);
   const parts = code.split(".");
   assert.equal(parts.length, 3);
-  assert.equal(parts[0], "MN4");
+  assert.equal(parts[0], "MN5");
   assert.equal(parts[2], referenceCrc32(parts[1]));
   independentCrcChecks += 1;
 
@@ -167,7 +167,7 @@ for (let index = 0; index < iterations; index += 1) {
   invalidRejects += 1;
 }
 
-console.log("MN4 member encoder fuzz: PASS");
+console.log("MN5 member encoder fuzz: PASS");
 console.log(`iterations=${iterations}`);
 console.log(`roundTrips=${roundTrips}`);
 console.log(`independentCrcChecks=${independentCrcChecks}`);
