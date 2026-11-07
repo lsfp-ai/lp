@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja" data-app-version="v1.4.2" data-release-date="2026-11-05">
+<html lang="ja" data-app-version="v1.4.3" data-release-date="2026-11-07">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1136,6 +1136,10 @@ function simulate(cfg){
     $("fundNote").textContent=real
       ?"※ これからの掛金は、積み立てる各月の金額を今の価値に直して合計しています。現在残高は今ある金額を使います。この合計は過去の掛金元本ではありません。"
       :"※ 現在残高と今後の掛金を足した比較用の数字です。過去に払った掛金の総額ではありません。現在残高には、これまでの運用結果も含まれています。";
+    // 60歳以降の掛金は、加入の条件を満たす人だけが積み立てられる（厚労省資料「iDeCoの加入可能年齢の引き上げ」・2026年12月施行）。試算は条件を満たす前提。
+    if(MN1MemberEncoder.contributionEndAge(D.drawAge)>60&&D.futureNomYen>0){
+      $("fundNote").textContent+="60歳以降もiDeCoの掛金を積み立てるには、老齢基礎年金やiDeCoの老齢給付金を受け取っていないことなどの条件があります（2026年12月施行の改正で70歳未満まで。条件は働き方によって異なります）。この試算は、条件を満たして積み立てを続ける前提で計算しています。";
+    }
     if(D.drawAge>MN1MemberEncoder.CONTRIBUTION_AGE_LIMIT){
       $("fundNote").textContent+=`掛金は${MN1MemberEncoder.CONTRIBUTION_AGE_LIMIT}歳になるまで（iDeCoに加入できる年齢まで）として計算し、${MN1MemberEncoder.CONTRIBUTION_AGE_LIMIT}歳から取り崩し開始までは運用だけを続けます。`;
     }

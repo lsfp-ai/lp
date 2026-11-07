@@ -18,8 +18,8 @@ const changelog = fs.readFileSync(
   "utf8"
 );
 
-assert.match(html, /data-app-version="v1\.4\.2"/u);
-assert.match(html, /data-release-date="2026-11-05"/u);
+assert.match(html, /data-app-version="v1\.4\.3"/u);
+assert.match(html, /data-release-date="2026-11-07"/u);
 assert.match(html, /querySelectorAll\("\[data-app-version-label\]"\)/u);
 assert.match(html, /querySelectorAll\("\[data-release-date-label\]"\)/u);
 assert.equal(
@@ -32,7 +32,7 @@ assert.equal(
   false,
   "the document root stores the release date and must never be replaced as a label"
 );
-assert.equal(manifest.uiVersion, "v1.4.2");
+assert.equal(manifest.uiVersion, "v1.4.3");
 assert.equal(manifest.calculationEngineVersion, "v28");
 assert.equal(manifest.transferContractVersion, "MN5");
 assert.equal(manifest.calculationChanged, false); // v1.4.1は表示だけの改訂（計算版v28・再現MN5は不変）
@@ -52,7 +52,7 @@ assert.equal(
   manifest.calculationCoreSha256,
   "calculation core hash must match the version manifest"
 );
-assert.match(changelog, /画面版 v1\.4\.2／計算版 v28／再現 MN5/u);
+assert.match(changelog, /画面版 v1\.4\.3／計算版 v28／再現 MN5/u);
 assert.match(changelog, /画面版 v1\.4\.1／計算版 v28／再現 MN5/u);
 assert.match(changelog, /画面版 v1\.4\.0／計算版 v28／再現 MN5/u);
 assert.match(changelog, /画面版 v1\.3\.2／計算版 v27/u);
